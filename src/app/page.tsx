@@ -3,16 +3,12 @@ import Link from "next/link";
 
 export default function HomePage() {
   return (
-    <div
-      className="w-full h-screen flex justify-center items-center p-4 bg-gray-900"
-      style={{
-        backgroundImage:
-          "radial-gradient(circle at top center, rgba(10,50,10,0.1) 50%, rgb(0,139,139) 120%)",
-      }}
-    >
-      <Card className="bg-gray-800">
+    <div className="p-4 text-primary-foreground">
+      <Card className="bg-secondary">
         <CardHeader>
-          <CardTitle className="text-white">Welcome to the Attendance App</CardTitle>
+          <CardTitle className="text-white">
+            Welcome to the Attendance App
+          </CardTitle>
         </CardHeader>
         <CardContent className="flex flex-col gap-4">
           <Link
