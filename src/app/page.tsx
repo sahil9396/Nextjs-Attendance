@@ -12,7 +12,7 @@ export default function HomePage() {
         </CardHeader>
         <CardContent className="flex flex-col gap-4">
           <Link
-            href={"/"}
+            href={"/list-course"}
             className="w-full bg-blue-700 text-white p-4 rounded-lg text-center"
           >
             Get started
