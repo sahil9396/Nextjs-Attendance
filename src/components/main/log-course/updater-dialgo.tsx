@@ -14,6 +14,7 @@ import { revalidatePath } from "next/cache";
 import { useSearchParams } from "next/navigation";
 import { useDataContext } from "@/providers/data-provider";
 import React, { useMemo, useReducer } from "react";
+import { findCourseFromList } from "@/lib/constants";
 
 interface actionType {
   type: string;
@@ -104,8 +105,8 @@ const UpdaterDialog = ({ courseName }: { courseName: string }) => {
 
   const thatCourse = useMemo(() => {
     return (
-      contextState.todayCourses.find((sem) => sem.IndivCourse === courseName) ||
-      contextState.notToday.find((sem) => sem.IndivCourse === courseName)
+      findCourseFromList(contextState.todayCourses, courseName) ||
+      findCourseFromList(contextState.notToday, courseName)
     );
   }, [contextState.todayCourses, contextState.notToday]);
 

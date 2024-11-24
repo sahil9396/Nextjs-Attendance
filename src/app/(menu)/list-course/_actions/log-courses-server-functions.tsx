@@ -1,7 +1,8 @@
 "use server";
 import db from "@/lib/db";
 import { inputData, inputTypeFromBackend, userDetailstype } from "@/lib/type";
-import { custom_cache, todayCourseDecider, weekDays } from "@/lib/utils";
+import { custom_cache} from "@/lib/utils";
+import { todayCourseDecider, weekDays } from "@/lib/constants";
 import { revalidatePath, revalidateTag } from "next/cache";
 
 export const getList = custom_cache(

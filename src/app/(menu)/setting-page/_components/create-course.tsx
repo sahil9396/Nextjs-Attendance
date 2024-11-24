@@ -15,14 +15,10 @@ import {
 // the reason is here
 import { useState } from "react";
 import { toast } from "sonner";
-import { todayCourseDecider, weekDays } from "@/lib/utils";
+import { todayCourseDecider, weekDays } from "@/lib/constants";
 import { useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
-import {
-  formKeyType,
-  formSchema,
-  inputData,
-} from "@/lib/type";
+import { formKeyType, formSchema, inputData } from "@/lib/type";
 import CustomButton from "@/components/global/custom-button";
 
 type inputKey = {
@@ -36,7 +32,11 @@ type weekDays = {
   [key: string]: boolean;
 };
 
-export function CreateCourse({ currentSemester }: { currentSemester: string | undefined }) {
+export function CreateCourse({
+  currentSemester,
+}: {
+  currentSemester: string | undefined;
+}) {
   const inputFields = [
     {
       attri: "Course :",
@@ -155,7 +155,7 @@ export function CreateCourse({ currentSemester }: { currentSemester: string | un
       thatday: courseDays,
     };
 
-    console.log(courseData, currentSemester, values , todayCourseDecider);
+    console.log(courseData, currentSemester, values, todayCourseDecider);
   };
 
   return (

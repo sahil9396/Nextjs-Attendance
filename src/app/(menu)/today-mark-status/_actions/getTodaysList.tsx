@@ -1,7 +1,8 @@
 "use server";
+import { todayCourseDecider, weekDays } from "@/lib/constants";
 import db from "@/lib/db";
 import { inputData, inputTypeFromBackend, userDetailstype } from "@/lib/type";
-import { custom_cache, todayCourseDecider, weekDays } from "@/lib/utils";
+import { custom_cache } from "@/lib/utils";
 
 export const getTodaysList = custom_cache(
   async (currentSem: string, userInfo: userDetailstype) => {
