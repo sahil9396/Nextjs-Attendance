@@ -26,6 +26,7 @@ const CreateSemester = () => {
     }
 
     toast.message("Creating New Semester");
+    dispatch({ type: "SET_IS_BACKEND_PROCESSING", payload: true });
     try {
       const response = await createSemester(state.user, semesterNumber);
       if (!response) {
@@ -44,6 +45,7 @@ const CreateSemester = () => {
     } catch (e) {
       toast.error(`error: ${e}`);
     }
+    dispatch({ type: "SET_IS_BACKEND_PROCESSING", payload: false });
   };
 
   return (
@@ -51,7 +53,7 @@ const CreateSemester = () => {
       title="New Semester"
       description="Create New Semester"
       onSubmit={handleSubmit}
-      //   isProcessing={isBackendProcessing}
+        isProcessing={state.isBackendProcessing}
     >
       <Input
         type="number"

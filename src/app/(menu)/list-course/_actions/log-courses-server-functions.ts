@@ -18,40 +18,44 @@ import { SingleSemester } from "@/providers/data-provider";
 import { createCalender } from "@/lib/all-server";
 
 export const getList = custom_cache(
-  async (currentSem: string, userInfo: userDetailstype) => {
+  async (currentSem: SingleSemester, userInfo: userDetailstype) => {
     const { email_address, phone_number, verified, clerk_id, user_name } =
       userInfo;
 
     try {
-      const semesterData: inputTypeFromBackend[] = await db.course.findMany({
-        where: {
-          semesterDetails: {
-            semester: currentSem,
-            userDetails: {
-              email_address,
-              phone_number,
-              verified,
-              clerk_id,
-              user_name,
+      const semesterData: inputTypeFromBackend[] | null =
+        await db.course.findMany({
+          where: {
+            semesterDetails: {
+              semester: currentSem.semester,
+              id: currentSem.id,
+              userDetails: {
+                email_address,
+                phone_number,
+                verified,
+                clerk_id,
+                user_name,
+              },
             },
           },
-        },
-        include: {
-          thatday: {
-            include: {
-              day: true,
+          include: {
+            thatday: {
+              include: {
+                day: true,
+              },
+            },
+            semesterDetails: {
+              select: {
+                semester: true,
+                id: true,
+              },
             },
           },
-          semesterDetails: {
-            select: {
-              semester: true,
-              id: true,
-            },
-          },
-        },
-      });
+        });
 
-      if (!semesterData.length) return null;
+      console.log("Tried to hit here");
+
+      if (!semesterData || !semesterData?.length) return null;
 
       const structuredData: inputData[] = semesterData.map(
         (item: inputTypeFromBackend) => ({

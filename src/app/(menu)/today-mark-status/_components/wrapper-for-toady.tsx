@@ -3,6 +3,7 @@ import { useDataContext } from "@/providers/data-provider";
 import React, { useMemo } from "react";
 import NoCourses from "@/components/main/NoCourses";
 import SingleAttendanceStatus from "./single-attendance-status";
+import { LoadingSpinner } from "@/components/global/load-spinner";
 
 const WrapperToToday = ({
   currentSemester,
@@ -19,7 +20,12 @@ const WrapperToToday = ({
       course.IndivCourse.toLowerCase().includes(state.searchParam.toLowerCase())
     );
   }, [state.searchParam, state.todayCourses]);
-  if (state.isLoading) return <h1>Loading...</h1>;
+  if (state.isLoading)
+    return (
+      <div className="w-full h-full flex justify-center items-center">
+        <LoadingSpinner />
+      </div>
+    );
   if (state.todayCourses.length === 0 || !semExist) {
     return <NoCourses />;
   }

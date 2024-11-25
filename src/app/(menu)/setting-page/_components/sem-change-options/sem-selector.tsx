@@ -17,19 +17,20 @@ const SemSelector = () => {
   const [canChangeSemester, setCanChangeSemester] = useState<boolean>(false);
   const { state } = useDataContext();
   const [selected, setSelected] = useState<string | undefined>(
-    currentSemester || state.semesterInfo[0].semester
+    currentSemester || state.semesterInfo[0]?.semester
   );
   const router = useRouter();
 
   const handleChange = (e: string) => setSelected(e);
 
   const handleSemesterChange = async () => {
-    // localStorage.setItem("semester", JSON.stringify(selectedSem));
+    if (!selected || selected === currentSemester) return;
+    localStorage.setItem("semester", JSON.stringify(selected));
+    toast.success("Semester Changed Successfully");
     router.push(`?semester=${selected}`, {
       scroll: false,
     });
-    toast.success("Semester Changed Successfully");
-    router.refresh();
+    window.location.reload();
     setCanChangeSemester(false);
   };
 

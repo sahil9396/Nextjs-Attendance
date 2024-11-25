@@ -19,71 +19,74 @@ const helper = async (
   router: AppRouterInstance
 ) => {
   if (state.user.clerk_id !== "") return;
+  try {
+    const userInfo = await getUserInfo();
+    if (!userInfo) {
+      dispatch({
+        type: "SET_IS_LOADING",
+        payload: false,
+      });
+      return;
+    }
+    dispatch({
+      type: "SET_USER",
+      payload: userInfo,
+    });
 
-  const userInfo = await getUserInfo();
-  if (!userInfo) {
+    const semList: SingleSemester[] | null = await getSemesterList(userInfo);
+
+    if (!semList?.length) {
+      dispatch({
+        type: "SET_IS_LOADING",
+        payload: false,
+      });
+      return;
+    }
+
+    dispatch({
+      type: "SET_SEMESTER_INFO",
+      payload: semList,
+    });
+
+    const semExist = semList.find(
+      (sem: SingleSemester) => sem.semester === semFromUrl
+    );
+
+    if (!semExist)
+      router.push(`?semester=${semList[0].semester}`, { scroll: false });
+
+    console.log(semExist);
+    const list: inputData[][] | null = await getList(
+      semExist || semList[0],
+      userInfo
+    );
+
+    console.log(list, semExist, semList[0], semExist || semList[0]);
+
+    if (!list) {
+      dispatch({
+        type: "SET_IS_LOADING",
+        payload: false,
+      });
+      return;
+    }
+
     dispatch({
       type: "SET_IS_LOADING",
       payload: false,
     });
-    return;
-  }
-  dispatch({
-    type: "SET_USER",
-    payload: userInfo,
-  });
-  console.log(userInfo);
 
-  const semList: SingleSemester[] | null = await getSemesterList(userInfo);
-
-  if (!semList?.length) {
     dispatch({
-      type: "SET_IS_LOADING",
-      payload: false,
+      type: "SET_TODAY_AND_NOT_TODAY_COURSES",
+      payload: {
+        today: list[0],
+        notToday: list[1],
+      },
     });
+  } catch (error) {
+    console.log(error);
     return;
   }
-
-  dispatch({
-    type: "SET_SEMESTER_INFO",
-    payload: semList,
-  });
-
-  const semExist = semList.find(
-    (sem: SingleSemester) => sem.semester === semFromUrl
-  );
-
-  console.log(semList, semFromUrl);
-  if (!semExist) router.push(`?semester=${semList[0].semester}`);
-  console.log(semExist);
-
-  const list: inputData[][] | null = await getList(
-    semExist?.semester || semList[0].semester,
-    userInfo
-  );
-
-  console.log(list);
-
-  if (!list) {
-    dispatch({
-      type: "SET_IS_LOADING",
-      payload: false,
-    });
-    return;
-  }
-
-  dispatch({
-    type: "SET_IS_LOADING",
-    payload: false,
-  });
-
-  dispatch({
-    type: "SET_TODAY_AND_NOT_TODAY_COURSES",
-    payload: {
-      today: list[0],
-      notToday: list[1],
-    },
-  });
 };
 
 export const useDataLoader = (semFromUrl: string | null) => {

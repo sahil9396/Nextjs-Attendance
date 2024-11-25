@@ -68,7 +68,7 @@ const CourseDelete = ({ selected, today }: Props) => {
       size={"sm"}
       className="bg-red-600 hover:bg-red-700 w-full text-white dark:bg-red-500 dark:hover:bg-red-400"
       onClick={handleDelete}
-      // disabled={selectedCourse.IndivCourse === "" || isBackendProcessing}
+      disabled={state.isBackendProcessing}
       content="Delete"
     />
   );

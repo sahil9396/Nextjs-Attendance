@@ -56,20 +56,20 @@ const UpdateAllClasses = () => {
         className="bg-green-500 hover:bg-green-600 text-white"
         content="All present"
         onClick={() => handleUpdateStatus("present")}
-        // disabled={
-        //   isBackendProcessing ||
-        //   todayStatusDone.courseNames.length === todayCourses.length
-        // }
+        disabled={
+          state.isBackendProcessing
+          //   || todayStatusDone.courseNames.length === todayCourses.length
+        }
       />
       <CustomButton
         value="absent"
         className="bg-red-500 hover:bg-red-600 text-white"
         content="All absent"
         onClick={() => handleUpdateStatus("absent")}
-        // disabled={
-        //   isBackendProcessing ||
-        //   todayStatusDone.courseNames.length === todayCourses.length
-        // }
+        disabled={
+          state.isBackendProcessing
+          //   || todayStatusDone.courseNames.length === todayCourses.length
+        }
       />
       <CustomButton
         value="cancelled"

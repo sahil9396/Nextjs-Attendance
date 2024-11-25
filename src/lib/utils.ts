@@ -11,7 +11,7 @@ type Callback = (...args: any[]) => Promise<any>; // eslint-disable-line @typesc
 export function custom_cache<T extends Callback>(
   cb: T,
   key: string[],
-  tags: { [key: string]: string | string[] }
+  tags: { [key: string]: string | string[] | number } = {}
 ): T {
   return unstable_cache(cache(cb), key, tags);
 }

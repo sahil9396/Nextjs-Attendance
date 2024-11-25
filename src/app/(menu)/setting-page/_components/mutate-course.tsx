@@ -76,7 +76,9 @@ const MutateCourses = () => {
       type: "SET_ZERO_COURSES",
       payload: true,
     });
-    router.push("?semester=" + currentSemester);
+    router.push("?semester=" + currentSemester , {
+      scroll: false,
+    });
     toast(`All courses are deleted :)`);
   };
   return (
@@ -86,14 +88,14 @@ const MutateCourses = () => {
         onClick={handleResetAll}
         className="px-4 py-2 w-full bg-green-500 text-white rounded-lg shadow-md hover:bg-green-600 transition-all duration-200"
         content="Reset All"
-        // disabled={isBackendProcessing}
+        disabled={state.isBackendProcessing}
       />
       <CustomButton
         value="present"
         onClick={handleDeleteAll}
         className="px-4 py-2 w-full bg-red-500 text-white rounded-lg shadow-md hover:bg-red-600 transition-all duration-200"
         content="Delete All"
-        // disabled={isBackendProcessing}
+        disabled={state.isBackendProcessing}
       />
     </div>
   );

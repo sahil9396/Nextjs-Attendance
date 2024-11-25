@@ -1,4 +1,5 @@
 "use client";
+import { LoadingSpinner } from "@/components/global/load-spinner";
 import { useDataContext } from "@/providers/data-provider";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
@@ -7,7 +8,12 @@ import React from "react";
 const ProfilePage = () => {
   const { state } = useDataContext();
   const currentSemester = useSearchParams().get("semester");
-  if (state.isLoading) return <h1>Loading...</h1>;
+  if (state.isLoading)
+    return (
+      <div className="w-full h-full flex justify-center items-center">
+        <LoadingSpinner />
+      </div>
+    );
   const {
     email_address,
     phone_number,
@@ -16,7 +22,6 @@ const ProfilePage = () => {
     verified,
     image_url,
   } = state.user;
-  console.log(state.user);
 
   return (
     <div className="h-full flex flex-col justify-start items-center gap-5 p-5 rounded-lg bg-slate-400 dark:bg-slate-950 bg-opacity-20 dark:bg-opacity-20">

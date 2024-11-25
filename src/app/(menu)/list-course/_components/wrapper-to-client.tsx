@@ -3,6 +3,7 @@ import { useDataContext } from "@/providers/data-provider";
 import React, { useMemo } from "react";
 import SingleCardDisplay from "./single-card-display";
 import NoCourses from "@/components/main/NoCourses";
+import { LoadingSpinner } from "@/components/global/load-spinner";
 
 const WrapperToClient = () => {
   const { state } = useDataContext();
@@ -20,7 +21,12 @@ const WrapperToClient = () => {
     );
   }, [state.searchParam, state.notToday]);
 
-  if (state.isLoading) return <h1>Loading...</h1>;
+  if (state.isLoading)
+    return (
+      <div className="w-full h-full flex justify-center items-center">
+        <LoadingSpinner />
+      </div>
+    );
   if (state.todayCourses.concat(state.notToday).length === 0) {
     return <NoCourses />;
   }

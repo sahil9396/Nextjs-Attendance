@@ -14,14 +14,14 @@ export function SubmitComp({
   semExist,
   todayCourses,
   dispatch,
-}: // isBackendProcessing,
-{
+  isBackendProcessing,
+}: {
   course: inputData;
   user: userDetailstype;
   semExist: SingleSemester;
   todayCourses: inputData[];
   dispatch: Dispatch<ActionType>;
-  // isBackendProcessing: boolean;
+  isBackendProcessing: boolean;
 }) {
   const [courseStatus, setCourseStatus] = useState<string>("Status!!!");
 
@@ -56,16 +56,17 @@ export function SubmitComp({
         selectValue={courseStatus}
         options={options}
         showButton={false}
+        isBackendProcessing={isBackendProcessing}
         setSelectValue={(value: string) => setCourseStatus(value)}
       />
       <CustomButton
         onClick={handleSubmit}
         size={"sm"}
         className="bg-slate-600 dark:bg-gray-900 text-white"
-        // disabled={
-        // isBackendProcessing ||
-        // todayStatusDone.courseNames.includes(course.IndivCourse)
-        // }
+        disabled={
+          isBackendProcessing
+          //|| todayStatusDone.courseNames.includes(course.IndivCourse)
+        }
         content="Submit"
       />
     </div>

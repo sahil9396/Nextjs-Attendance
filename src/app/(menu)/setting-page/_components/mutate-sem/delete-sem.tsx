@@ -29,6 +29,7 @@ const DeleteSemester = () => {
     }
 
     toast.message(`Deleting Semester ${semesterNumber}`);
+    dispatch({ type: "SET_IS_BACKEND_PROCESSING", payload: true });
     try {
       const response = await deleteSemester(state.user, target);
       console.log(response);
@@ -51,6 +52,7 @@ const DeleteSemester = () => {
     } catch (e) {
       toast.error(`error: ${e}`);
     }
+    dispatch({ type: "SET_IS_BACKEND_PROCESSING", payload: false });
   };
 
   return (
@@ -58,7 +60,8 @@ const DeleteSemester = () => {
       title="Delete Semester"
       description="Delete Semester"
       onSubmit={handleSubmit}
-      //   isProcessing={isBackendProcessing}
+      isProcessing={state.isBackendProcessing}
+      processingText="Deleting"
     >
       <Input
         type="number"

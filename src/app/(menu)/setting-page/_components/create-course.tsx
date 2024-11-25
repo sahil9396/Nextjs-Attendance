@@ -23,6 +23,7 @@ import CustomButton from "@/components/global/custom-button";
 import { useDataContext } from "@/providers/data-provider";
 import { createCourse } from "../_actions/create-course-action";
 import { useSearchParams } from "next/navigation";
+import { LoadingSpinner } from "@/components/global/load-spinner";
 
 type inputKey = {
   attri: string;
@@ -60,7 +61,12 @@ export function CreateCourse() {
     },
   });
 
-  if (state.isLoading) return <h1>Loading...</h1>;
+  if (state.isLoading)
+    return (
+      <div className="w-full h-full flex justify-center items-center">
+        <LoadingSpinner />
+      </div>
+    );
 
   const inputFields = [
     {
@@ -178,6 +184,8 @@ export function CreateCourse() {
       thatday: courseDays,
     };
 
+    dispatch({ type: "SET_IS_BACKEND_PROCESSING", payload: true });
+
     try {
       toast(`Wait till Course is being Created `);
       const createdCourse = await createCourse(
@@ -205,6 +213,7 @@ export function CreateCourse() {
     } catch (error) {
       toast.error(`${error}`);
     }
+    dispatch({ type: "SET_IS_BACKEND_PROCESSING", payload: false });
   };
 
   return (

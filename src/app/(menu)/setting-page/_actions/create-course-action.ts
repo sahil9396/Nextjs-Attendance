@@ -3,6 +3,7 @@
 import db from "@/lib/db";
 import { inputData, userDetailstype } from "@/lib/type";
 import { SingleSemester } from "@/providers/data-provider";
+import { revalidateTag } from "next/cache";
 
 export const createCourse = async (
   userDetails: userDetailstype,
@@ -94,6 +95,7 @@ export const createCourse = async (
         thatday: { create: datacreated },
       },
     });
+    revalidateTag("getList");
     return `course is created !!!`;
   } catch (error) {
     console.error(error);

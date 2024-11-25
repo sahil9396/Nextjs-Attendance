@@ -9,6 +9,11 @@ const nextConfig = {
       },
     ],
   },
+  logging: {
+    fetches: {
+      fullUrl: true,
+    },
+  },
   // experimental: {
   //   missingSuspenseWithCSRBailout: false,
   // },

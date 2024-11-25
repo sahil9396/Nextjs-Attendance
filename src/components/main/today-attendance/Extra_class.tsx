@@ -130,6 +130,7 @@ const ExtraClass = () => {
                 // }}
                 setSelectValue={(value) => seteCourseName(value)}
                 options={options}
+                isBackendProcessing={state.isBackendProcessing}
                 showButton={false}
               />
             </DialogDescription>
@@ -140,13 +141,13 @@ const ExtraClass = () => {
               variant={"default"}
               content="Present"
               onClick={handleSubmit}
-              // disabled={isBackendProcessing}
+              disabled={state.isBackendProcessing}
             />
             <CustomButton
               value="absent"
               content="Absent"
               onClick={(e) => handleSubmit(e)}
-              //   disabled={isBackendProcessing}
+              disabled={state.isBackendProcessing}
             />
           </div>
         </DialogContent>

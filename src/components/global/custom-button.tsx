@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import { Button } from "../ui/button";
 import { LoadingSpinner } from "./load-spinner";
+import { useDataContext } from "@/providers/data-provider";
 // import { LoadingSpinner } from "../global/loading";
 // import { useDataContext } from "@/providers/data-provider";
 
@@ -35,17 +36,20 @@ const CustomButton = ({
   className,
 }: Props) => {
   const [showLoading, setShowLoading] = useState(false);
+  const { state, dispatch } = useDataContext();
   const handleOnClick = async (e: React.MouseEvent<HTMLElement>) => {
+    dispatch({ type: "SET_IS_BACKEND_PROCESSING", payload: true });
     setShowLoading(true);
     if (onClick) {
       await onClick(e);
     }
     setShowLoading(false);
+    dispatch({ type: "SET_IS_BACKEND_PROCESSING", payload: false });
   };
   return (
     <Button
       onClick={(e) => handleOnClick(e)}
-      disabled={disabled}
+      disabled={state.isBackendProcessing || disabled}
       type={type}
       value={value}
       variant={variant}

@@ -16,6 +16,7 @@ type Props = {
     value: string;
     label: string;
   }[];
+  isBackendProcessing: boolean;
   showButton?: boolean;
 };
 
@@ -24,6 +25,7 @@ const CustomSelectOption = ({
   selectValue,
   setSelectValue,
   options,
+  isBackendProcessing,
   showButton = true,
 }: Props) => {
   return (
@@ -48,8 +50,7 @@ const CustomSelectOption = ({
         <CustomButton
           size={"sm"}
           className="bg-slate-600 dark:bg-gray-900 text-white"
-          // onClick={handleSubmit}
-          // disabled={isBackendProcessing}
+          disabled={isBackendProcessing}
           content="Submit"
         />
       )}
