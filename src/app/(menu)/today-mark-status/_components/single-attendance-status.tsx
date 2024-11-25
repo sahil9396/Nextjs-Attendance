@@ -5,15 +5,26 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { inputData } from "@/lib/type";
+import { inputData, userDetailstype } from "@/lib/type";
 import SubmitComp from "./submit-comp";
+import { ActionType, SingleSemester } from "@/providers/data-provider";
+import { Dispatch } from "react";
 
 type SingleAttendanceStatusProps = {
   course: inputData;
-  //   currentSemester: currentSemesterType["currentSemester"];
+  user: userDetailstype;
+  semExist: SingleSemester;
+  todayCourses: inputData[];
+  dispatch: Dispatch<ActionType>;
 };
 
-const SingleAttendanceStatus = ({ course }: SingleAttendanceStatusProps) => {
+const SingleAttendanceStatus = ({
+  course,
+  user,
+  semExist,
+  todayCourses,
+  dispatch,
+}: SingleAttendanceStatusProps) => {
   const { present, absent } = course;
   const currentStatus = Math.round((present / (present + absent)) * 100) || 0;
 
@@ -30,7 +41,13 @@ const SingleAttendanceStatus = ({ course }: SingleAttendanceStatusProps) => {
         </CardDescription>
       </CardHeader>
       <CardContent className="w-full flex gap-4 justify-between">
-        <SubmitComp course={course} />
+        <SubmitComp
+          course={course}
+          user={user}
+          semExist={semExist}
+          todayCourses={todayCourses}
+          dispatch={dispatch}
+        />
       </CardContent>
     </Card>
   );

@@ -7,6 +7,11 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-
-export const custom_cache = (cb: any, key: any[], tags: any) =>
-  unstable_cache(cache(cb), key, tags);
+type Callback = (...args: any[]) => Promise<any>; // eslint-disable-line @typescript-eslint/no-explicit-any
+export function custom_cache<T extends Callback>(
+  cb: T,
+  key: string[],
+  tags: { [key: string]: string | string[] }
+): T {
+  return unstable_cache(cache(cb), key, tags);
+}

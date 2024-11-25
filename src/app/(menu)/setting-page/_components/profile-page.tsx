@@ -1,16 +1,13 @@
-import NoCourses from "@/components/main/NoCourses";
-import { getUserInfo } from "@/lib/all-server";
-import { userDetailstype } from "@/lib/type";
+"use client";
+import { useDataContext } from "@/providers/data-provider";
 import Image from "next/image";
+import { useSearchParams } from "next/navigation";
 import React from "react";
 
-const ProfilePage = async ({
-  currentSemester,
-  user,
-}: {
-  currentSemester: string | undefined;
-  user: userDetailstype;
-}) => {
+const ProfilePage = () => {
+  const { state } = useDataContext();
+  const currentSemester = useSearchParams().get("semester");
+  if (state.isLoading) return <h1>Loading...</h1>;
   const {
     email_address,
     phone_number,
@@ -18,7 +15,8 @@ const ProfilePage = async ({
     user_name,
     verified,
     image_url,
-  } = user;
+  } = state.user;
+  console.log(state.user);
 
   return (
     <div className="h-full flex flex-col justify-start items-center gap-5 p-5 rounded-lg bg-slate-400 dark:bg-slate-950 bg-opacity-20 dark:bg-opacity-20">
@@ -51,7 +49,7 @@ const ProfilePair = ({
   value,
 }: {
   title: string;
-  value: string | undefined;
+  value: string | null;
 }) => {
   if (!value) return null;
   return (

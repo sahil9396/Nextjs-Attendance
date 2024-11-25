@@ -12,7 +12,10 @@ type Props = {
   defaultValue?: string;
   selectValue: string;
   setSelectValue: (value: string) => void;
-  options: any[];
+  options: {
+    value: string;
+    label: string;
+  }[];
   showButton?: boolean;
 };
 
@@ -30,7 +33,7 @@ const CustomSelectOption = ({
         defaultValue={defaultValue}
         onValueChange={setSelectValue}
       >
-        <SelectTrigger className="w-full">
+        <SelectTrigger className="w-full dark:bg-slate-800 bg-white">
           <SelectValue placeholder="Status" />
         </SelectTrigger>
         <SelectContent>

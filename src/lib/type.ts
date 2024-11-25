@@ -22,12 +22,12 @@ export const formSchema = z.object({
 });
 
 export type day = {
-  Monday: string;
-  Tuesday: string;
-  Wednesday: string;
-  Thursday: string;
-  Friday: string;
-};
+  Monday: string | boolean;
+  Tuesday: string | boolean;
+  Wednesday: string | boolean;
+  Thursday: string | boolean;
+  Friday: string | boolean;
+} & { [key: string]: boolean | string };
 
 export type eventType = {
   summary: string;

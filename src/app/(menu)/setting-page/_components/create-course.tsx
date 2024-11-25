@@ -20,6 +20,9 @@ import { useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 import { formKeyType, formSchema, inputData } from "@/lib/type";
 import CustomButton from "@/components/global/custom-button";
+import { useDataContext } from "@/providers/data-provider";
+import { createCourse } from "../_actions/create-course-action";
+import { useSearchParams } from "next/navigation";
 
 type inputKey = {
   attri: string;
@@ -32,11 +35,33 @@ type weekDays = {
   [key: string]: boolean;
 };
 
-export function CreateCourse({
-  currentSemester,
-}: {
-  currentSemester: string | undefined;
-}) {
+export function CreateCourse() {
+  const { state, dispatch } = useDataContext();
+  const currentSemester = useSearchParams().get("semester");
+  const [daycheck, setDayCheck] = useState<weekDays>({
+    Monday: false,
+    Tuesday: false,
+    Wednesday: false,
+    Thursday: false,
+    Friday: false,
+  });
+
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      indivCourse: "PHY-101",
+      criteria: "75",
+      totaldays: "35",
+      present: "0",
+      absent: "0",
+      cancelled: "0",
+      startTime: "08:00",
+      endTime: "09:00",
+    },
+  });
+
+  if (state.isLoading) return <h1>Loading...</h1>;
+
   const inputFields = [
     {
       attri: "Course :",
@@ -81,28 +106,6 @@ export function CreateCourse({
     { attri: "End :", key: "endTime", placeholder: "e.g., 0", type: "time" },
   ];
 
-  const [daycheck, setDayCheck] = useState<weekDays>({
-    Monday: false,
-    Tuesday: false,
-    Wednesday: false,
-    Thursday: false,
-    Friday: false,
-  });
-
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      indivCourse: "PHY-101",
-      criteria: "75",
-      totaldays: "35",
-      present: "0",
-      absent: "0",
-      cancelled: "0",
-      startTime: "08:00",
-      endTime: "09:00",
-    },
-  });
-
   const handleSelectAllDays = () => {
     setDayCheck({
       Monday: true,
@@ -134,12 +137,32 @@ export function CreateCourse({
     const courseDays = Object.keys(daycheck).filter(
       (day: string) => daycheck[day]
     );
+    const semExists = state.semesterInfo.find(
+      (sem) => sem.semester === currentSemester
+    );
+    if (!semExists) {
+      toast.error(`Please select a semester :)`);
+      return;
+    }
     if (courseDays.length === 0) {
       toast.error(`Please select at least one day :)`);
       return;
     }
     if (values.startTime >= values.endTime) {
       toast.error(`Start Time should be less than End Time :)`);
+      return;
+    }
+
+    const thatCourse =
+      state.todayCourses.find(
+        (course) => course.IndivCourse === values.indivCourse
+      ) ||
+      state.notToday.find(
+        (course) => course.IndivCourse === values.indivCourse
+      );
+
+    if (thatCourse?.IndivCourse) {
+      toast.error(`Course with the same name already exists :)`);
       return;
     }
 
@@ -155,7 +178,33 @@ export function CreateCourse({
       thatday: courseDays,
     };
 
-    console.log(courseData, currentSemester, values, todayCourseDecider);
+    try {
+      toast(`Wait till Course is being Created `);
+      const createdCourse = await createCourse(
+        state.user,
+        courseData,
+        courseDays,
+        semExists
+      );
+      if (courseDays.includes(weekDays[todayCourseDecider])) {
+        dispatch({
+          type: "SET_TODAY_COURSES",
+          payload: [...state.todayCourses, courseData],
+        });
+      } else {
+        dispatch({
+          type: "SET_NOT_TODAY",
+          payload: [...state.notToday, courseData],
+        });
+      }
+      dispatch({
+        type: "SET_ZERO_COURSES",
+        payload: false,
+      });
+      toast.success(createdCourse);
+    } catch (error) {
+      toast.error(`${error}`);
+    }
   };
 
   return (
@@ -165,10 +214,10 @@ export function CreateCourse({
         className="bg-slate-400 bg-opacity-20 lg:h-full rounded-lg shadow-lg p-6 flex flex-col justify-between gap-5 lg:gap-0 dark:bg-slate-950 dark:bg-opacity-20 overflow-y-auto"
       >
         <div className="grid grid-cols-1 items-center justify-center gap-4 lg:gap-0">
-          {inputFields.map((inputField: inputKey, id: number) => (
+          {inputFields.map((inputField: inputKey) => (
             <FormField
               name={`${inputField.key as formKeyType}`}
-              key={id}
+              key={inputField.key}
               control={form.control}
               render={({ field }) => (
                 <FormItem className="p-4 rounded-md grid grid-cols-3 gap-4 items-center">
@@ -189,10 +238,10 @@ export function CreateCourse({
             />
           ))}
           <div className="flex justify-between">
-            {timeFields.map((timeField: inputKey, id: number) => (
+            {timeFields.map((timeField: inputKey) => (
               <FormField
                 name={timeField.key as formKeyType}
-                key={id}
+                key={timeField.key}
                 control={form.control}
                 render={({ field }) => (
                   <FormItem className="p-4 w-full rounded-md gap-4 items-center">

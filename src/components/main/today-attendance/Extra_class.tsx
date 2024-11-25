@@ -1,7 +1,7 @@
 "use client";
 import { usePathname, useSearchParams } from "next/navigation";
 import { useDataContext } from "@/providers/data-provider";
-import React, { useReducer, useState } from "react";
+import React, { useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -10,29 +10,27 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { toast } from "sonner";
 import CustomButton from "@/components/global/custom-button";
 import { inputData } from "@/lib/type";
 import CustomSelectOption from "@/components/global/custom-select-option";
+import { helperForCourseSelect } from "@/lib/constants";
+import { updateStatus } from "@/app/(menu)/today-mark-status/_actions/getTodaysList";
 
 const ExtraClass = () => {
-  const currentSemester = useSearchParams().get("semester");
+  const searchParam = useSearchParams();
   const pathName = usePathname().split("/").pop();
   const { state, dispatch } = useDataContext();
   const [courseName, seteCourseName] = useState<string>("");
+  const currentSemester = searchParam.get("semester");
 
   if (
     pathName !== "today-mark-status" ||
     state.todayCourses.concat(state.notToday).length === 0
   )
     return null;
+
+  const { thatCourse, fromList } = helperForCourseSelect(state, courseName);
 
   const options = state.todayCourses.concat(state.notToday).map((item) => ({
     value: item.IndivCourse,
@@ -42,55 +40,52 @@ const ExtraClass = () => {
   const handleSubmit = async (
     e: React.MouseEvent<HTMLElement> | null | undefined
   ) => {
-    if (!e) return;
+    const semExist = state.semesterInfo.find(
+      (sem) => sem.semester === currentSemester
+    );
+    if (!e || !semExist || !thatCourse || !currentSemester) return;
 
     const status_Value = e.target as HTMLButtonElement;
 
-    const allcourses = state.todayCourses.concat(state.notToday);
-    const thatCourse: inputData | undefined = allcourses.find(
-      (course: inputData) => course.IndivCourse === courseName
-    );
-
-    if (!thatCourse) return;
-
-    // WIP : Need to check if the currentSemester is not null
-    if (!currentSemester) return;
     toast(`Updating ${status_Value.value} status`);
-    // const rec = await updateStatus(
-    //   user,
-    //   thatCourse,
-    //   status_Value.value,
-    //   currentSemester,
-    //   true
-    // );
-    const updatedCourse: inputData = {
-      ...thatCourse,
-      [status_Value.value]:
-        status_Value.value === "present"
-          ? thatCourse.present + 1
-          : status_Value.value === "absent"
-          ? thatCourse.absent + 1
-          : thatCourse.cancelled + 1,
-    };
-    if (
-      state.todayCourses.find((course) => course.IndivCourse === courseName)
-    ) {
-      dispatch({
-        type: "SET_TODAY_COURSES",
-        payload: state.todayCourses.map((course) =>
-          course.IndivCourse === courseName ? updatedCourse : course
-        ),
-      });
-    } else {
-      dispatch({
-        type: "SET_NOT_TODAY",
-        payload: state.notToday.map((course) =>
-          course.IndivCourse === courseName ? updatedCourse : course
-        ),
-      });
+    try {
+      const updatedCourse: inputData = {
+        ...thatCourse,
+        [status_Value.value]:
+          status_Value.value === "present"
+            ? thatCourse.present + 1
+            : status_Value.value === "absent"
+            ? thatCourse.absent + 1
+            : thatCourse.cancelled + 1,
+      };
+      await updateStatus(
+        state.user,
+        thatCourse,
+        status_Value.value,
+        semExist,
+        true
+      );
+
+      if (fromList === "todayCourses") {
+        dispatch({
+          type: "SET_TODAY_COURSES",
+          payload: state.todayCourses.map((course) =>
+            course.IndivCourse === courseName ? updatedCourse : course
+          ),
+        });
+      } else {
+        dispatch({
+          type: "SET_NOT_TODAY",
+          payload: state.notToday.map((course) =>
+            course.IndivCourse === courseName ? updatedCourse : course
+          ),
+        });
+      }
+      return toast(`${currentSemester} status updated`);
+    } catch (error) {
+      console.error(error);
+      return toast.error("Error occurred while updating status");
     }
-    console.log("updatedCourse", state.todayCourses, thatCourse);
-    return toast(`${currentSemester} status updated`);
   };
 
   return (
@@ -161,30 +156,3 @@ const ExtraClass = () => {
 };
 
 export default ExtraClass;
-
-type SelectScrollableProps = {
-  filterData: inputData[];
-  value: string;
-  setValue: (e: string) => void;
-};
-
-function SelectScrollable({
-  filterData,
-  value,
-  setValue,
-}: SelectScrollableProps) {
-  return (
-    <Select defaultValue={value} onValueChange={(e: string) => setValue(e)}>
-      <SelectTrigger className="">
-        <SelectValue placeholder="Select a course" />
-      </SelectTrigger>
-      <SelectContent>
-        {filterData.map((course, index) => (
-          <SelectItem key={index} value={course.IndivCourse}>
-            {course.IndivCourse}
-          </SelectItem>
-        ))}
-      </SelectContent>
-    </Select>
-  );
-}

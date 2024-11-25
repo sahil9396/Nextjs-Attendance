@@ -6,6 +6,7 @@ type SideBarButtonsProps = {
   currentSemNumber: string | null;
   currentPath: string;
   selected: string | null;
+  today: string | null;
   children: React.ReactNode;
 };
 
@@ -15,6 +16,7 @@ export const NavButtons = ({
   currentSemNumber,
   currentPath,
   selected,
+  today,
   children,
 }: SideBarButtonsProps) => {
   return (
@@ -25,8 +27,8 @@ export const NavButtons = ({
         ? { href: href }
         : {
             href: `${href}?${new URLSearchParams(
-              selected
-                ? { semester: currentSemNumber, selected }
+              selected && today
+                ? { semester: currentSemNumber, selected, today }
                 : { semester: currentSemNumber }
             ).toString()}`,
           })}

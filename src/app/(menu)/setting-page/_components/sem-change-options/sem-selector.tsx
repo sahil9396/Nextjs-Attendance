@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import { toast } from "sonner";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import {
   Select,
   SelectContent,
@@ -9,18 +9,16 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { SingleSemester } from "@/providers/data-provider";
+import { SingleSemester, useDataContext } from "@/providers/data-provider";
 import SemesterChangeButtons from "./sem-change-buttons";
 
-const SemSelector = ({
-  currentSemester,
-  semList,
-}: {
-  currentSemester: string | undefined;
-  semList: SingleSemester[];
-}) => {
+const SemSelector = () => {
+  const currentSemester = useSearchParams().get("semester");
   const [canChangeSemester, setCanChangeSemester] = useState<boolean>(false);
-  const [selected, setSelected] = useState<string | undefined>(currentSemester);
+  const { state } = useDataContext();
+  const [selected, setSelected] = useState<string | undefined>(
+    currentSemester || state.semesterInfo[0].semester
+  );
   const router = useRouter();
 
   const handleChange = (e: string) => setSelected(e);
@@ -30,8 +28,8 @@ const SemSelector = ({
     router.push(`?semester=${selected}`, {
       scroll: false,
     });
-    router.refresh();
     toast.success("Semester Changed Successfully");
+    router.refresh();
     setCanChangeSemester(false);
   };
 
@@ -42,7 +40,7 @@ const SemSelector = ({
           <SelectValue placeholder={"placeholderValue"} />
         </SelectTrigger>
         <SelectContent>
-          {semList.map((sem: SingleSemester) => (
+          {state.semesterInfo.map((sem: SingleSemester) => (
             <SelectItem key={sem.id} value={sem.semester}>
               {sem.semester}
             </SelectItem>

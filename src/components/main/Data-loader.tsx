@@ -1,15 +1,16 @@
 "use client";
 import { useDataLoader } from "@/lib/data-loader";
 import React from "react";
-import { usePathname, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 
 type Props = { children: React.ReactNode };
 
+export const dynamic = "force-dynamic";
+
 const DataLoader = ({ children }: Props) => {
-  const currentPath = usePathname();
-  const extractedSem = useSearchParams().get("semester");
+  const params = useSearchParams();
+  const extractedSem = params.get("semester");
   useDataLoader(extractedSem);
-  console.log(currentPath, extractedSem, "From data loader");
   return <>{children}</>;
 };
 

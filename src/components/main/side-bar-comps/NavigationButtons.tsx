@@ -8,6 +8,7 @@ const NavigationButtons = () => {
   const searchParm = useSearchParams();
   const extractedSem = searchParm.get("semester");
   const selected = searchParm.get("selected");
+  const today = searchParm.get("today");
   const menuOptions = [
     {
       title: "Today",
@@ -24,14 +25,15 @@ const NavigationButtons = () => {
   ];
   return (
     <div className="w-full flex flex-row lg:flex-col justify-evenly lg:justify-start items-center gap-12 lg:gap-6 px-4 rounded-lg ">
-      {menuOptions.map((option, index) => (
+      {menuOptions.map((option) => (
         <NavButtons
-          key={index}
+          key={option.href}
           href={option.href}
           currentSemNumber={extractedSem}
           currentPath={currentPath}
           passHref
           selected={selected}
+          today={today}
         >
           {option.title}
         </NavButtons>

@@ -3,7 +3,7 @@ import { Label } from "../ui/label";
 
 type CustromInputProps = {
   label: string;
-  value: number;
+  value: number | string;
   onChange: (value: string) => void;
   type: string;
 };

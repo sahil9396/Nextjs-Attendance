@@ -8,9 +8,15 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { inputData } from "@/lib/type";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
-const SingleCardDisplay = ({ course }: { course: inputData }) => {
+const SingleCardDisplay = ({
+  course,
+  fromWhichList,
+}: {
+  course: inputData;
+  fromWhichList: string;
+}) => {
   const route = useRouter();
   const searchParm = useSearchParams();
   const currentSem = searchParm.get("semester");
@@ -46,18 +52,23 @@ const SingleCardDisplay = ({ course }: { course: inputData }) => {
   return (
     <div
       onClick={() => {
+        console.log(IndivCourse, fromWhichList);
         if (selected === IndivCourse) {
           route.push(`?semester=${currentSem}`);
           return;
         } else {
-          route.push(`?semester=${currentSem}&selected=${IndivCourse}`);
+          route.push(
+            `?semester=${currentSem}&selected=${IndivCourse}&today=${fromWhichList}`
+          );
         }
       }}
       className={commonClasses}
     >
       <Card
         className={`bg-slate-400 bg-opacity-20 text-gray-800 dark:bg-black dark:bg-opacity-20 dark:text-white  ${
-          selected === IndivCourse && "border-red-400 "
+          selected === IndivCourse
+            ? `${colorDecider ? "border-green-500" : "border-red-500"} border-2`
+            : ""
         }`}
       >
         <CardHeader className="flex flex-col gap-4 p-4">
@@ -71,8 +82,8 @@ const SingleCardDisplay = ({ course }: { course: inputData }) => {
           <CardDescription className="text-[#575757] text-center md:text-start flex flex-wrap justify-center lg:justify-between gap-2">
             <p>{timeofcourse}</p>
             <p className="flex gap-4 text-[#717171]">
-              {thatday.map((item: string, id: number) => (
-                <span key={id}>{item.slice(0, 3)} </span>
+              {thatday.map((item: string) => (
+                <span key={item}>{item.slice(0, 3)} </span>
               ))}
             </p>
           </CardDescription>

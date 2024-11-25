@@ -10,19 +10,15 @@ import { getList } from "@/app/(menu)/list-course/_actions/log-courses-server-fu
 import { Dispatch, useEffect } from "react";
 import { inputData } from "./type";
 import { useRouter } from "next/navigation";
+import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 
 const helper = async (
   state: contextype,
   dispatch: Dispatch<ActionType>,
   semFromUrl: string | null,
-  router: any
+  router: AppRouterInstance
 ) => {
   if (state.user.clerk_id !== "") return;
-
-  dispatch({
-    type: "SET_IS_LOADING",
-    payload: true,
-  });
 
   const userInfo = await getUserInfo();
   if (!userInfo) {
@@ -32,8 +28,13 @@ const helper = async (
     });
     return;
   }
+  dispatch({
+    type: "SET_USER",
+    payload: userInfo,
+  });
+  console.log(userInfo);
 
-  const semList: SingleSemester[] = await getSemesterList(userInfo);
+  const semList: SingleSemester[] | null = await getSemesterList(userInfo);
 
   if (!semList?.length) {
     dispatch({
@@ -43,18 +44,25 @@ const helper = async (
     return;
   }
 
-  if (!semFromUrl) {
-    router.push(`?semester=${semList[0].semester}`);
-  }
+  dispatch({
+    type: "SET_SEMESTER_INFO",
+    payload: semList,
+  });
 
   const semExist = semList.find(
     (sem: SingleSemester) => sem.semester === semFromUrl
   );
 
+  console.log(semList, semFromUrl);
+  if (!semExist) router.push(`?semester=${semList[0].semester}`);
+  console.log(semExist);
+
   const list: inputData[][] | null = await getList(
     semExist?.semester || semList[0].semester,
     userInfo
   );
+
+  console.log(list);
 
   if (!list) {
     dispatch({
@@ -64,15 +72,10 @@ const helper = async (
     return;
   }
 
-  const existsList = list[0]?.length && list[1]?.length;
-
-  if (!existsList) {
-    dispatch({
-      type: "SET_ZERO_COURSES",
-      payload: true,
-    });
-    return;
-  }
+  dispatch({
+    type: "SET_IS_LOADING",
+    payload: false,
+  });
 
   dispatch({
     type: "SET_TODAY_AND_NOT_TODAY_COURSES",
@@ -87,6 +90,7 @@ export const useDataLoader = (semFromUrl: string | null) => {
   const { state, dispatch } = useDataContext();
   const router = useRouter();
   useEffect(() => {
+    console.log("useDataLoader");
     helper(state, dispatch, semFromUrl, router);
   }, []);
 };

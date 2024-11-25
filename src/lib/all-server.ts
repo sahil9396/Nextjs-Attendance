@@ -1,6 +1,6 @@
 "use server";
-import { currentUser } from "@clerk/nextjs/server";
-import { userDetailstype } from "./type";
+import { clerkClient, currentUser } from "@clerk/nextjs/server";
+import { eventType, userDetailstype } from "./type";
 import db from "./db";
 import { custom_cache } from "./utils";
 import { cache } from "react";
@@ -69,3 +69,37 @@ export const getSemesterList = custom_cache(
   [],
   { tags: ["getSemesterList"] }
 );
+
+export async function createCalender(event: eventType) {
+  try {
+    const user = await currentUser();
+    if (!user) {
+      return;
+    }
+
+    const clerkResponse = (await clerkClient()).users.getUserOauthAccessToken(
+      user.id,
+      "oauth_google"
+    );
+
+    const { token } = (await clerkResponse).data[0];
+    if (!token) {
+      return "No token found";
+    }
+
+    const GOOGLE_CREATE_ENDPOINT = `https://www.googleapis.com/calendar/v3/calendars/primary/events`;
+    let response = await fetch(GOOGLE_CREATE_ENDPOINT, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(event),
+    });
+    response = await response.json();
+    return response;
+  } catch (error) {
+    console.error("Failed to get token:", error);
+    return "Failed to get token";
+  }
+}

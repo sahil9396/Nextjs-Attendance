@@ -1,31 +1,48 @@
 "use client";
 import CustomDialog from "@/components/global/custom-dialog";
 import { Input } from "@/components/ui/input";
-import { SingleSemester } from "@/providers/data-provider";
+import { useDataContext } from "@/providers/data-provider";
 import React, { useState } from "react";
 import { toast } from "sonner";
+import { createSemester } from "../../_actions/sem-action";
 
-type Props = {
-  semList: SingleSemester[];
-};
-
-const CreateSemester = ({ semList }: Props) => {
+const CreateSemester = () => {
   const [semesterNumber, setSemesterNumber] = useState<number>(NaN);
+  const { state, dispatch } = useDataContext();
 
-  const handleSubmit = () => {
-    if (isNaN(semesterNumber)) {
-      toast.error("Semester Number is required");
+  const handleSubmit = async () => {
+    if (!semesterNumber || isNaN(semesterNumber) || semesterNumber < 1) {
+      toast.error("Enter a valid Semester Number");
       return;
     }
 
-    if (semesterNumber <= 0) {
-      toast.error("Semester Number should be greater than 0");
+    if (
+      state.semesterInfo.some(
+        (sem) => sem.semester === `semester-${semesterNumber}`
+      )
+    ) {
+      toast.error("Semester Already Exists");
       return;
     }
 
-    if (semList.some((sem) => sem.semester === `semester-${semesterNumber}`)) {
-      toast.error("Semester already exists");
-      return;
+    toast.message("Creating New Semester");
+    try {
+      const response = await createSemester(state.user, semesterNumber);
+      if (!response) {
+        toast.error("Error Creating Semester");
+        return;
+      }
+      if (response === "Semester Already exists!!!") {
+        toast.message("Semester Already exists!!!");
+        return;
+      }
+      dispatch({
+        type: "SET_SEMESTER_INFO",
+        payload: [...state.semesterInfo, response],
+      });
+      toast.success("Semester Created Successfully");
+    } catch (e) {
+      toast.error(`error: ${e}`);
     }
   };
 

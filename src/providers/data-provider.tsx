@@ -1,12 +1,6 @@
 "use client";
 import { inputData, userDetailstype } from "@/lib/type";
-import {
-  createContext,
-  Dispatch,
-  useContext,
-  useReducer,
-  useState,
-} from "react";
+import { createContext, Dispatch, useContext, useReducer } from "react";
 
 export type todayStatusDoneType = {
   date: string;
@@ -76,59 +70,6 @@ type props = {
   children: React.ReactNode;
 };
 
-// export const Context_Pro_Provider = ({ children }: props) => {
-//   const [zeroCourses, setZeroCourses] = useState(false);
-//   const [semesterInfo, setSemesterInfo] =
-//     useState<SingleSemester[]>(initialSemesterInfo);
-//   const [notToday, setNotToday] = useState<inputData[]>([]);
-//   const [todayCourses, setTodayCourses] = useState<inputData[]>([]);
-//   const [todayStatusDone, setTodayStatusDone] = useState<todayStatusDoneType>(
-//     initialTodayStatusDone
-//   );
-//   const [searchParam, setSearchParam] = useState("");
-//   const [isLoading, setIsLoading] = useState(false);
-//   const [selectedCourse, setSelectedCourse] = useState<inputData>(
-//     initialSelectedCourse
-//   );
-//   const [isBackendProcessing, setIsBackendProcessing] = useState(false);
-//   const [user, setUser] = useState<userDetailstype>(initialUserInfo);
-
-//   const value: contextype = {
-//     zeroCourses,
-//     setZeroCourses,
-//     semesterInfo,
-//     setSemesterInfo,
-//     notToday,
-//     setNotToday,
-//     todayCourses,
-//     setTodayCourses,
-//     todayStatusDone,
-//     setTodayStatusDone,
-//     searchParam,
-//     setSearchParam,
-//     isLoading,
-//     setIsLoading,
-//     selectedCourse,
-//     setSelectedCourse,
-//     isBackendProcessing,
-//     setIsBackendProcessing,
-//     user,
-//     setUser,
-//   };
-
-//   return <contextdata.Provider value={value}>{children}</contextdata.Provider>;
-// };
-
-// export function useDataContext() {
-//   const context = useContext(contextdata);
-//   if (!context) {
-//     throw new Error(
-//       "useDataContext must be used within a Context_Pro_Provider"
-//     );
-//   }
-//   return context;
-// }
-
 export type ActionType =
   | { type: "SET_ZERO_COURSES"; payload: boolean }
   | { type: "SET_SEMESTER_INFO"; payload: SingleSemester[] }
@@ -163,7 +104,7 @@ const initialState: contextype = {
   setTodayStatusDone: () => {},
   searchParam: "",
   setSearchParam: () => {},
-  isLoading: false,
+  isLoading: true,
   setIsLoading: () => {},
   selectedCourse: initialSelectedCourse,
   setSelectedCourse: () => {},
