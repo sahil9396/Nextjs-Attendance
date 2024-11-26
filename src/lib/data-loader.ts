@@ -29,23 +29,25 @@ const helper = async (
     dispatch({ type: "SET_USER", payload: userInfo });
 
     const semList = await getSemesterList(userInfo);
-    if (!semList?.length) return setLoading(dispatch, false);
+    if (!semList?.length) {
+      localStorage.removeItem("semester");
+      return setLoading(dispatch, false);
+    }
 
     dispatch({ type: "SET_SEMESTER_INFO", payload: semList });
 
     const semExist = semList.find((sem) => sem.semester === semFromUrl);
     const list = await getList(semExist || semList[0], userInfo);
 
+    if (!semFromUrl) {
+      router.push(`?semester=${semList[0].semester}`, { scroll: false });
+    }
     if (!list) return setLoading(dispatch, false);
 
     dispatch({
       type: "SET_TODAY_AND_NOT_TODAY_COURSES",
       payload: { today: list[0], notToday: list[1] },
     });
-
-    if (!semFromUrl) {
-      router.push(`?semester=${semList[0].semester}`, { scroll: false });
-    }
   } catch (error) {
     console.error(error);
   }

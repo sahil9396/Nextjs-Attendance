@@ -161,7 +161,8 @@ export function CreateCourse() {
         (course) => course.IndivCourse === values.indivCourse
       );
 
-    if (thatCourse?.IndivCourse) {
+    console.log(thatCourse);
+    if (thatCourse && thatCourse?.IndivCourse) {
       toast.error(`Course with the same name already exists :)`);
       return;
     }

@@ -11,7 +11,7 @@ const SideBar = async () => {
       <div className="h-full w-10/12 hidden lg:flex flex-col gap-2">
         <MiddlePart />
       </div>
-      <div className="hidden lg:flex flex-col items-center gap-2 w-10/12 ">
+      <div className="hidden lg:flex flex-col items-center gap-2 w-4/5 ">
         <CalendarButton />
         <ModeToggle />
       </div>

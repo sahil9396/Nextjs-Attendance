@@ -41,7 +41,6 @@ export const createCourse = async (
     });
 
     if (courseExists) {
-      console.log(courseExists);
       return "course Already exists!!!";
     }
     await db.course.create({

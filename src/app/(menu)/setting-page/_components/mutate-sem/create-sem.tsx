@@ -5,10 +5,12 @@ import { useDataContext } from "@/providers/data-provider";
 import React, { useState } from "react";
 import { toast } from "sonner";
 import { createSemester } from "../../_actions/sem-action";
+import { useRouter } from "next/navigation";
 
 const CreateSemester = () => {
   const [semesterNumber, setSemesterNumber] = useState<number>(NaN);
   const { state, dispatch } = useDataContext();
+  const router = useRouter();
 
   const handleSubmit = async () => {
     if (!semesterNumber || isNaN(semesterNumber) || semesterNumber < 1) {
@@ -37,6 +39,9 @@ const CreateSemester = () => {
         toast.message("Semester Already exists!!!");
         return;
       }
+      if (state.semesterInfo.length === 0) {
+        router.push(`?semester=${response.semester}`, { scroll: false });
+      }
       dispatch({
         type: "SET_SEMESTER_INFO",
         payload: [...state.semesterInfo, response],
@@ -57,9 +62,20 @@ const CreateSemester = () => {
     >
       <div className="flex flex-col w-full h-full space-y-4">
         <ul className="list-inside flex flex-wrap gap-2">
-          {state.semesterInfo.map((sem, index) => (
-            <li className="bg-gray-500 p-2 rounded-md text-md text-white" key={index}>{sem.semester}</li>
-          ))}
+          {state.semesterInfo.length !== 0 ? (
+            state.semesterInfo.map((sem, index) => (
+              <li
+                className="bg-gray-500 p-2 rounded-md text-md text-white"
+                key={index}
+              >
+                {sem.semester}
+              </li>
+            ))
+          ) : (
+            <li className="bg-gray-500 p-2 rounded-md text-md text-white">
+              No Semester Available
+            </li>
+          )}
         </ul>
         <Input
           type="number"

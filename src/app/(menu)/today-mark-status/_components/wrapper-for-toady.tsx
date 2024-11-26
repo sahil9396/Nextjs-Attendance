@@ -31,7 +31,7 @@ const WrapperToToday = ({
   }
 
   return (
-    <div className="w-full px-3 gap-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 content-center ">
+    <div className="w-full lg:px-3 gap-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 content-center ">
       {todayCoursesToShowFromSearch.map((item) => (
         <SingleAttendanceStatus
           key={item.IndivCourse}

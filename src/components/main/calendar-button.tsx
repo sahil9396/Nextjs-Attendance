@@ -3,7 +3,7 @@ import React from "react";
 const CalendarButton = () => {
   return (
     <a
-      className={`w-10/12 flex justify-center items-center py-3 rounded-lg bg-gray-500 dark:bg-white text-white dark:text-black`}
+      className={`w-full flex justify-center items-center py-3 rounded-lg bg-gray-500 dark:bg-white text-white dark:text-black`}
       href="https://calendar.google.com/calendar"
       target="_blank"
     >

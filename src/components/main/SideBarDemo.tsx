@@ -5,7 +5,6 @@ import React from "react";
 
 const SideBarDemo = () => {
   const pathName = usePathname();
-  console.log(pathName);
   const demoList = [
     {
       title: "today-mark-status",

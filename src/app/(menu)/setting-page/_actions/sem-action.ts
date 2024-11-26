@@ -11,7 +11,7 @@ export const createSemester = async (
   const { email_address, phone_number, verified, clerk_id, user_name } =
     userDetails;
   try {
-    const semesterExists = await db.semester.findFirst({
+    const semesterExists = await db.semester.findMany({
       where: {
         semester: `semester-${semesterNumber}`,
         userDetails: {
@@ -24,8 +24,7 @@ export const createSemester = async (
       },
     });
 
-    if (semesterExists) {
-      console.log(semesterExists);
+    if (semesterExists.length) {
       return "Semester Already exists!!!";
     }
 
