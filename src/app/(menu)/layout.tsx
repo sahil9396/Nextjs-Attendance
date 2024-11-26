@@ -9,7 +9,6 @@ export default async function Layout({
 }: {
   children: React.ReactNode;
 }) {
-  // console.log("🚀 ~ file: layout.tsx ~ line 1 ~ Layout ~ children");
   return (
     <Context_Pro_Provider>
       <DataLoader>

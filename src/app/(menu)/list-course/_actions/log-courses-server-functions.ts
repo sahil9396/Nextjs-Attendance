@@ -69,7 +69,7 @@ export const getList = custom_cache(
 
       structuredData.forEach((sem: inputData) => {
         const trueDay: boolean = sem.thatday.includes(
-          weekDays[todayCourseDecider]
+          Object.keys(weekDays)[todayCourseDecider]
         );
         if (trueDay) todayCourse.push(sem);
         else notTodayCourse.push(sem);

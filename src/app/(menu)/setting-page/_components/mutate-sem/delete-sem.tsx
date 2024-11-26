@@ -39,7 +39,6 @@ const DeleteSemester = () => {
         state.user,
         `semester-${semesterNumber}`
       );
-      console.log(response);
       if (!response) {
         toast.error("Error Deleting Semester");
         return;

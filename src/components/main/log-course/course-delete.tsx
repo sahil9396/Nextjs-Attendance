@@ -41,7 +41,6 @@ const CourseDelete = ({ selected, today }: Props) => {
         const updatedList = state.todayCourses.filter(
           (course: inputData) => course.IndivCourse !== selected
         );
-        console.log(updatedList);
 
         dispatch({
           type: "SET_TODAY_COURSES",
@@ -51,7 +50,6 @@ const CourseDelete = ({ selected, today }: Props) => {
         const updatedList = state.notToday.filter(
           (course: inputData) => course.IndivCourse !== selected
         );
-        console.log(updatedList, state.notToday);
         dispatch({
           type: "SET_NOT_TODAY",
           payload: updatedList,

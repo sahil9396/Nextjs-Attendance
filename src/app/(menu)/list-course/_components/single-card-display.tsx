@@ -52,7 +52,6 @@ const SingleCardDisplay = ({
   return (
     <div
       onClick={() => {
-        console.log(IndivCourse, fromWhichList);
         if (selected === IndivCourse) {
           route.push(`?semester=${currentSem}`);
           return;

@@ -104,30 +104,6 @@ const ExtraClass = () => {
             <DialogDescription className="text-sm w-full text-gray-400 flex justify-center">
               <CustomSelectOption
                 selectValue={courseName}
-                // setSelectValue={(value) => {
-                //   dispatch({ type: "courseName", payload: value });
-                //   const courseDetail = contextState.todayCourses
-                //     .concat(contextState.notToday)
-                //     .find((sem: inputData) => sem.IndivCourse === value);
-                //   dispatch({
-                //     type: "courseDetails",
-                //     payload: objectGenerator(courseDetail),
-                //   });
-                //   const thatDaysWithCourse = courseDetail?.thatday.reduce(
-                //     (acc, day) => ({
-                //       ...acc,
-                //       [day]: true,
-                //     }),
-                //     {}
-                //   );
-                //   dispatch({
-                //     type: "weekDays",
-                //     payload: {
-                //       ...weekDaysWithBoolen,
-                //       ...thatDaysWithCourse,
-                //     },
-                //   });
-                // }}
                 setSelectValue={(value) => seteCourseName(value)}
                 options={options}
                 isBackendProcessing={state.isBackendProcessing}

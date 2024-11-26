@@ -16,7 +16,7 @@ import { toast } from "sonner";
 import { todayCourseDecider, weekDays } from "@/lib/constants";
 import { useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
-import { formKeyType, formSchema, inputData } from "@/lib/type";
+import { day, formKeyType, formSchema, inputData } from "@/lib/type";
 import CustomButton from "@/components/global/custom-button";
 import { useDataContext } from "@/providers/data-provider";
 import { createCourse } from "../_actions/create-course-action";
@@ -30,14 +30,10 @@ type inputKey = {
   type: string;
 };
 
-type weekDays = {
-  [key: string]: boolean;
-};
-
 export function CreateCourse() {
   const { state, dispatch } = useDataContext();
   const currentSemester = useSearchParams().get("semester");
-  const [daycheck, setDayCheck] = useState<weekDays>({
+  const [daycheck, setDayCheck] = useState<day>({
     Monday: false,
     Tuesday: false,
     Wednesday: false,
@@ -192,7 +188,12 @@ export function CreateCourse() {
         courseDays,
         semExists
       );
-      if (courseDays.includes(Object(weekDays).keys()[todayCourseDecider])) {
+      if (createdCourse === "course Already exists!!!") {
+        toast.error(`Course with the same name already exists :)`);
+        dispatch({ type: "SET_IS_BACKEND_PROCESSING", payload: false });
+        return;
+      }
+      if (courseDays.includes(Object.keys(weekDays)[todayCourseDecider])) {
         dispatch({
           type: "SET_TODAY_COURSES",
           payload: [...state.todayCourses, courseData],
@@ -288,7 +289,7 @@ export function CreateCourse() {
               <DaySelector
                 key={key}
                 day={key}
-                isSelected={value}
+                isSelected={value as boolean}
                 toggleDay={() => handleToggleDay(key)}
               />
             ))}

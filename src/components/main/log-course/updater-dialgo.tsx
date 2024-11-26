@@ -119,7 +119,7 @@ const UpdaterDialog = ({
     );
 
     const eligibleForToday = daySelected.includes(
-      Object(weekDays).keys()[todayCourseDecider]
+      Object.keys(weekDays)[todayCourseDecider]
     );
 
     if (fromList === "true") {

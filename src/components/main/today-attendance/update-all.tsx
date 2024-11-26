@@ -13,10 +13,7 @@ const UpdateAllClasses = () => {
   const { state, dispatch } = useDataContext();
   const currentSem = useSearchParams().get("semester");
 
-  if (
-    pathName !== "today-mark-status" ||
-    state.todayCourses.concat(state.notToday).length === 0
-  )
+  if (pathName !== "today-mark-status" || state.todayCourses.length === 0)
     return null;
 
   const handleUpdateStatus = async (status: string) => {
