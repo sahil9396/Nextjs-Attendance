@@ -1,4 +1,5 @@
 import CustomButton from "@/components/global/custom-button";
+import CustomDialog from "@/components/global/custom-dialog";
 
 type SemesterChangeButtonsProps = {
   canChange: boolean;
@@ -36,11 +37,20 @@ const SemesterChangeButtons = ({
       />
     </div>
   ) : (
-    <CustomButton
-      onClick={() => setCanChange(confirm("Change the semester?"))}
-      content="Change Semester"
-      //   disabled={isProcessing}
-    />
+    <CustomDialog
+      title="Change "
+      description="Change "
+      isProcessing={isProcessing}
+      processingText="Changing"
+      onSubmit={() => setCanChange(true)}
+    >
+      {/* <CustomButton
+        onClick={() => setCanChange(confirm("Change the semester?"))}
+        content="Change Semester"
+        disabled={isProcessing}
+      /> */}
+      Do you Really want to change the semester?
+    </CustomDialog>
   );
 };
 
