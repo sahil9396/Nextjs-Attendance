@@ -219,7 +219,7 @@ export function CreateCourse() {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(handleSubmit)}
-        className="bg-slate-400 bg-opacity-20 lg:h-full rounded-lg shadow-lg p-6 flex flex-col justify-between gap-5 lg:gap-0 dark:bg-slate-950 dark:bg-opacity-20 overflow-y-auto"
+        className="bg-slate-400 bg-opacity-20 lg:h-full rounded-lg shadow-lg flex flex-col justify-between gap-5 lg:gap-0 dark:bg-slate-950 dark:bg-opacity-20 overflow-y-auto"
       >
         <div className="grid grid-cols-1 items-center justify-center gap-4 lg:gap-0">
           {inputFields.map((inputField: inputKey) => (
@@ -313,7 +313,7 @@ export const DaySelector = ({
 }: {
   day: string;
   isSelected: boolean;
-  toggleDay: () => void;
+  toggleDay?: () => void;
 }) => {
   return (
     <div

@@ -7,6 +7,10 @@ const nextConfig = {
         hostname: "img.clerk.com",
         // pathname: "/settings/*",
       },
+      {
+        protocol: "https",
+        hostname: "images.unsplash.com",
+      },
     ],
   },
   logging: {

@@ -21,13 +21,19 @@ export default function HomePage() {
               Manage your attendance efficiently and effortlessly.
             </p>
           </CardHeader>
-          <CardContent className="flex flex-col gap-4">
+          <CardContent className="flex gap-4">
             <Link
               prefetch={false}
               href={"/list-course"}
               className="w-full bg-blue-700 text-white p-4 rounded-lg text-center hover:bg-blue-800 transition"
             >
               Get started
+            </Link>
+            <Link
+              href={"/demo/list-course"}
+              className="w-full bg-blue-700 text-white p-4 rounded-lg text-center hover:bg-blue-800 transition"
+            >
+              Click for demo
             </Link>
           </CardContent>
         </Card>
