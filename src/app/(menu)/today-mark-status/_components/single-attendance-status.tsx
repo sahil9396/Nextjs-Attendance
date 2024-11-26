@@ -16,6 +16,7 @@ type SingleAttendanceStatusProps = {
   semExist: SingleSemester;
   todayCourses: inputData[];
   dispatch: Dispatch<ActionType>;
+  isBackendProcessing: boolean;
 };
 
 const SingleAttendanceStatus = ({
@@ -24,6 +25,7 @@ const SingleAttendanceStatus = ({
   semExist,
   todayCourses,
   dispatch,
+  isBackendProcessing,
 }: SingleAttendanceStatusProps) => {
   const { present, absent } = course;
   const currentStatus = Math.round((present / (present + absent)) * 100) || 0;
@@ -47,6 +49,7 @@ const SingleAttendanceStatus = ({
           semExist={semExist}
           todayCourses={todayCourses}
           dispatch={dispatch}
+          isBackendProcessing={isBackendProcessing}
         />
       </CardContent>
     </Card>

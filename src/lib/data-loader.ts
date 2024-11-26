@@ -48,12 +48,20 @@ const helper = async (
       payload: semList,
     });
 
+    const fromLocalStorageSemesterInfo = localStorage.getItem("semester");
+    const semExtractedFromLocalStorage =
+      fromLocalStorageSemesterInfo && JSON.parse(fromLocalStorageSemesterInfo);
+
     const semExist = semList.find(
-      (sem: SingleSemester) => sem.semester === semFromUrl
+      (sem: SingleSemester) =>
+        sem.semester === (semFromUrl || semExtractedFromLocalStorage)
     );
 
-    if (!semExist)
-      router.push(`?semester=${semList[0].semester}`, { scroll: false });
+    if (!semFromUrl)
+      router.push(
+        `?semester=${semExtractedFromLocalStorage || semList[0].semester}`,
+        { scroll: false }
+      );
 
     console.log(semExist);
     const list: inputData[][] | null = await getList(
@@ -61,7 +69,7 @@ const helper = async (
       userInfo
     );
 
-    console.log(list, semExist, semList[0], semExist || semList[0]);
+    console.log(list, semExist);
 
     if (!list) {
       dispatch({

@@ -8,7 +8,7 @@ import {
   SingleSemester,
   useDataContext,
 } from "@/providers/data-provider";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import React, { Dispatch } from "react";
 import { toast } from "sonner";
 
@@ -22,6 +22,7 @@ type Props = {
 const CourseDelete = ({ selected, today }: Props) => {
   const { state, dispatch } = useDataContext();
   const currentSem = useSearchParams().get("semester");
+  const route = useRouter();
   const handleDelete = async () => {
     const semExists = state.semesterInfo.find(
       (sem: SingleSemester) => sem.semester === currentSem
@@ -56,6 +57,7 @@ const CourseDelete = ({ selected, today }: Props) => {
           payload: updatedList,
         });
       }
+      route.push(`?semester=${currentSem}`);
       toast.success(`Course deleted successfully ${selected} ${today}`);
     } catch (error) {
       toast.error("Error occurred while deleting course");

@@ -17,9 +17,11 @@ const SemSelector = () => {
   const [canChangeSemester, setCanChangeSemester] = useState<boolean>(false);
   const { state } = useDataContext();
   const [selected, setSelected] = useState<string | undefined>(
-    currentSemester || state.semesterInfo[0]?.semester
+    () => currentSemester || state.semesterInfo[0]?.semester
   );
   const router = useRouter();
+
+  if (state.isLoading) return null;
 
   const handleChange = (e: string) => setSelected(e);
 
@@ -30,7 +32,7 @@ const SemSelector = () => {
     router.push(`?semester=${selected}`, {
       scroll: false,
     });
-    window.location.reload();
+    window.location.href = `?semester=${selected}`;
     setCanChangeSemester(false);
   };
 

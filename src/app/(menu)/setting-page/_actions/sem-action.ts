@@ -1,7 +1,6 @@
 "use server";
 import db from "@/lib/db";
 import { userDetailstype } from "@/lib/type";
-import { SingleSemester } from "@/providers/data-provider";
 import { revalidateTag } from "next/cache";
 
 // creating new semester
@@ -65,7 +64,7 @@ export const createSemester = async (
 // Deleting the semester
 export const deleteSemester = async (
   userDetails: userDetailstype,
-  semesterInfo: SingleSemester
+  semester: string
 ) => {
   const { email_address, phone_number, verified, clerk_id, user_name } =
     userDetails;
@@ -76,7 +75,7 @@ export const deleteSemester = async (
         assignedBy: user_name,
         course: {
           semesterDetails: {
-            semester: semesterInfo.semester,
+            semester,
             userDetails: {
               email_address,
               phone_number,
@@ -92,7 +91,7 @@ export const deleteSemester = async (
     const deletedCourse = db.course.deleteMany({
       where: {
         semesterDetails: {
-          semester: semesterInfo.semester,
+          semester,
           userDetails: {
             email_address,
             phone_number,
@@ -106,7 +105,7 @@ export const deleteSemester = async (
 
     const deletedSemester = db.semester.deleteMany({
       where: {
-        semester: semesterInfo.semester,
+        semester,
         userDetails: {
           email_address,
           phone_number,

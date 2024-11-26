@@ -1,6 +1,5 @@
-import React, { Suspense } from "react";
+import React from "react";
 import WrapperToToday from "./_components/wrapper-for-toady";
-import { LoadingSpinner } from "@/components/global/load-spinner";
 
 type SearchParams = { [key: string]: string | undefined };
 

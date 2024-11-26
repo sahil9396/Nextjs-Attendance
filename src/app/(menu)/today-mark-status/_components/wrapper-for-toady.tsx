@@ -40,6 +40,7 @@ const WrapperToToday = ({
           semExist={semExist}
           todayCourses={state.todayCourses}
           dispatch={dispatch}
+          isBackendProcessing={state.isBackendProcessing}
         />
       ))}
     </div>

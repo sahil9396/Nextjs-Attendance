@@ -51,15 +51,23 @@ const CreateSemester = () => {
   return (
     <CustomDialog
       title="New Semester"
-      description="Create New Semester"
+      description="Create new semester"
       onSubmit={handleSubmit}
-        isProcessing={state.isBackendProcessing}
+      isProcessing={state.isBackendProcessing}
     >
-      <Input
-        type="number"
-        onChange={(e) => setSemesterNumber(parseInt(e.target.value))}
-        placeholder="Semester Number"
-      />
+      <div className="flex flex-col w-full h-full space-y-4">
+        <ul className="list-inside flex flex-wrap gap-2">
+          {state.semesterInfo.map((sem, index) => (
+            <li className="bg-gray-500 p-2 rounded-md text-md text-white" key={index}>{sem.semester}</li>
+          ))}
+        </ul>
+        <Input
+          type="number"
+          onChange={(e) => setSemesterNumber(parseInt(e.target.value))}
+          placeholder="Enter Semester Number"
+          className="mt-4 p-2 border rounded"
+        />
+      </div>
     </CustomDialog>
   );
 };

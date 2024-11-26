@@ -6,18 +6,12 @@ import CustomDialog from "@/components/global/custom-dialog";
 import { CustromInput } from "@/components/global/custom-input";
 import { day, inputData } from "@/lib/type";
 import { useDataContext } from "@/providers/data-provider";
-import React, { useEffect, useState, useCallback } from "react";
-import { todayCourseDecider, weekDays as weekDaysList } from "@/lib/constants";
+import React, { useState, useMemo } from "react";
+import { todayCourseDecider, weekDays } from "@/lib/constants";
 import { toast } from "sonner";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
-const weekDaysWithBoolen: day = {
-  Monday: false,
-  Tuesday: false,
-  Wednesday: false,
-  Thursday: false,
-  Friday: false,
-};
+const weekDaysWithBoolen: day = weekDays;
 
 type courseDetailsType = {
   timeofcourse: string;
@@ -54,7 +48,6 @@ const isDayListSame = (dayListOne: string[], dayListTwo: string[]) => {
   return dayListOne.every((day) => dayListTwo.includes(day));
 };
 
-// WIP : Refractor this component
 const UpdaterDialog = ({
   courseName,
   today,
@@ -63,8 +56,12 @@ const UpdaterDialog = ({
   today: string | null;
 }) => {
   const { state, dispatch } = useDataContext();
-  const currentSem = useSearchParams().get("semester");
-  const [thatCourse] = useState(() => {
+  const searchParam = useSearchParams();
+  const currentSem = searchParam.get("semester");
+  const fromList = searchParam.get("today");
+  const router = useRouter();
+
+  const thatCourse = useMemo(() => {
     if (today === "true") {
       return state.todayCourses.find(
         (course: inputData) => course.IndivCourse === courseName
@@ -73,31 +70,32 @@ const UpdaterDialog = ({
     return state.notToday.find(
       (course: inputData) => course.IndivCourse === courseName
     );
-  });
+  }, [courseName, state.notToday, state.todayCourses, today]);
 
   const [courseDetails, setCourseDetails] = useState<courseDetailsType | null>(
-    initialCourseDetails
+    () => {
+      if (!thatCourse) return initialCourseDetails;
+      return objectGenerator(thatCourse);
+    }
   );
 
-  const [weekDays, setWeekDays] = useState<day>(weekDaysWithBoolen);
-
-  useEffect(() => {
-    if (!thatCourse) return;
-
-    setCourseDetails(objectGenerator(thatCourse));
-    setWeekDays({
+  const [weekDays, setWeekDays] = useState<day>(() => {
+    if (!thatCourse) return weekDaysWithBoolen;
+    return {
       ...weekDaysWithBoolen,
       ...Object.fromEntries(
         thatCourse?.thatday.map((day) => [day, true]) || []
       ),
-    });
-  }, [courseName, setCourseDetails, setWeekDays, thatCourse]);
+    };
+  });
 
-  const handleSubmit = useCallback(async () => {
+  if (!thatCourse) return null;
+
+  const handleSubmit = async () => {
     const semExists = state.semesterInfo.find(
       (sem) => sem.semester === currentSem
     );
-    if (!semExists || !thatCourse || !currentSem) return null;
+    if (!semExists || !thatCourse || !currentSem || !fromList) return null;
 
     toast.message(
       "Course is being updated, please wait for the process to complete"
@@ -113,7 +111,6 @@ const UpdaterDialog = ({
       thatday: daySelected,
     };
 
-    // console.log(
     await updateList(
       semExists,
       state.user,
@@ -122,14 +119,10 @@ const UpdaterDialog = ({
     );
 
     const eligibleForToday = daySelected.includes(
-      weekDaysList[todayCourseDecider]
+      Object(weekDays).keys()[todayCourseDecider]
     );
 
-    const alreadyExistsInToday = state.todayCourses.find(
-      (course) => course.IndivCourse === courseName
-    );
-
-    if (alreadyExistsInToday) {
+    if (fromList === "true") {
       if (eligibleForToday) {
         const updatedList = state.todayCourses.map((course) =>
           course.IndivCourse === courseName ? updatedCourse : course
@@ -143,26 +136,24 @@ const UpdaterDialog = ({
           (course) => course.IndivCourse !== courseName
         );
         dispatch({
-          type: "SET_TODAY_COURSES",
-          payload: updatedTodayList,
-        });
-        dispatch({
-          type: "SET_NOT_TODAY",
-          payload: [...state.notToday, updatedCourse],
+          type: "SET_TODAY_AND_NOT_TODAY_COURSES",
+          payload: {
+            today: updatedTodayList,
+            notToday: [...state.notToday, updatedCourse],
+          },
         });
       }
     } else {
       if (eligibleForToday) {
-        dispatch({
-          type: "SET_TODAY_COURSES",
-          payload: [...state.todayCourses, updatedCourse],
-        });
         const updatedNotTodayList = state.notToday.filter(
           (course) => course.IndivCourse !== courseName
         );
         dispatch({
-          type: "SET_NOT_TODAY",
-          payload: updatedNotTodayList,
+          type: "SET_TODAY_AND_NOT_TODAY_COURSES",
+          payload: {
+            today: [...state.todayCourses, updatedCourse],
+            notToday: updatedNotTodayList,
+          },
         });
       } else {
         const updatedList = state.notToday.map((course) =>
@@ -175,8 +166,9 @@ const UpdaterDialog = ({
       }
     }
 
+    router.push(`/list-course?semester=${currentSem}`);
     toast.success("Course updated successfully!");
-  }, []);
+  };
 
   return (
     <CustomDialog
@@ -207,7 +199,7 @@ const UpdaterDialog = ({
                     thatCourse?.thatday.map((day) => [day, true]) || []
                   ),
                 });
-                if (thatCourse) setCourseDetails(objectGenerator(thatCourse));
+                setCourseDetails(objectGenerator(thatCourse));
               }}
             />
           </div>

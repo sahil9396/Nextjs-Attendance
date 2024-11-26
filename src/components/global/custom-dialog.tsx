@@ -24,7 +24,6 @@ const CustomDialog = ({
   onSubmit,
   isProcessing = false,
   processingText = "Creating",
-  
 }: CustomDialogProps) => (
   <Dialog>
     <DialogTrigger
@@ -42,7 +41,7 @@ const CustomDialog = ({
           {children}
         </DialogDescription>
       </DialogHeader>
-      <div className="w-full flex justify-center gap-4 mt-4">
+      <div className="w-full flex justify-center gap-4 ">
         <CustomButton
           onClick={onSubmit}
           content={isProcessing ? processingText : title}

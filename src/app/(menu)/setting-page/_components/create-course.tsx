@@ -11,8 +11,6 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-
-// the reason is here
 import { useState } from "react";
 import { toast } from "sonner";
 import { todayCourseDecider, weekDays } from "@/lib/constants";
@@ -194,7 +192,7 @@ export function CreateCourse() {
         courseDays,
         semExists
       );
-      if (courseDays.includes(weekDays[todayCourseDecider])) {
+      if (courseDays.includes(Object(weekDays).keys()[todayCourseDecider])) {
         dispatch({
           type: "SET_TODAY_COURSES",
           payload: [...state.todayCourses, courseData],
