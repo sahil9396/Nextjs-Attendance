@@ -3,6 +3,11 @@ import { inputData } from "@/lib/type";
 import React from "react";
 
 const Page = () => {
+  console.log(
+    process.env.DATABASE_URL,
+    process.env.NEXT_PUBLIC_CLERK_SIGN_IN_URL,
+    process.env.ACCELERATE_DATABASE_URL
+  );
   const demoList: inputData[] = Array.from({ length: 10 }, (_, i) => ({
     IndivCourse: `Course ${i + 1}`,
     Totaldays: Math.floor(Math.random() * 10),
