@@ -27,8 +27,10 @@ const helper = async (
     if (!userInfo) return setLoading(dispatch, false);
 
     dispatch({ type: "SET_USER", payload: userInfo });
+    console.log("userInfo", userInfo);
 
     const semList = await getSemesterList(userInfo);
+    console.log("semList", semList);
     if (!semList?.length) {
       localStorage.removeItem("semester");
       return setLoading(dispatch, false);
@@ -78,6 +80,7 @@ export const useDataLoader = (semFromUrl: string | null) => {
       }
     };
 
+    console.log("useDataLoader");
     loadSemester();
   }, [semFromUrl]);
 };

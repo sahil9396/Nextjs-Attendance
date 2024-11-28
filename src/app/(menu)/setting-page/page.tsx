@@ -5,6 +5,7 @@ import SemChange from "./_components/sem-change";
 import { LoadingSpinner } from "@/components/global/load-spinner";
 
 export const dynamic = "force-dynamic";
+export const runtime = "edge";
 
 const Settings = async () => {
   return (

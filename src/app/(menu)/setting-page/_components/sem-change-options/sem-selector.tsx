@@ -34,7 +34,7 @@ const SemSelector = () => {
 
   const handleSemesterChange = async () => {
     if (!selected || selected === currentSemester) return;
-    localStorage.setItem("semester", JSON.stringify(selected));
+    // localStorage.setItem("semester", JSON.stringify(selected));
     toast.success("Semester Changed Successfully");
     router.push(`?semester=${selected}`, {
       scroll: false,
@@ -48,7 +48,7 @@ const SemSelector = () => {
       <Select value={selected} onValueChange={handleChange}>
         <SelectTrigger disabled={!canChangeSemester} className="w-full">
           <SelectValue
-            placeholder={selected || state.semesterInfo[0]?.semester}
+            placeholder={selected || currentSemester || state.semesterInfo[0]?.semester}
           />
         </SelectTrigger>
         <SelectContent>
