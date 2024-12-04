@@ -1,7 +1,6 @@
 "use server";
 import db from "@/lib/db";
-import { userDetailstype } from "@/lib/type";
-import { SingleSemester } from "@/providers/data-provider";
+import { SingleSemester, userDetailstype } from "@/lib/type";
 import { revalidateTag } from "next/cache";
 
 export const resetAllCard = async (

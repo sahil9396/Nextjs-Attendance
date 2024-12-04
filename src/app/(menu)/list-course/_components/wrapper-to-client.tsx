@@ -28,7 +28,7 @@ const WrapperToClient = () => {
       </div>
     );
   if (state.todayCourses.concat(state.notToday).length === 0) {
-    return <NoCourses />;
+    return <NoCourses redirectUrl="/setting-page" />;
   }
 
   return (

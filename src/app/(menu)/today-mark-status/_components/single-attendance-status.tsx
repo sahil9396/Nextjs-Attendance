@@ -5,10 +5,12 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { inputData, userDetailstype } from "@/lib/type";
+import { inputData, SingleSemester, userDetailstype } from "@/lib/type";
 import SubmitComp from "./submit-comp";
-import { ActionType, SingleSemester } from "@/providers/data-provider";
+import { ActionType } from "@/providers/data-provider";
 import { Dispatch } from "react";
+import { updateStatus } from "../_actions/getTodaysList";
+import { toast } from "sonner";
 
 type SingleAttendanceStatusProps = {
   course: inputData;
@@ -30,6 +32,28 @@ const SingleAttendanceStatus = ({
   const { present, absent } = course;
   const currentStatus = Math.round((present / (present + absent)) * 100) || 0;
 
+  const handleSubmit = async (courseStatus: string) => {
+    if (courseStatus === "Status!!!") return toast("Select a status");
+    toast.message("Updating status...");
+    const reponse = await updateStatus(user, course, courseStatus, semExist);
+    if (reponse === "Failed") {
+      toast.error("Failed to update status , sign out and try again");
+      return;
+    }
+    dispatch({
+      type: "SET_TODAY_COURSES",
+      payload: todayCourses.map((c: inputData) =>
+        c.IndivCourse !== course.IndivCourse
+          ? c
+          : {
+              ...c,
+              [courseStatus]: (c[courseStatus] as number) + 1,
+            }
+      ),
+    });
+    toast.success(`Status updated successfully for ${courseStatus}`);
+  };
+
   return (
     <Card className="w-full bg-slate-400 bg-opacity-20 dark:bg-opacity-20 dark:bg-black rounded-lg shadow-md">
       <CardHeader>
@@ -50,6 +74,7 @@ const SingleAttendanceStatus = ({
           todayCourses={todayCourses}
           dispatch={dispatch}
           isBackendProcessing={isBackendProcessing}
+          handleSubmit={handleSubmit}
         />
       </CardContent>
     </Card>

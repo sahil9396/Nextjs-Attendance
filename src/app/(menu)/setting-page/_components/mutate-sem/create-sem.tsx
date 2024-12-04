@@ -1,18 +1,16 @@
 "use client";
-import CustomDialog from "@/components/global/custom-dialog";
-import { Input } from "@/components/ui/input";
 import { useDataContext } from "@/providers/data-provider";
-import React, { useState } from "react";
+import React from "react";
 import { toast } from "sonner";
 import { createSemester } from "../../_actions/sem-action";
 import { useRouter } from "next/navigation";
+import SemMutateDialog from "@/components/main/setting-course-comp/sem-mutate-dialog";
 
 const CreateSemester = () => {
-  const [semesterNumber, setSemesterNumber] = useState<number>(NaN);
   const { state, dispatch } = useDataContext();
   const router = useRouter();
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (semesterNumber: number) => {
     if (!semesterNumber || isNaN(semesterNumber) || semesterNumber < 1) {
       toast.error("Enter a valid Semester Number");
       return;
@@ -54,37 +52,14 @@ const CreateSemester = () => {
   };
 
   return (
-    <CustomDialog
-      title="New Semester"
-      description="Create new semester"
-      onSubmit={handleSubmit}
-      isProcessing={state.isBackendProcessing}
-    >
-      <div className="flex flex-col w-full h-full space-y-4">
-        <ul className="list-inside flex flex-wrap gap-2">
-          {state.semesterInfo.length !== 0 ? (
-            state.semesterInfo.map((sem, index) => (
-              <li
-                className="bg-gray-500 p-2 rounded-md text-md text-white"
-                key={index}
-              >
-                {sem.semester}
-              </li>
-            ))
-          ) : (
-            <li className="bg-gray-500 p-2 rounded-md text-md text-white">
-              No Semester Available
-            </li>
-          )}
-        </ul>
-        <Input
-          type="number"
-          onChange={(e) => setSemesterNumber(parseInt(e.target.value))}
-          placeholder="Enter Semester Number"
-          className="mt-4 p-2 border rounded"
-        />
-      </div>
-    </CustomDialog>
+    <SemMutateDialog
+      title="Create Semester"
+      buttonContent="Create Semester"
+      placeholder="Enter Semester Number"
+      semList={state.semesterInfo}
+      handleSubmit={handleSubmit}
+      isBackendProcessing={state.isBackendProcessing}
+    />
   );
 };
 

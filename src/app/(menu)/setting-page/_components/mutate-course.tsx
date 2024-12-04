@@ -1,16 +1,15 @@
 "use client";
-import CustomButton from "@/components/global/custom-button";
 import { inputData } from "@/lib/type";
 import { useDataContext } from "@/providers/data-provider";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import React, { useMemo } from "react";
 import { toast } from "sonner";
 import { deleteAllCard, resetAllCard } from "../_actions/mutate-course-action";
+import CourseMutateButtons from "@/components/main/setting-course-comp/course-mutate-buttons";
 
 const MutateCourses = () => {
   const { state, dispatch } = useDataContext();
   const currentSemester = useSearchParams().get("semester");
-  const router = useRouter();
 
   const semExists = useMemo(() => {
     return state.semesterInfo.find(
@@ -22,10 +21,6 @@ const MutateCourses = () => {
     return null;
 
   const handleResetAll = async () => {
-    if (!currentSemester) {
-      toast(`Semester is not selected`);
-      return;
-    }
     await resetAllCard(state.user, semExists);
     const TodayUpdatedCourse = state.todayCourses.map((course: inputData) => {
       return {
@@ -59,10 +54,6 @@ const MutateCourses = () => {
   };
 
   const handleDeleteAll = async () => {
-    if (!currentSemester) {
-      toast(`Semester is not selected`);
-      return;
-    }
     await deleteAllCard(state.user, semExists);
     dispatch({
       type: "SET_TODAY_COURSES",
@@ -76,28 +67,16 @@ const MutateCourses = () => {
       type: "SET_ZERO_COURSES",
       payload: true,
     });
-    router.push("?semester=" + currentSemester , {
-      scroll: false,
-    });
-    toast(`All courses are deleted :)`);
   };
   return (
-    <div className="w-full flex items-center gap-2">
-      <CustomButton
-        value="present"
-        onClick={handleResetAll}
-        className="px-4 py-2 w-full bg-green-500 text-white rounded-lg shadow-md hover:bg-green-600 transition-all duration-200"
-        content="Reset All"
-        disabled={state.isBackendProcessing}
-      />
-      <CustomButton
-        value="present"
-        onClick={handleDeleteAll}
-        className="px-4 py-2 w-full bg-red-500 text-white rounded-lg shadow-md hover:bg-red-600 transition-all duration-200"
-        content="Delete All"
-        disabled={state.isBackendProcessing}
-      />
-    </div>
+    <CourseMutateButtons
+      currentSemester={currentSemester}
+      isBackendProcessing={state.isBackendProcessing}
+      functionhandleResetAll={handleResetAll}
+      functionhandleDeleteAll={handleDeleteAll}
+      todayCourses={state.todayCourses}
+      notToday={state.notToday}
+    />
   );
 };
 

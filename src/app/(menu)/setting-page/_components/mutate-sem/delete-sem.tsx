@@ -1,20 +1,20 @@
 "use client";
-import CustomDialog from "@/components/global/custom-dialog";
-import { Input } from "@/components/ui/input";
 import { useDataContext } from "@/providers/data-provider";
-import React, { useState } from "react";
+import React from "react";
 import { toast } from "sonner";
 import { deleteSemester } from "../../_actions/sem-action";
 import { useSearchParams } from "next/navigation";
+import SemMutateDialog from "@/components/main/setting-course-comp/sem-mutate-dialog";
 
 const DeleteSemester = () => {
-  const [semesterNumber, setSemesterNumber] = useState<number>(NaN);
   const { state, dispatch } = useDataContext();
   const searchParams = useSearchParams();
   const currentSemester = searchParams.get("semester");
 
-  const handleSubmit = async () => {
-    if (state.semesterInfo.length === 1) {
+  const semList = state.semesterInfo;
+
+  const handleSubmit = async (semesterNumber: number) => {
+    if (semList.length === 1) {
       toast.error("At least one semester must exist");
       return;
     }
@@ -23,11 +23,11 @@ const DeleteSemester = () => {
       return;
     }
 
-    const updatedSemesters = state.semesterInfo.filter(
+    const updatedSemesters = semList.filter(
       (sem) => sem.semester !== `semester-${semesterNumber}`
     );
 
-    if (updatedSemesters.length === state.semesterInfo.length) {
+    if (updatedSemesters.length === semList.length) {
       toast.error("Semester Not Found");
       return;
     }
@@ -62,32 +62,14 @@ const DeleteSemester = () => {
   };
 
   return (
-    <CustomDialog
+    <SemMutateDialog
       title="Delete Semester"
-      description="Delete Semester"
-      onSubmit={handleSubmit}
-      isProcessing={state.isBackendProcessing}
-      processingText="Deleting"
-    >
-      <div className="flex flex-col w-full h-full space-y-4">
-        <ul className="list-inside flex flex-wrap gap-2">
-          {state.semesterInfo.map((sem, index) => (
-            <li
-              className="bg-gray-500 p-2 rounded-md text-md text-white"
-              key={index}
-            >
-              {sem.semester}
-            </li>
-          ))}
-        </ul>
-        <Input
-          type="number"
-          onChange={(e) => setSemesterNumber(parseInt(e.target.value))}
-          placeholder="Enter Semester Number"
-          className="mt-4 p-2 border rounded"
-        />
-      </div>
-    </CustomDialog>
+      buttonContent="Delete Semester"
+      placeholder="Enter Semester Number"
+      semList={semList}
+      handleSubmit={handleSubmit}
+      isBackendProcessing={state.isBackendProcessing}
+    />
   );
 };
 

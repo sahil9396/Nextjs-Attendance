@@ -10,7 +10,7 @@ import CustomButton from "./custom-button";
 
 type CustomDialogProps = {
   title: string;
-  description: string;
+  buttonContent: string;
   children: React.ReactNode;
   onSubmit: () => void;
   isProcessing?: boolean;
@@ -19,7 +19,7 @@ type CustomDialogProps = {
 
 const CustomDialog = ({
   title,
-  description,
+  buttonContent,
   children,
   onSubmit,
   isProcessing = false,
@@ -32,7 +32,7 @@ const CustomDialog = ({
         isProcessing ? "cursor-not-allowed bg-opacity-10 dark:bg-stone-500" : ""
       }`}
     >
-      {description}
+      {buttonContent}
     </DialogTrigger>
     <DialogContent className="rounded-lg shadow-lg p-4">
       <DialogHeader>

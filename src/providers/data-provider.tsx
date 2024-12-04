@@ -1,17 +1,11 @@
 "use client";
-import { inputData, userDetailstype } from "@/lib/type";
+import {
+  inputData,
+  SingleSemester,
+  todayStatusDoneType,
+  userDetailstype,
+} from "@/lib/type";
 import { createContext, Dispatch, useContext, useReducer } from "react";
-
-export type todayStatusDoneType = {
-  date: string;
-  courseNames: string[];
-};
-
-export type SingleSemester = {
-  id: number;
-  semester: string;
-  userId: number;
-};
 
 export interface contextype {
   zeroCourses: boolean;
@@ -28,8 +22,6 @@ export interface contextype {
   setSearchParam: (value: string) => void;
   isLoading: boolean;
   setIsLoading: (value: boolean) => void;
-  selectedCourse: inputData;
-  setSelectedCourse: (value: inputData) => void;
   isBackendProcessing: boolean;
   setIsBackendProcessing: (value: boolean) => void;
   user: userDetailstype;
@@ -45,18 +37,6 @@ export const initialUserInfo: userDetailstype = {
   profile_image_url: "",
   verified: false,
   clerk_id: "",
-};
-
-export const initialSelectedCourse: inputData = {
-  IndivCourse: "",
-  Totaldays: 0,
-  totaldays: 0,
-  timeofcourse: "",
-  present: 0,
-  absent: 0,
-  cancelled: 0,
-  criteria: 0,
-  thatday: [],
 };
 
 export const initialTodayStatusDone: todayStatusDoneType = {
@@ -85,7 +65,6 @@ export type ActionType =
   | { type: "SET_TODAY_STATUS_DONE"; payload: todayStatusDoneType }
   | { type: "SET_SEARCH_PARAM"; payload: string }
   | { type: "SET_IS_LOADING"; payload: boolean }
-  | { type: "SET_SELECTED_COURSE"; payload: inputData }
   | { type: "SET_IS_BACKEND_PROCESSING"; payload: boolean }
   | { type: "SET_USER"; payload: userDetailstype };
 
@@ -106,8 +85,6 @@ const initialState: contextype = {
   setSearchParam: () => {},
   isLoading: true,
   setIsLoading: () => {},
-  selectedCourse: initialSelectedCourse,
-  setSelectedCourse: () => {},
   isBackendProcessing: false,
   setIsBackendProcessing: () => {},
 };
@@ -144,8 +121,6 @@ function reducer(state: contextype, action: ActionType): contextype {
       return { ...state, searchParam: action.payload };
     case "SET_IS_LOADING":
       return { ...state, isLoading: action.payload };
-    case "SET_SELECTED_COURSE":
-      return { ...state, selectedCourse: action.payload };
     case "SET_IS_BACKEND_PROCESSING":
       return { ...state, isBackendProcessing: action.payload };
     case "SET_USER":

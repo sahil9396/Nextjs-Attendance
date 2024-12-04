@@ -3,8 +3,6 @@ import React, { useState } from "react";
 import { Button } from "../ui/button";
 import { LoadingSpinner } from "./load-spinner";
 import { useDataContext } from "@/providers/data-provider";
-// import { LoadingSpinner } from "../global/loading";
-// import { useDataContext } from "@/providers/data-provider";
 
 type Props = {
   onClick?: (value?: React.MouseEvent<HTMLElement>) => void;

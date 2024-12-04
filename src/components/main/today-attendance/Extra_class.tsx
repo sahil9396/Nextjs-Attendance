@@ -2,25 +2,16 @@
 import { usePathname, useSearchParams } from "next/navigation";
 import { useDataContext } from "@/providers/data-provider";
 import React, { useState } from "react";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
 import { toast } from "sonner";
-import CustomButton from "@/components/global/custom-button";
 import { inputData } from "@/lib/type";
-import CustomSelectOption from "@/components/global/custom-select-option";
 import { helperForCourseSelect } from "@/lib/constants";
 import { updateStatus } from "@/app/(menu)/today-mark-status/_actions/getTodaysList";
+import ExtraClassGlobal from "@/components/global/extra-class-global";
 
 const ExtraClass = () => {
+  const { state, dispatch } = useDataContext();
   const searchParam = useSearchParams();
   const pathName = usePathname().split("/").pop();
-  const { state, dispatch } = useDataContext();
   const [courseName, seteCourseName] = useState<string>("");
   const currentSemester = searchParam.get("semester");
 
@@ -58,13 +49,17 @@ const ExtraClass = () => {
             ? thatCourse.absent + 1
             : thatCourse.cancelled + 1,
       };
-      await updateStatus(
+      const reponse = await updateStatus(
         state.user,
         thatCourse,
         status_Value.value,
         semExist,
         true
       );
+
+      if (reponse === "Failed") {
+        return toast.error("Failed to update status , sign out and try again");
+      }
 
       if (fromList === "todayCourses") {
         dispatch({
@@ -89,46 +84,27 @@ const ExtraClass = () => {
   };
 
   return (
-    <div className="w-full bg-transparent flex flex-col ">
-      <Dialog>
-        <DialogTrigger
-          className={`flex justify-center w-full bg-white py-2 px-4 rounded-lg md:hover:bg-slate-800 transition duration-300 text-black`}
-        >
-          Extra Class!!!
-        </DialogTrigger>
-        <DialogContent className=" p-6 rounded-lg shadow-lg">
-          <DialogHeader>
-            <DialogTitle className="text-xl font-bold mb-2">
-              Are you absolutely sure?
-            </DialogTitle>
-            <DialogDescription className="text-sm w-full text-gray-400 flex justify-center">
-              <CustomSelectOption
-                selectValue={courseName}
-                setSelectValue={(value) => seteCourseName(value)}
-                options={options}
-                isBackendProcessing={state.isBackendProcessing}
-                showButton={false}
-              />
-            </DialogDescription>
-          </DialogHeader>
-          <div className="w-full flex justify-center gap-4">
-            <CustomButton
-              value="present"
-              variant={"default"}
-              content="Present"
-              onClick={handleSubmit}
-              disabled={state.isBackendProcessing}
-            />
-            <CustomButton
-              value="absent"
-              content="Absent"
-              onClick={(e) => handleSubmit(e)}
-              disabled={state.isBackendProcessing}
-            />
-          </div>
-        </DialogContent>
-      </Dialog>
-    </div>
+    <ExtraClassGlobal
+      selectValue={courseName}
+      setSelectValue={(value) => seteCourseName(value)}
+      options={options}
+      isBackendProcessing={state.isBackendProcessing}
+      showButton={false}
+      dialogTitle="Are you absolutely sure?"
+      dialogDescription="Select Course"
+      buttonActions={[
+        {
+          value: "present",
+          content: "present",
+          onClick: handleSubmit,
+        },
+        {
+          value: "absent",
+          content: "absent",
+          onClick: handleSubmit,
+        },
+      ]}
+    />
   );
 };
 

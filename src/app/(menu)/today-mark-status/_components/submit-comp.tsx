@@ -1,27 +1,23 @@
 "use client";
 
 import { Dispatch, useState } from "react";
-import { toast } from "sonner";
-import { ActionType, SingleSemester } from "@/providers/data-provider";
+import { ActionType } from "@/providers/data-provider";
 import CustomSelectOption from "@/components/global/custom-select-option";
-import { inputData, userDetailstype } from "@/lib/type";
+import { inputData, SingleSemester, userDetailstype } from "@/lib/type";
 import CustomButton from "@/components/global/custom-button";
-import { updateStatus } from "../_actions/getTodaysList";
+import { demoActionType } from "@/providers/demo-data-provider";
 
 export function SubmitComp({
-  course,
-  user,
-  semExist,
-  todayCourses,
-  dispatch,
   isBackendProcessing,
+  handleSubmit,
 }: {
   course: inputData;
   user: userDetailstype;
   semExist: SingleSemester;
   todayCourses: inputData[];
-  dispatch: Dispatch<ActionType>;
+  dispatch: Dispatch<ActionType> | Dispatch<demoActionType>;
   isBackendProcessing: boolean;
+  handleSubmit: (courseStatus: string) => void;
 }) {
   const [courseStatus, setCourseStatus] = useState<string>("Status!!!");
 
@@ -31,36 +27,17 @@ export function SubmitComp({
     { value: "cancelled", label: "Cancelled" },
   ];
 
-  const handleSubmit = async () => {
-    if (courseStatus === "Status!!!") return toast("Select a status");
-    toast.message("Updating status...");
-    await updateStatus(user, course, courseStatus, semExist);
-    dispatch({
-      type: "SET_TODAY_COURSES",
-      payload: todayCourses.map((c: inputData) =>
-        c.IndivCourse !== course.IndivCourse
-          ? c
-          : {
-              ...c,
-              [courseStatus]: (c[courseStatus] as number) + 1,
-            }
-      ),
-    });
-    toast.success(`Status updated successfully for ${courseStatus}`);
-  };
-
   return (
     <div className="w-full flex flex-col gap-2">
       <CustomSelectOption
         defaultValue="Status!!!"
-        selectValue={courseStatus}
         options={options}
         showButton={false}
         isBackendProcessing={isBackendProcessing}
         setSelectValue={(value: string) => setCourseStatus(value)}
       />
       <CustomButton
-        onClick={handleSubmit}
+        onClick={() => handleSubmit(courseStatus)}
         size={"sm"}
         className="bg-slate-600 dark:bg-gray-900 text-white"
         disabled={

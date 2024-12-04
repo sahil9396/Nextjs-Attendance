@@ -3,26 +3,20 @@ import React from "react";
 import NavButtons from "./NavButtons";
 import { usePathname, useSearchParams } from "next/navigation";
 
-const NavigationButtons = () => {
+type Props = {
+  menuOptions: {
+    title: string;
+    href: string;
+  }[];
+};
+
+const NavigationButtons = ({ menuOptions }: Props) => {
   const currentPath = usePathname();
   const searchParm = useSearchParams();
   const extractedSem = searchParm.get("semester");
   const selected = searchParm.get("selected");
   const today = searchParm.get("today");
-  const menuOptions = [
-    {
-      title: "Today",
-      href: "/today-mark-status",
-    },
-    {
-      title: "Logs",
-      href: "/list-course",
-    },
-    {
-      title: "Settings",
-      href: "/setting-page",
-    },
-  ];
+  
   return (
     <div className="w-full flex flex-row lg:flex-col justify-evenly lg:justify-start items-center gap-12 lg:gap-6 px-4 rounded-lg ">
       {menuOptions.map((option) => (

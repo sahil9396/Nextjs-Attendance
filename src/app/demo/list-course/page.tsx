@@ -1,30 +1,48 @@
+"use client";
 import SingleCardDisplay from "@/app/(menu)/list-course/_components/single-card-display";
-import { inputData } from "@/lib/type";
-import React from "react";
+import NoCourses from "@/components/main/NoCourses";
+import { useDemoDataContext } from "@/providers/demo-data-provider";
+import React, { useMemo } from "react";
 
 const Page = () => {
-  console.log(
-    process.env.DATABASE_URL,
-    process.env.NEXT_PUBLIC_CLERK_SIGN_IN_URL,
-    process.env.ACCELERATE_DATABASE_URL
-  );
-  const demoList: inputData[] = Array.from({ length: 10 }, (_, i) => ({
-    IndivCourse: `Course ${i + 1}`,
-    Totaldays: Math.floor(Math.random() * 10),
-    timeofcourse: "10:00 AM",
-    present: Math.floor(Math.random() * 10),
-    absent: Math.floor(Math.random() * 10),
-    cancelled: Math.floor(Math.random() * 10),
-    criteria: Math.floor(Math.random() * 100),
-    thatday: ["Monday", "Tuesday", "Thursday"],
-  }));
+  const { state } = useDemoDataContext();
+
+  const demoSearchParamsFilteredCoursesToday = useMemo(() => {
+    if (state.demoSearchParam === "") return state.demoTodayCourses;
+    return state.demoTodayCourses.filter((course) =>
+      course.IndivCourse.toLowerCase().includes(
+        state.demoSearchParam.toLowerCase()
+      )
+    );
+  }, [state.demoSearchParam, state.demoTodayCourses]);
+
+  const demoSearchParamsFilteredCoursesdemoNotToday = useMemo(() => {
+    if (state.demoSearchParam === "") return state.demoNotToday;
+    return state.demoNotToday.filter((course) =>
+      course.IndivCourse.toLowerCase().includes(
+        state.demoSearchParam.toLowerCase()
+      )
+    );
+  }, [state.demoSearchParam, state.demoNotToday]);
+
+  if (state.demoTodayCourses.length + state.demoNotToday.length === 0) {
+    return <NoCourses redirectUrl="/demo/setting-page" />;
+  }
+
   return (
-    <div className="w-full px-3 gap-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 content-center ">
-      {demoList.map((item) => (
+    <div className="w-full lg:px-3 gap-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 content-center ">
+      {demoSearchParamsFilteredCoursesToday.map((item) => (
         <SingleCardDisplay
           key={item.IndivCourse}
           course={item}
           fromWhichList={"true"}
+        />
+      ))}
+      {demoSearchParamsFilteredCoursesdemoNotToday.map((item) => (
+        <SingleCardDisplay
+          key={item.IndivCourse}
+          course={item}
+          fromWhichList={"false"}
         />
       ))}
     </div>

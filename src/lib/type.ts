@@ -1,5 +1,3 @@
-// import { SingleSemester } from "@/providers/data-provider";
-import { SingleSemester } from "@/providers/data-provider";
 import { z } from "zod";
 
 export type formKeyType =
@@ -95,3 +93,15 @@ export type userDetailstype = {
 export type currentSemesterType = {
   currentSemester: SingleSemester | null | undefined;
 };
+
+export type todayStatusDoneType = {
+  date: string;
+  courseNames: string[];
+};
+
+export type SingleSemester = {
+  id: number;
+  semester: string;
+  userId: number;
+};
+

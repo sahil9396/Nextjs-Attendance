@@ -1,7 +1,7 @@
 import React from "react";
 import CreateCourseDemo from "./_component/create-course-demo";
 import ProfilePageDemo from "./_component/profile-page-demo";
-import SemChange from "@/app/(menu)/setting-page/_components/sem-change";
+import SemChangeDemo from "./_component/sem-change-demo";
 
 const Settings = async () => {
   return (
@@ -14,7 +14,7 @@ const Settings = async () => {
           <ProfilePageDemo />
         </div>
         <div>
-          <SemChange />
+          <SemChangeDemo />
         </div>
       </div>
     </div>

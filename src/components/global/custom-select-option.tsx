@@ -11,7 +11,6 @@ import CustomButton from "./custom-button";
 
 type Props = {
   defaultValue?: string;
-  selectValue: string;
   setSelectValue: (value: string) => void;
   options: {
     value: string;
@@ -23,7 +22,6 @@ type Props = {
 
 const CustomSelectOption = ({
   defaultValue,
-  selectValue,
   setSelectValue,
   options,
   isBackendProcessing,
@@ -31,13 +29,9 @@ const CustomSelectOption = ({
 }: Props) => {
   return (
     <>
-      <Select
-        value={selectValue}
-        defaultValue={defaultValue}
-        onValueChange={setSelectValue}
-      >
+      <Select onValueChange={setSelectValue}>
         <SelectTrigger className="w-full dark:bg-slate-800 bg-white">
-          <SelectValue placeholder="Status" />
+          <SelectValue placeholder={defaultValue} />
         </SelectTrigger>
         <SelectContent>
           {options.map((option) => (

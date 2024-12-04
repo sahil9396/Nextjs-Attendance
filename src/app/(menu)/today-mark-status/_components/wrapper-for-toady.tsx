@@ -27,7 +27,7 @@ const WrapperToToday = ({
       </div>
     );
   if (state.todayCourses.length === 0 || !semExist) {
-    return <NoCourses />;
+    return <NoCourses redirectUrl="/setting-page" />;
   }
 
   return (

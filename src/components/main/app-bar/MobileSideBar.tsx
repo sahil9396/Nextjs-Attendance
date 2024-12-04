@@ -4,7 +4,13 @@ import React, { useState } from "react";
 import CalendarButton from "../calendar-button";
 import { ModeToggle } from "@/components/ui/theme-toggle";
 import MiddlePart from "../middlePart";
-const MobileSideBar = () => {
+import MiddlePartDemo from "../side-bar-comps/demo/MiddlePartDemo";
+
+type Props = {
+  demo?: boolean;
+};
+
+const MobileSideBar = ({ demo }: Props) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleSidebar = () => {
@@ -19,16 +25,16 @@ const MobileSideBar = () => {
           isOpen ? "translate-x-0" : "-translate-x-full"
         } bg-[radial-gradient(circle_at_57%_36%,_hsla(263,0%,78%,0.04)_0%,_hsla(263,0%,78%,0.04)_10%,_transparent_10%,_transparent_100%),_radial-gradient(circle_at_22%_61%,_hsla(263,0%,78%,0.04)_0%,_hsla(263,0%,78%,0.04)_36%,_transparent_36%,_transparent_100%),_radial-gradient(circle_at_68%_97%,_hsla(263,0%,78%,0.04)_0%,_hsla(263,0%,78%,0.04)_41%,_transparent_41%,_transparent_100%),_radial-gradient(circle_at_57%_89%,_hsla(263,0%,78%,0.04)_0%,_hsla(263,0%,78%,0.04)_30%,_transparent_30%,_transparent_100%),_radial-gradient(circle_at_39%_80%,_hsla(263,0%,78%,0.04)_0%,_hsla(263,0%,78%,0.04)_22%,_transparent_22%,_transparent_100%),_radial-gradient(circle_at_88%_71%,_hsla(263,0%,78%,0.04)_0%,_hsla(263,0%,78%,0.04)_30%,_transparent_30%,_transparent_100%),_linear-gradient(0deg,_rgb(255,255,255),_rgb(255,255,255))] dark:bg-[radial-gradient(circle_at_center_top,_black_70%,_#008B8B_120%)]`}
       >
-        <div className="flex flex-row-reverse items-center justify-between py-4 px-6 border-b border-gray-700">
-          <UserButton />
+        <div className="flex flex-row items-center justify-between py-4 px-6 border-b border-gray-700">
           <MenuCloseButton isOpen={isOpen} toggleSidebar={toggleSidebar} />
+          {demo ? null : <UserButton />}
         </div>
         <div className="flex flex-col py-4 justify-between items-center h-full">
           <nav className="w-10/12 px-4 flex flex-col justify-start items-center gap-2 ">
-            <MiddlePart />
+            {demo ? <MiddlePartDemo /> : <MiddlePart />}
           </nav>
           <nav className="w-full px-4 flex flex-col justify-start items-center gap-2 ">
-            <CalendarButton />
+            {demo ? null : <CalendarButton />}
             <ModeToggle />
           </nav>
         </div>

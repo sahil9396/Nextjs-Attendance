@@ -100,6 +100,6 @@ export async function createCalender(event: eventType) {
     return response;
   } catch (error) {
     console.error("Failed to get token:", error);
-    return "Failed to get token";
+    return "Failed";
   }
 }

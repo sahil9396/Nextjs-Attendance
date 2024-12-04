@@ -1,7 +1,7 @@
 import Link from "next/link";
 import React from "react";
 
-const NoCourses = () => {
+const NoCourses = ({ redirectUrl }: { redirectUrl: string }) => {
   return (
     <div className="px-3 w-full h-full">
       <div className="flex flex-col items-center justify-center h-full rounded-lg overflow-hidden transition-all duration-300 ease-in-out dark:bg-slate-950 bg-opacity-20 dark:bg-opacity-20 bg-slate-400">
@@ -16,7 +16,7 @@ const NoCourses = () => {
           <Link
             prefetch={false}
             className="px-4 py-2 bg-gray-950 text-white rounded hover:bg-[#717171] transition duration-300"
-            href={"/setting-page"}
+            href={redirectUrl}
           >
             Go To Settings...
           </Link>

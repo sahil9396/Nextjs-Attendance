@@ -7,8 +7,6 @@ import { useDataContext } from "@/providers/data-provider";
 import { updateAllCourses } from "@/app/(menu)/list-course/_actions/log-courses-server-functions";
 
 const UpdateAllClasses = () => {
-  // WIP : Note to self: Throw error if the access token is expired or tell the user to login again
-
   const pathName = usePathname().split("/").pop();
   const { state, dispatch } = useDataContext();
   const currentSem = useSearchParams().get("semester");
@@ -32,7 +30,16 @@ const UpdateAllClasses = () => {
     }));
 
     try {
-      await updateAllCourses(semExist, state.user, status, courses);
+      const reponse = await updateAllCourses(
+        semExist,
+        state.user,
+        status,
+        courses
+      );
+      if (reponse === "Failed") {
+        toast.error("Failed to update status, sign out and try again");
+        return;
+      }
       dispatch({
         type: "SET_TODAY_COURSES",
         payload: state.todayCourses.map((course) => ({
@@ -73,10 +80,10 @@ const UpdateAllClasses = () => {
         className="bg-yellow-500 hover:bg-yellow-600 text-white"
         content="All cancelled"
         onClick={() => handleUpdateStatus("cancelled")}
-        // disabled={
-        //   isBackendProcessing ||
-        //   todayStatusDone.courseNames.length === todayCourses.length
-        // }
+        disabled={
+          state.isBackendProcessing
+          //   || todayStatusDone.courseNames.length === todayCourses.length
+        }
       />
     </div>
   );

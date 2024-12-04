@@ -4,6 +4,7 @@ import {
   eventType,
   inputData,
   inputTypeFromBackend,
+  SingleSemester,
   userDetailstype,
 } from "@/lib/type";
 import { custom_cache } from "@/lib/utils";
@@ -14,7 +15,6 @@ import {
   weekDays,
 } from "@/lib/constants";
 import { revalidateTag } from "next/cache";
-import { SingleSemester } from "@/providers/data-provider";
 import { createCalender } from "@/lib/all-server";
 
 export const getList = custom_cache(
@@ -310,6 +310,8 @@ export const updateAllCourses = async (
   };
 
   try {
+    const calendarResponse = await createCalender(event);
+    if (calendarResponse === "Failed") return calendarResponse;
     await db.course.updateMany({
       where: {
         semesterDetails: {
@@ -330,7 +332,6 @@ export const updateAllCourses = async (
         },
       },
     });
-    await createCalender(event);
     revalidateTag("getList");
     return "Changes Done !!!";
   } catch (error) {

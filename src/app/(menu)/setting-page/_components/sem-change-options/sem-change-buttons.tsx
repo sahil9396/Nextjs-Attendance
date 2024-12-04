@@ -38,8 +38,8 @@ const SemesterChangeButtons = ({
     </div>
   ) : (
     <CustomDialog
-      title="Change "
-      description="Change "
+      title="Change"
+      buttonContent="Change"
       isProcessing={isProcessing}
       processingText="Changing"
       onSubmit={() => setCanChange(true)}

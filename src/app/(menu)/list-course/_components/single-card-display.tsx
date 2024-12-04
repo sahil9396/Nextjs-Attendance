@@ -44,25 +44,28 @@ const SingleCardDisplay = ({
     },
   ];
 
+  const handleClick = () => {
+    console.log(currentSem, selected, IndivCourse, fromWhichList);
+    if (selected === IndivCourse) {
+      if (!currentSem || currentSem === "null") {
+        route.push(`?`);
+        return;
+      }
+      route.push(`?semester=${currentSem}`);
+    } else {
+      route.push(
+        `?semester=${currentSem}&selected=${IndivCourse}&today=${fromWhichList}`
+      );
+    }
+  };
+
   const currentStatus = Math.round((present / (present + absent)) * 100) || 0;
   const colorDecider = currentStatus >= criteria || !(present || absent);
   const commonClasses =
     "h-fit rounded-md overflow-hidden cursor-pointer transform transition-transform duration-300 lg:hover:scale-105 lg:hover:translate-y-4";
 
   return (
-    <div
-      onClick={() => {
-        if (selected === IndivCourse) {
-          route.push(`?semester=${currentSem}`);
-          return;
-        } else {
-          route.push(
-            `?semester=${currentSem}&selected=${IndivCourse}&today=${fromWhichList}`
-          );
-        }
-      }}
-      className={commonClasses}
-    >
+    <div onClick={handleClick} className={commonClasses}>
       <Card
         className={`bg-slate-400 bg-opacity-20 text-gray-800 dark:bg-black dark:bg-opacity-20 dark:text-white  ${
           selected === IndivCourse

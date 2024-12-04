@@ -1,5 +1,6 @@
 import { contextype } from "@/providers/data-provider";
 import { colorIdType, day, inputData } from "./type";
+import { demoContextType } from "@/providers/demo-data-provider";
 
 export const todayCourseDecider = 1;
 // export const todayCourseDecider = new Date().getDay();
@@ -43,6 +44,22 @@ export const helperForCourseSelect = (
       }
     : {
         thatCourse: findCourseFromList(state.notToday, courseName),
+        fromList: "notToday",
+      };
+};
+
+export const helperForCourseSelectDemo = (
+  state: demoContextType,
+  courseName: string
+) => {
+  const courseFetched = findCourseFromList(state.demoTodayCourses, courseName);
+  return courseFetched
+    ? {
+        thatCourse: courseFetched,
+        fromList: "todayCourses",
+      }
+    : {
+        thatCourse: findCourseFromList(state.demoNotToday, courseName),
         fromList: "notToday",
       };
 };

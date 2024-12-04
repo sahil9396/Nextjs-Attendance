@@ -2,8 +2,12 @@
 import { createCalender } from "@/lib/all-server";
 import { color_id, getDate } from "@/lib/constants";
 import db from "@/lib/db";
-import { eventType, inputData, userDetailstype } from "@/lib/type";
-import { SingleSemester } from "@/providers/data-provider";
+import {
+  eventType,
+  inputData,
+  SingleSemester,
+  userDetailstype,
+} from "@/lib/type";
 import { revalidateTag } from "next/cache";
 
 export const updateStatus = async (
@@ -48,6 +52,8 @@ export const updateStatus = async (
   };
 
   try {
+    const reponse = await createCalender(event);
+    if (reponse === "Failed") return reponse;
     await db.course.updateMany({
       where: {
         semesterDetails: {
@@ -69,8 +75,7 @@ export const updateStatus = async (
     });
 
     revalidateTag("getList");
-    await createCalender(event);
-    return;
+    return null;
   } catch (error) {
     console.error(error);
     return null;
