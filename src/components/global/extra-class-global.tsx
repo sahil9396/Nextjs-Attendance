@@ -41,7 +41,7 @@ const ExtraClassGlobal = ({
     <div className="w-full bg-transparent flex flex-col ">
       <Dialog>
         <DialogTrigger
-          className={`flex justify-center w-full bg-slate-400 lg:bg-white dark:bg-white  py-2 px-4 rounded-lg md:hover:bg-slate-800 transition duration-300 text-black`}
+          className={`flex justify-center w-full bg-white text-black lg:hover:text-white shadow-sm py-2 px-4 rounded-lg lg:hover:bg-slate-800 transition duration-300`}
         >
           Extra Class!!!
         </DialogTrigger>

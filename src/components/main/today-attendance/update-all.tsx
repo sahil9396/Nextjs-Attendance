@@ -53,38 +53,39 @@ const UpdateAllClasses = () => {
     }
   };
 
+  const buttonList = [
+    {
+      value: "present",
+      className: "lg:hover:bg-green-600",
+      content: "All present",
+    },
+    {
+      value: "absent",
+      className: "lg:hover:bg-red-600",
+      content: "All absent",
+    },
+    {
+      value: "cancelled",
+      className: "lg:hover:bg-yellow-600",
+      content: "All cancelled",
+    },
+  ];
+
   return (
     <div className="flex flex-col gap-2 w-full">
-      <CustomButton
-        value="present"
-        className="bg-green-500 hover:bg-green-600 text-white"
-        content="All present"
-        onClick={() => handleUpdateStatus("present")}
-        disabled={
-          state.isBackendProcessing
-          //   || todayStatusDone.courseNames.length === todayCourses.length
-        }
-      />
-      <CustomButton
-        value="absent"
-        className="bg-red-500 hover:bg-red-600 text-white"
-        content="All absent"
-        onClick={() => handleUpdateStatus("absent")}
-        disabled={
-          state.isBackendProcessing
-          //   || todayStatusDone.courseNames.length === todayCourses.length
-        }
-      />
-      <CustomButton
-        value="cancelled"
-        className="bg-yellow-500 hover:bg-yellow-600 text-white"
-        content="All cancelled"
-        onClick={() => handleUpdateStatus("cancelled")}
-        disabled={
-          state.isBackendProcessing
-          //   || todayStatusDone.courseNames.length === todayCourses.length
-        }
-      />
+      {buttonList.map((button) => (
+        <CustomButton
+          key={button.value}
+          value={button.value}
+          className={`bg-white text-black lg:hover:text-white ${button.className}`}
+          content={button.content}
+          onClick={() => handleUpdateStatus(button.value)}
+          disabled={
+            state.isBackendProcessing
+            //   || todayStatusDone.courseNames.length === todayCourses.length
+          }
+        />
+      ))}
     </div>
   );
 };

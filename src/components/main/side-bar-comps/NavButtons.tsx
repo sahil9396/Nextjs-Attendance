@@ -32,9 +32,9 @@ export const NavButtons = ({
                 : { semester: currentSemNumber }
             ).toString()}`,
           })}
-      className={`w-10/12 p-2 rounded-lg flex justify-center items-center ${
+      className={`w-full p-2 rounded-lg flex justify-center items-center text-black dark:text-white ${
         currentPath === href && "bg-slate-700 dark:bg-gray-900 text-white"
-      } hover:bg-slate-400 transition-colors duration-400`}
+      } lg:hover:bg-transparent transition-colors duration-400`}
     >
       {children}
     </Link>

@@ -39,20 +39,38 @@ export default function SearchBar({ demo }: Props) {
   };
 
   return (
-    <div className="overflow-hidden relative flex justify-center items-center gap-3">
+    <div className="overflow-hidden relative flex justify-center items-center gap-2 rounded-lg ">
       <Input
         type="text"
         value={demo ? demoState.demoSearchParam : state.searchParam}
         onChange={handleChange}
         placeholder="Search..."
-        className="text-sm font-medium text-white placeholder:text-white dark:bg-black bg-slate-400 bg-opacity-70 rounded-xl px-4 py-2"
+        className="w-full text-sm font-medium text-gray-800 dark:text-gray-200 placeholder-gray-500 dark:placeholder-white dark:bg-gray-900 bg-gray-100 rounded-lg px-4 py-2"
+      />
+      <button
+        className="flex items-center justify-center px-3 py-2 text-sm font-medium text-white bg-slate-500 dark:bg-slate-900 rounded-lg hover:bg-slate-600 transition-all duration-200"
+        onClick={handleCancel}
+      >
+        X
+      </button>
+    </div>
+  );
+}
+
+{
+  /* <div className="overflow-hidden relative flex justify-center items-center gap-3 p-2 bg-gradient-to-r from-white to-gray-500 rounded-lg">
+      <Input
+        type="text"
+        value={demo ? demoState.demoSearchParam : state.searchParam}
+        onChange={handleChange}
+        placeholder="Search..."
+        className="text-sm font-medium text-white placeholder:text-white bg-transparent border-none focus:outline-none"
       />
       <div
-        className="px-2 py-1 cursor-pointer transition-colors duration-200 rounded-md text-white placeholder:text-white dark:bg-slate-900 dark:bg-opacity-50 dark:hover:bg-slate-800 bg-slate-400 hover:bg-slate-300"
+        className="px-3 py-1 cursor-pointer transition-colors duration-200 rounded-md text-white bg-red-500 hover:bg-red-600"
         onClick={handleCancel}
       >
         X
       </div>
-    </div>
-  );
+    </div> */
 }

@@ -37,17 +37,17 @@ const UpdateAllClassesDemo = () => {
   const buttonList = [
     {
       value: "present",
-      className: "bg-green-500 hover:bg-green-600 text-white",
+      className: "lg:hover:bg-green-600",
       content: "All present",
     },
     {
       value: "absent",
-      className: "bg-red-500 hover:bg-red-600 text-white",
+      className: "lg:hover:bg-red-600",
       content: "All absent",
     },
     {
       value: "cancelled",
-      className: "bg-yellow-500 hover:bg-yellow-600 text-white",
+      className: "lg:hover:bg-yellow-600",
       content: "All cancelled",
     },
   ];
@@ -58,7 +58,7 @@ const UpdateAllClassesDemo = () => {
         <CustomButton
           key={button.value}
           value={button.value}
-          className={button.className}
+          className={`bg-white text-black lg:hover:text-white ${button.className}`}
           content={button.content}
           onClick={() => handleUpdateStatus(button.value)}
           disabled={

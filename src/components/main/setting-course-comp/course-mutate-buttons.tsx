@@ -49,23 +49,31 @@ const CourseMutateButtons = ({
       toast.error(`Error: ${error}`);
     }
   };
+  const buttons = [
+    {
+      onClick: handleResetAll,
+      content: "Reset All",
+      hoverColor: "lg:hover:bg-green-600 dark:lg:hover:bg-green-600",
+    },
+    {
+      onClick: handleDeleteAll,
+      content: "Delete All",
+      hoverColor: "lg:hover:bg-red-600 dark:lg:hover:bg-red-600",
+    },
+  ];
 
   return (
     <div className="w-full flex items-center gap-2">
-      <CustomButton
-        value="present"
-        onClick={handleResetAll}
-        className="px-4 py-2 w-full bg-green-500 text-white rounded-lg shadow-md hover:bg-green-600 transition-all duration-200"
-        content="Reset All"
-        disabled={isBackendProcessing}
-      />
-      <CustomButton
-        value="present"
-        onClick={handleDeleteAll}
-        className="px-4 py-2 w-full bg-red-500 text-white rounded-lg shadow-md hover:bg-red-600 transition-all duration-200"
-        content="Delete All"
-        disabled={isBackendProcessing}
-      />
+      {buttons.map((button, index) => (
+        <CustomButton
+          key={index}
+          value="present"
+          onClick={button.onClick}
+          className={`px-4 py-2 w-full bg-black dark:bg-white dark:text-black text-white rounded-lg ${button.hoverColor} dark:lg:hover:text-white transition-all duration-200`}
+          content={button.content}
+          disabled={isBackendProcessing}
+        />
+      ))}
     </div>
   );
 };

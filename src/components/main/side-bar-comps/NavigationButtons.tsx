@@ -18,7 +18,7 @@ const NavigationButtons = ({ menuOptions }: Props) => {
   const today = searchParm.get("today");
   
   return (
-    <div className="w-full flex flex-row lg:flex-col justify-evenly lg:justify-start items-center gap-12 lg:gap-6 px-4 rounded-lg ">
+    <div className="w-full flex flex-row lg:flex-col justify-evenly lg:justify-start items-center gap-2 lg:gap-6 rounded-lg">
       {menuOptions.map((option) => (
         <NavButtons
           key={option.href}

@@ -198,7 +198,7 @@ const CustomForm = ({
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(handleSubmit)}
-        className="bg-slate-400 bg-opacity-20 lg:h-full rounded-lg shadow-lg flex flex-col justify-between gap-5 lg:gap-0 dark:bg-slate-950 dark:bg-opacity-20 overflow-y-auto"
+        className="lg:h-full pb-6 bg-slate-400 bg-opacity-20 rounded-lg shadow-lg flex flex-col justify-between gap-5 lg:gap-0 dark:bg-slate-950 dark:bg-opacity-20 overflow-y-auto"
       >
         <div className="grid grid-cols-1 items-center justify-center gap-4 lg:gap-0">
           {inputFields.map((inputField: inputKey) => (
@@ -251,14 +251,14 @@ const CustomForm = ({
             <Button
               type="button"
               onClick={handleSelectAllDays}
-              className="bg-slate-600 dark:bg-slate-800 text-white rounded-lg py-2 px-4 hover:bg-slate-500"
+              className="bg-slate-600 dark:bg-slate-800 text-white rounded-lg py-2 px-4 lg:hover:bg-slate-500"
             >
               Select All
             </Button>
             <Button
               type="button"
               onClick={handleClearAllDays}
-              className="dark:bg-gray-500 shadow-md bg-white text-black dark:text-white  rounded-lg py-2 px-4 hover:bg-slate-500"
+              className="dark:bg-gray-500 shadow-md bg-white text-black dark:text-white  rounded-lg py-2 px-4 lg:hover:bg-slate-500"
             >
               Clear All
             </Button>
@@ -276,7 +276,7 @@ const CustomForm = ({
         </div>
         <CustomButton
           type="submit"
-          className="w-full py-3 px-5 bg-slate-600 dark:bg-gray-900 text-white font-semibold rounded-md shadow hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-800"
+          className="w-10/12 mx-auto bg-slate-600 dark:bg-gray-900 text-white font-semibold rounded-md shadow lg:hover:bg-slate-700 "
           disabled={false}
           content="Submit"
         />
@@ -297,11 +297,11 @@ export const DaySelector = ({
   return (
     <div
       onClick={toggleDay}
-      className={`py-2 px-4 rounded-lg hover:scale-125 ${
+      className={`py-2 px-4 rounded-lg lg:hover:scale-125 ${
         isSelected
           ? `bg-slate-600 dark:bg-slate-800 text-white`
           : `bg-gray-100 text-black dark:bg-gray-500 dark:text-white`
-      } hover:bg-slate-500 cursor-pointer transition-all duration-150`}
+      } lg:hover:bg-slate-500 cursor-pointer transition-all duration-150`}
     >
       <span className="text-sm md:text-base ">
         {day.toString().slice(0, 3)}

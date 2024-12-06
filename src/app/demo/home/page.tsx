@@ -55,13 +55,13 @@ const DemoDescription = () => {
           <div className="mt-8 flex justify-center space-x-4">
             <Link
               href={"/setting-page"}
-              className="px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition duration-300"
+              className="px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg shadow-md lg:hover:bg-blue-700 transition duration-300"
             >
               Sign Up Now
             </Link>
             <Link
               href={"/"}
-              className="px-6 py-3 bg-gray-600 text-white font-semibold rounded-lg shadow-md hover:bg-gray-700 transition duration-300"
+              className="px-6 py-3 bg-gray-600 text-white font-semibold rounded-lg shadow-md lg:hover:bg-gray-700 transition duration-300"
             >
               Landing Page
             </Link>

@@ -28,7 +28,7 @@ const CustomDialog = ({
   <Dialog>
     <DialogTrigger
       disabled={isProcessing}
-      className={`flex justify-center w-full bg-black dark:bg-white text-white dark:text-black hover:bg-gray-500 rounded-lg py-2 px-4 ${
+      className={`flex justify-center w-full bg-black dark:bg-white text-white dark:text-black lg:hover:bg-gray-500 rounded-lg py-2 px-4 ${
         isProcessing ? "cursor-not-allowed bg-opacity-10 dark:bg-stone-500" : ""
       }`}
     >

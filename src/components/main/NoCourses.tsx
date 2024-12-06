@@ -15,7 +15,7 @@ const NoCourses = ({ redirectUrl }: { redirectUrl: string }) => {
           </p>
           <Link
             prefetch={false}
-            className="px-4 py-2 bg-gray-950 text-white rounded hover:bg-[#717171] transition duration-300"
+            className="px-4 py-2 bg-gray-950 text-white rounded lg:hover:bg-[#717171] transition duration-300"
             href={redirectUrl}
           >
             Go To Settings...
