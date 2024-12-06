@@ -24,7 +24,10 @@ const helper = async (
 
   try {
     const userInfo = await getUserInfo();
-    if (!userInfo) return setLoading(dispatch, false);
+    if (!userInfo) {
+      router.replace("/sign-up");
+      return setLoading(dispatch, false);
+    }
 
     dispatch({ type: "SET_USER", payload: userInfo });
     console.log("userInfo", userInfo);

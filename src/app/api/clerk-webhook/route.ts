@@ -78,17 +78,33 @@ export async function POST(req: Request) {
   console.log("clerk_id:", clerk_id);
   console.log("verifiedStatus:", verifiedStatus);
 
-  // return new Response("Data is created!!!", {
-  //   status: 200,
-  // });
+  return new Response("Data is created!!!", {
+    status: 200,
+  });
 
   try {
-    await db.user.upsert({
+    const userInfo = await db.user.findFirst({
       where: {
         email_address,
         phone_number,
       },
-      update: {
+    });
+    if (userInfo) {
+      console.log("Data is already exist!!!");
+      return new Response("Data is already exist!!!", {
+        status: 200,
+      });
+    }
+  } catch (error) {
+    console.log(error);
+    return new Response("Something went wrong!!!", {
+      status: 500,
+    });
+  }
+
+  try {
+    await db.user.create({
+      data: {
         email_address,
         phone_number,
         name: first_name,
@@ -96,20 +112,6 @@ export async function POST(req: Request) {
         image: image_url || profile_image_url,
         verified: verifiedStatus,
         clerk_id,
-      },
-      create: {
-        email_address,
-        phone_number,
-        name: first_name,
-        user_name: username || "username",
-        image: image_url || profile_image_url,
-        verified: verifiedStatus,
-        clerk_id,
-        semesters: {
-          create: {
-            semester: "semester-1",
-          },
-        },
       },
     });
     console.log("Data is created!!!");
