@@ -2,7 +2,7 @@ import Link from "next/link";
 
 const DemoDescription = () => {
   return (
-    <div className="transition-colors duration-300 text-gray-800 dark:text-white">
+    <div className="transition-colors duration-300 text-gray-800 dark:text-white scroll-smooth">
       <div className="max-w-4xl mx-auto px-6 py-12">
         <h1 className="text-4xl font-bold text-center text-blue-600">
           Welcome to the Demo!

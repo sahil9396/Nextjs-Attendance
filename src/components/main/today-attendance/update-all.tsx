@@ -77,13 +77,10 @@ const UpdateAllClasses = () => {
         <CustomButton
           key={button.value}
           value={button.value}
-          className={`bg-white text-black lg:hover:text-white ${button.className}`}
+          className={`lg:bg-white lg:text-black lg:hover:text-white shadow-sm bg-black dark:bg-white dark:text-black text-white py-2 px-4 rounded-lg lg:hover:bg-slate-800 ${button.className}`}
           content={button.content}
           onClick={() => handleUpdateStatus(button.value)}
-          disabled={
-            state.isBackendProcessing
-            //   || todayStatusDone.courseNames.length === todayCourses.length
-          }
+          disabled={state.isBackendProcessing}
         />
       ))}
     </div>

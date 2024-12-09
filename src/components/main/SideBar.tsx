@@ -20,9 +20,9 @@ const SideBar = async () => {
     },
   ];
   return (
-    <div className="w-full h-full flex flex-col justify-between lg:justify-between items-center gap-5 py-2">
+    <div className="w-10/12 h-full flex flex-col justify-between lg:justify-between items-center gap-5 py-2">
       <NavigationButtons menuOptions={menuOptions} />
-      <div className="h-full w-10/12 hidden lg:flex flex-col gap-2">
+      <div className="h-full w-full hidden lg:flex flex-col gap-2">
         <MiddlePart />
       </div>
       <div className="hidden lg:flex flex-col items-center gap-2 w-4/5 ">

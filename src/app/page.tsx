@@ -27,7 +27,7 @@ const Header = () => {
   return (
     <header className="fixed top-0 w-full h-[100px] bg-gradient-to-b to-transparent dark:from-black/80 z-50 flex justify-between items-center px-6 py-4 shadow-lg text-black dark:text-white">
       <h1 className="text-xl lg:text-3xl font-bold">Attendance Manager Pro</h1>
-      <div className="flex items-center gap-4 w-2/12 max-w-[100px] text-black dark:text-white">
+      <div className="flex items-center gap-4 w-2/12 max-w-[100px] bg-black dark:bg-white dark:text-black text-white rounded-md">
         <ModeToggle />
       </div>
     </header>
@@ -36,7 +36,7 @@ const Header = () => {
 
 const Hero = () => {
   return (
-    <section className="text-center text-black dark:text-white h-screen flex flex-col gap-4 justify-center items-center px-4 bg-gray-100 dark:bg-gray-900">
+    <section className="text-center text-black dark:text-white h-screen flex flex-col gap-4 justify-center items-center px-4 bg-gray-100 dark:bg-gray-900 relative">
       <h1 className="showup text-5xl lg:text-7xl flex flex-wrap justify-center items-center gap-2">
         Manage Attendance
         <strong className="shake text-blue-500 mx-2">Effortlessly</strong>
@@ -55,6 +55,9 @@ const Hero = () => {
         >
           Try the Demo
         </Link>
+      </div>
+      <div className="bouncingText absolute bottom-1 bg-blue-600 text-white w-[5rem] h-[5rem] p-4 rounded-full text-sm">
+        Scrool Down
       </div>
     </section>
   );
