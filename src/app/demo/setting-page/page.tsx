@@ -3,7 +3,7 @@ import CreateCourseDemo from "./_component/create-course-demo";
 import ProfilePageDemo from "./_component/profile-page-demo";
 import SemChangeDemo from "./_component/sem-change-demo";
 
-const Settings = async () => {
+const Settings = () => {
   return (
     <div className="lg:h-full">
       <div className="h-full w-full grid grid-cols-1 lg:grid-cols-2 grid-rows-4 lg:grid-rows-2 gap-2">

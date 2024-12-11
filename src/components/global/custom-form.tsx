@@ -159,7 +159,6 @@ const CustomForm = ({
         (course) => course.IndivCourse === values.indivCourse
       );
 
-    console.log(thatCourse);
     if (thatCourse && thatCourse?.IndivCourse) {
       toast.error(`Course with the same name already exists :)`);
       return;

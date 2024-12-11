@@ -17,7 +17,7 @@ const MutateCourses = () => {
     );
   }, [state.semesterInfo, currentSemester]);
 
-  if (!semExists || !state.todayCourses.concat(state.notToday).length)
+  if (!semExists || !(state.todayCourses.length + state.notToday.length))
     return null;
 
   const handleResetAll = async () => {

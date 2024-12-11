@@ -1,6 +1,6 @@
 "use client";
 import { toast } from "sonner";
-import { todayCourseDecider, weekDays } from "@/lib/constants";
+import { justWeekDays, todayCourseDecider} from "@/lib/constants";
 import { inputData, SingleSemester } from "@/lib/type";
 import { createCourse } from "../_actions/create-course-action";
 import { useDataContext } from "@/providers/data-provider";
@@ -12,7 +12,12 @@ export function CreateCourse() {
   const { state, dispatch } = useDataContext();
   const currentSemester = useSearchParams().get("semester");
 
-  if (state.isLoading) return <LoadingSpinner />;
+  if (state.isLoading)
+    return (
+      <div className="w-full h-full flex justify-center items-center">
+        <LoadingSpinner />
+      </div>
+    );
 
   const handleSubmit = async (
     courseData: inputData,
@@ -33,7 +38,7 @@ export function CreateCourse() {
         dispatch({ type: "SET_IS_BACKEND_PROCESSING", payload: false });
         return;
       }
-      if (courseDays.includes(Object.keys(weekDays)[todayCourseDecider])) {
+      if (courseDays.includes(justWeekDays.at(todayCourseDecider) || "")) {
         dispatch({
           type: "SET_TODAY_COURSES",
           payload: [...state.todayCourses, courseData],

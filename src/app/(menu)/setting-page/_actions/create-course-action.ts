@@ -30,7 +30,6 @@ export const createCourse = async (
           semester: singleSemester.semester,
           userDetails: {
             email_address: userDetails.email_address,
-            phone_number: userDetails.phone_number,
             verified: userDetails.verified,
             clerk_id: userDetails.clerk_id,
             user_name: userDetails.user_name,
@@ -58,7 +57,6 @@ export const createCourse = async (
               semester: singleSemester.semester,
               userDetails: {
                 email_address: userDetails.email_address,
-                phone_number: userDetails.phone_number,
                 verified: userDetails.verified,
                 clerk_id: userDetails.clerk_id,
                 user_name: userDetails.user_name,
@@ -70,14 +68,12 @@ export const createCourse = async (
                 connectOrCreate: {
                   where: {
                     email_address: userDetails.email_address,
-                    phone_number: userDetails.phone_number,
                     verified: userDetails.verified,
                     clerk_id: userDetails.clerk_id,
                     user_name: userDetails.user_name,
                   },
                   create: {
                     email_address: userDetails.email_address,
-                    phone_number: userDetails.phone_number,
                     name: userDetails.first_name,
                     user_name: userDetails.user_name,
                     verified: userDetails.verified,

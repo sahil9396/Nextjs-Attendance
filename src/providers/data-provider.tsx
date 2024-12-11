@@ -30,7 +30,6 @@ export interface contextype {
 
 export const initialUserInfo: userDetailstype = {
   email_address: "",
-  phone_number: "",
   first_name: "",
   user_name: "",
   image_url: "",

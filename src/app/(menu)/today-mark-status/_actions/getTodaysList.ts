@@ -17,7 +17,7 @@ export const updateStatus = async (
   semesterInfo: SingleSemester,
   ExtraClass: boolean = false
 ) => {
-  const { email_address, phone_number, verified, clerk_id, user_name } =
+  const { email_address,verified, clerk_id, user_name } =
     userDetails;
 
   const currentTime = getDate();
@@ -61,7 +61,6 @@ export const updateStatus = async (
           id: semesterInfo.id,
           userDetails: {
             email_address,
-            phone_number,
             verified,
             clerk_id,
             user_name,

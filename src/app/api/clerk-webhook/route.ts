@@ -56,37 +56,27 @@ export async function POST(req: Request) {
 
   const {
     email_addresses,
-    phone_numbers,
     first_name,
-    username = "username",
+    username = "something",
     image_url,
     profile_image_url,
     id: clerk_id,
   } = payload.data;
 
   const email_address = email_addresses[0]?.email_address;
-  const phone_number = phone_numbers[0]?.phone_number || "somethings";
   const verifiedStatus =
-    email_addresses[0]?.verification?.status === "verified" &&
-    phone_numbers[0]?.verification?.status === "verified";
+    email_addresses[0]?.verification?.status === "verified";
 
-  console.log("email_address:", email_address);
-  console.log("phone_number:", phone_number);
-  console.log("first_name:", first_name);
-  console.log("username:", username);
-  console.log("image_url:", image_url || profile_image_url);
-  console.log("clerk_id:", clerk_id);
-  console.log("verifiedStatus:", verifiedStatus);
-
-  return new Response("Data is created!!!", {
-    status: 200,
-  });
+  console.dir(payload.data);
 
   try {
+
     const userInfo = await db.user.findFirst({
       where: {
         email_address,
-        phone_number,
+        name: first_name,
+        user_name: username,
+        clerk_id,
       },
     });
     if (userInfo) {
@@ -106,12 +96,16 @@ export async function POST(req: Request) {
     await db.user.create({
       data: {
         email_address,
-        phone_number,
         name: first_name,
-        user_name: username || "username",
+        user_name: username,
         image: image_url || profile_image_url,
         verified: verifiedStatus,
         clerk_id,
+        semesters: {
+          create: {
+            semester: "semester-1",
+          },
+        },
       },
     });
     console.log("Data is created!!!");

@@ -45,7 +45,6 @@ const SingleCardDisplay = ({
   ];
 
   const handleClick = () => {
-    console.log(currentSem, selected, IndivCourse, fromWhichList);
     if (selected === IndivCourse) {
       if (!currentSem || currentSem === "null") {
         route.push(`?`);

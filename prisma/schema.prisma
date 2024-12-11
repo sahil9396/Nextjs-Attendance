@@ -18,9 +18,8 @@ datasource db {
 model User {
   id            Int        @id @default(autoincrement())
   email_address String     @unique
-  phone_number  String
   name          String?
-  user_name     String
+  user_name     String?
   image         String?
   verified      Boolean    @default(false)
   clerk_id      String     @unique
@@ -29,7 +28,7 @@ model User {
 
 model Semester {
   id          Int       @id @default(autoincrement())
-  semester    String    @default("Semester-1")
+  semester    String    @default("semester-1")
   userId      Int
   userDetails User      @relation(fields: [userId], references: [id])
   courses     Course[]

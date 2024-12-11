@@ -81,7 +81,6 @@ export type inputData = {
 
 export type userDetailstype = {
   email_address: string;
-  phone_number: string;
   first_name: string;
   user_name: string;
   image_url: string;

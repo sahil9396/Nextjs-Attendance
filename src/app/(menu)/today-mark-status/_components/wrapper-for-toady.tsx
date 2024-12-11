@@ -4,13 +4,11 @@ import React, { useMemo } from "react";
 import NoCourses from "@/components/main/NoCourses";
 import SingleAttendanceStatus from "./single-attendance-status";
 import { LoadingSpinner } from "@/components/global/load-spinner";
+import { useSearchParams } from "next/navigation";
 
-const WrapperToToday = ({
-  currentSemester,
-}: {
-  currentSemester: string | undefined;
-}) => {
+const WrapperToToday = () => {
   const { state, dispatch } = useDataContext();
+  const currentSemester = useSearchParams().get("semester");
   const semExist = state.semesterInfo.find(
     (item) => item.semester === currentSemester
   );

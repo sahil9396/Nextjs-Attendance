@@ -7,8 +7,7 @@ export const resetAllCard = async (
   userDetails: userDetailstype,
   semesterInfo: SingleSemester
 ) => {
-  const { email_address, phone_number, verified, clerk_id, user_name } =
-    userDetails;
+  const { email_address, verified, clerk_id, user_name } = userDetails;
 
   await db.course.updateMany({
     where: {
@@ -17,7 +16,6 @@ export const resetAllCard = async (
         id: semesterInfo.id,
         userDetails: {
           email_address,
-          phone_number,
           verified,
           clerk_id,
           user_name,
@@ -40,8 +38,7 @@ export const deleteAllCard = async (
   userDetails: userDetailstype,
   semesterInfo: SingleSemester
 ) => {
-  const { email_address, phone_number, verified, clerk_id, user_name } =
-    userDetails;
+  const { email_address, verified, clerk_id, user_name } = userDetails;
   const deletedDayCourse = db.day_Course.deleteMany({
     where: {
       assignedBy: user_name,
@@ -51,7 +48,6 @@ export const deleteAllCard = async (
           id: semesterInfo.id,
           userDetails: {
             email_address,
-            phone_number,
             verified,
             clerk_id,
             user_name,
@@ -68,7 +64,6 @@ export const deleteAllCard = async (
         id: semesterInfo.id,
         userDetails: {
           email_address,
-          phone_number,
           verified,
           clerk_id,
           user_name,

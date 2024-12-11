@@ -3,7 +3,6 @@ import React from "react";
 
 type Props = {
   email_address: string | null;
-  phone_number: string | null;
   first_name: string | null;
   user_name: string | null;
   verified: boolean;
@@ -13,7 +12,6 @@ type Props = {
 
 const CustomProfilePage = ({
   email_address,
-  phone_number,
   first_name,
   user_name,
   verified,
@@ -36,7 +34,6 @@ const CustomProfilePage = ({
       </div>
       <div className="w-full h-full flex flex-col gap-4 text-sm md:text-lg ">
         <ProfilePair title="Email" value={email_address} />
-        <ProfilePair title="Phone" value={phone_number} />
         <ProfilePair title="First Name" value={first_name} />
         <ProfilePair title="Username" value={user_name} />
         <ProfilePair title="Verified" value={verified ? "Yes" : "No"} />

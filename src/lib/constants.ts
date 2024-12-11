@@ -2,9 +2,8 @@ import { contextype } from "@/providers/data-provider";
 import { colorIdType, day, inputData } from "./type";
 import { demoContextType } from "@/providers/demo-data-provider";
 
-export const todayCourseDecider = 1;
-// export const todayCourseDecider = new Date().getDay();
-
+const todayDay = new Date().getDay();
+export const todayCourseDecider = todayDay === 0 ? 6 : todayDay - 1;
 export const weekDays: day = {
   Monday: false,
   Tuesday: false,
@@ -12,6 +11,8 @@ export const weekDays: day = {
   Thursday: false,
   Friday: false,
 };
+
+export const justWeekDays = Object.keys(weekDays);
 
 // Helper function to get the current date in YYYY-MM-DD format.
 export const getDate = () => {

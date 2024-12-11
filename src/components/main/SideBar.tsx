@@ -4,7 +4,7 @@ import MiddlePart from "./middlePart";
 import { ModeToggle } from "../ui/theme-toggle";
 import CalendarButton from "./calendar-button";
 
-const SideBar = async () => {
+const SideBar = () => {
   const menuOptions = [
     {
       title: "Today",

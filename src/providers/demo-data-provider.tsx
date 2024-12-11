@@ -29,7 +29,6 @@ export interface demoContextType {
 
 const initialDemoUserInfo: userDetailstype = {
   email_address: "demo@example.com",
-  phone_number: "123-456-7890",
   first_name: "John",
   user_name: "johndoe",
   image_url: "https://example.com/image.jpg",

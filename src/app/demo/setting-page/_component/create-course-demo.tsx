@@ -1,6 +1,6 @@
 "use client";
 import CustomForm from "@/components/global/custom-form";
-import { todayCourseDecider, weekDays } from "@/lib/constants";
+import { justWeekDays, todayCourseDecider } from "@/lib/constants";
 import { inputData } from "@/lib/type";
 import { useDemoDataContext } from "@/providers/demo-data-provider";
 import { useSearchParams } from "next/navigation";
@@ -10,14 +10,11 @@ export function CreateCourseDemo() {
   const { state, dispatch } = useDemoDataContext();
   const currentSemester = useSearchParams().get("semester") || "semester-1";
 
-  const handleSubmit = async (
-    courseData: inputData,
-    courseDays: string[],
-  ) => {
+  const handleSubmit = async (courseData: inputData, courseDays: string[]) => {
     dispatch({ type: "SET_DEMO_IS_BACKEND_PROCESSING", payload: true });
     toast(`Wait till Course is being Created `);
     try {
-      if (courseDays.includes(Object.keys(weekDays)[todayCourseDecider])) {
+      if (courseDays.includes(justWeekDays.at(todayCourseDecider) || "")) {
         dispatch({
           type: "SET_DEMO_TODAY_COURSES",
           payload: [...state.demoTodayCourses, courseData],

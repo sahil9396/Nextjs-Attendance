@@ -14,7 +14,6 @@ export const getUserInfo = cache(async (): Promise<userDetailstype | null> => {
   }
 
   const user_email_address = user?.emailAddresses[0].emailAddress;
-  const user_phone_number = user?.phoneNumbers[0].phoneNumber;
   const verifiedStatus =
     user?.emailAddresses[0]?.verification?.status ||
     user?.phoneNumbers[0]?.verification?.status;
@@ -25,7 +24,6 @@ export const getUserInfo = cache(async (): Promise<userDetailstype | null> => {
 
   const returnData: userDetailstype = {
     email_address: user_email_address,
-    phone_number: user_phone_number,
     first_name: first_name || "",
     user_name: user_name || "",
     verified: verifiedStatus === "verified" ? true : false,
@@ -39,13 +37,12 @@ export const getUserInfo = cache(async (): Promise<userDetailstype | null> => {
 
 export const getSemesterList = custom_cache(
   async (user: userDetailstype) => {
-    const { email_address, phone_number, verified, clerk_id, user_name } = user;
+    const { email_address, verified, clerk_id, user_name } = user;
     try {
       const semesterList = await db.semester.findMany({
         where: {
           userDetails: {
             email_address,
-            phone_number,
             verified,
             clerk_id,
             user_name,

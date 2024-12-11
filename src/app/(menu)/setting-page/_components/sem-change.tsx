@@ -4,7 +4,7 @@ import CreateSemester from "./mutate-sem/create-sem";
 import DeleteSemester from "./mutate-sem/delete-sem";
 import MutateCourses from "./mutate-course";
 
-const SemChange = async () => {
+const SemChange = () => {
   return (
     <div>
       <SemSelector />

@@ -11,16 +11,15 @@ import { custom_cache } from "@/lib/utils";
 import {
   color_id,
   getDate,
+  justWeekDays,
   todayCourseDecider,
-  weekDays,
 } from "@/lib/constants";
 import { revalidateTag } from "next/cache";
 import { createCalender } from "@/lib/all-server";
 
 export const getList = custom_cache(
   async (currentSem: SingleSemester, userInfo: userDetailstype) => {
-    const { email_address, phone_number, verified, clerk_id, user_name } =
-      userInfo;
+    const { email_address, verified, clerk_id, user_name } = userInfo;
 
     try {
       const semesterData: inputTypeFromBackend[] | null =
@@ -31,7 +30,6 @@ export const getList = custom_cache(
               id: currentSem.id,
               userDetails: {
                 email_address,
-                phone_number,
                 verified,
                 clerk_id,
                 user_name,
@@ -69,7 +67,7 @@ export const getList = custom_cache(
 
       structuredData.forEach((sem: inputData) => {
         const trueDay: boolean = sem.thatday.includes(
-          Object.keys(weekDays)[todayCourseDecider]
+          justWeekDays.at(todayCourseDecider) || ""
         );
         if (trueDay) todayCourse.push(sem);
         else notTodayCourse.push(sem);
@@ -92,7 +90,6 @@ export const updateList = async (
 ) => {
   const {
     email_address,
-    phone_number,
     verified,
     clerk_id,
     user_name,
@@ -128,7 +125,6 @@ export const updateList = async (
             id: currentSem.id,
             userDetails: {
               email_address,
-              phone_number,
               verified,
               clerk_id,
             },
@@ -151,7 +147,6 @@ export const updateList = async (
                 id: currentSem.id,
                 userDetails: {
                   email_address,
-                  phone_number,
                   verified,
                   clerk_id,
                   user_name,
@@ -163,14 +158,12 @@ export const updateList = async (
                   connectOrCreate: {
                     where: {
                       email_address,
-                      phone_number,
                       verified,
                       clerk_id,
                       user_name,
                     },
                     create: {
                       email_address,
-                      phone_number,
                       name: userInfo.first_name,
                       user_name,
                       verified,
@@ -199,7 +192,6 @@ export const updateList = async (
             id: currentSem.id,
             userDetails: {
               email_address,
-              phone_number,
               verified,
               clerk_id,
               user_name,
@@ -228,8 +220,7 @@ export const deleteCourse = async (
   userInfo: userDetailstype,
   IndivCourse: string
 ) => {
-  const { email_address, phone_number, verified, clerk_id, user_name } =
-    userInfo;
+  const { email_address, verified, clerk_id, user_name } = userInfo;
 
   try {
     const deleteDays = db.day_Course.deleteMany({
@@ -248,7 +239,6 @@ export const deleteCourse = async (
           id: currentSem.id,
           userDetails: {
             email_address,
-            phone_number,
             verified,
             clerk_id,
           },
@@ -277,8 +267,7 @@ export const updateAllCourses = async (
     can: number;
   }[]
 ) => {
-  const { email_address, phone_number, verified, clerk_id, user_name } =
-    userInfo;
+  const { email_address, verified, clerk_id, user_name } = userInfo;
 
   const currentTime = getDate();
 
@@ -319,7 +308,6 @@ export const updateAllCourses = async (
           id: currentSem.id,
           userDetails: {
             email_address,
-            phone_number,
             verified,
             clerk_id,
             user_name,

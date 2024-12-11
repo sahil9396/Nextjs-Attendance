@@ -4,7 +4,7 @@ import CustomDialog from "@/components/global/custom-dialog";
 import { CustromInput } from "@/components/global/custom-input";
 import { day, inputData } from "@/lib/type";
 import React, { useState } from "react";
-import { todayCourseDecider, weekDays } from "@/lib/constants";
+import { justWeekDays, todayCourseDecider, weekDays } from "@/lib/constants";
 import { toast } from "sonner";
 import { DaySelector } from "@/components/global/custom-form";
 
@@ -127,7 +127,7 @@ const UpdaterDialog = ({
     };
 
     const eligibleForToday = daySelected.includes(
-      Object.keys(weekDays)[todayCourseDecider]
+      justWeekDays.at(todayCourseDecider) || ""
     );
     try {
       await functionInbetween(

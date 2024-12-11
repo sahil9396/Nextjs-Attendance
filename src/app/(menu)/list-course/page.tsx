@@ -4,7 +4,7 @@ import WrapperToClient from "./_components/wrapper-to-client";
 export const dynamic = "force-dynamic";
 export const runtime = "edge";
 
-const Courses = async () => {
+const Courses = () => {
   return <WrapperToClient />;
 };
 

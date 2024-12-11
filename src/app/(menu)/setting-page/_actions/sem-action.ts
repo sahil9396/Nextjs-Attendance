@@ -8,15 +8,13 @@ export const createSemester = async (
   userDetails: userDetailstype,
   semesterNumber: number
 ) => {
-  const { email_address, phone_number, verified, clerk_id, user_name } =
-    userDetails;
+  const { email_address, verified, clerk_id, user_name } = userDetails;
   try {
     const semesterExists = await db.semester.findFirst({
       where: {
         semester: `semester-${semesterNumber}`,
         userDetails: {
           email_address,
-          phone_number,
           verified,
           clerk_id,
           user_name,
@@ -35,14 +33,12 @@ export const createSemester = async (
           connectOrCreate: {
             where: {
               email_address,
-              phone_number,
               verified,
               clerk_id,
               user_name,
             },
             create: {
               email_address,
-              phone_number,
               verified,
               clerk_id,
               user_name,
@@ -65,8 +61,7 @@ export const deleteSemester = async (
   userDetails: userDetailstype,
   semester: string
 ) => {
-  const { email_address, phone_number, verified, clerk_id, user_name } =
-    userDetails;
+  const { email_address, verified, clerk_id, user_name } = userDetails;
 
   try {
     const deletedDayCourse = db.day_Course.deleteMany({
@@ -77,7 +72,6 @@ export const deleteSemester = async (
             semester,
             userDetails: {
               email_address,
-              phone_number,
               verified,
               clerk_id,
               user_name,
@@ -93,7 +87,6 @@ export const deleteSemester = async (
           semester,
           userDetails: {
             email_address,
-            phone_number,
             verified,
             clerk_id,
             user_name,
@@ -107,7 +100,6 @@ export const deleteSemester = async (
         semester,
         userDetails: {
           email_address,
-          phone_number,
           verified,
           clerk_id,
           user_name,
