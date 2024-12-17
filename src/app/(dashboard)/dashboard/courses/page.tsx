@@ -22,18 +22,19 @@ export default function CoursesPage() {
   const today: string | null = searchParam.get("today");
   const router = useRouter();
 
-  // Combine and sanitize course data
   const searchParamsFilteredCoursesToday = useMemo(() => {
     if (state.searchParam === "") return state.todayCourses;
-    return state.todayCourses.filter((course) =>
-      course.IndivCourse.toLowerCase().includes(state.searchParam.toLowerCase())
+    return state.todayCourses.filter(
+      (course) =>
+        course.IndivCourse.toLowerCase() === state.searchParam.toLowerCase()
     );
   }, [state.searchParam, state.todayCourses]);
 
   const searchParamsFilteredCoursenotToday = useMemo(() => {
     if (state.searchParam === "") return state.notToday;
-    return state.notToday.filter((course) =>
-      course.IndivCourse.toLowerCase().includes(state.searchParam.toLowerCase())
+    return state.notToday.filter(
+      (course) =>
+        course.IndivCourse.toLowerCase() === state.searchParam.toLowerCase()
     );
   }, [state.searchParam, state.notToday]);
 
@@ -70,6 +71,23 @@ export default function CoursesPage() {
             Add Your First Course
           </Button>
         </Link>
+      </div>
+    );
+  }
+
+  if (
+    state.searchParam !== "" &&
+    searchParamsFilteredCoursesToday.length +
+      searchParamsFilteredCoursenotToday.length ===
+      0
+  ) {
+    return (
+      <div className="flex flex-col gap-6 p-4 md:px-8 md:py-4">
+        <div className="p-6 border rounded-lg">
+          <p className="text-center text-muted-foreground">
+            No classes found for the search term
+          </p>
+        </div>
       </div>
     );
   }

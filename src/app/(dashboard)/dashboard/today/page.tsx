@@ -11,10 +11,19 @@ import { updateAllCourses } from "@/lib/actions/log-courses-server-functions";
 import SingleAttendanceStatus from "@/components/main/today-attendance/single-attendance-status";
 import { updateStatus } from "@/lib/actions/getTodaysList";
 import { inputData } from "@/lib/type";
+import { useMemo } from "react";
 
 export default function TodayPage() {
   const { state, dispatch } = useDataContext();
   const currentSem = useSearchParams().get("semester");
+
+  const searchedCourses = useMemo(() => {
+    if (state.searchParam === "") return state.todayCourses;
+    return state.todayCourses.filter(
+      (course) =>
+        course.IndivCourse.toLowerCase() === state.searchParam.toLowerCase()
+    );
+  }, [state.searchParam, state.todayCourses]);
 
   if (state.isLoading)
     return (
@@ -22,6 +31,18 @@ export default function TodayPage() {
         <LoadingSpinner />
       </div>
     );
+
+  if (state.searchParam !== "" && searchedCourses.length === 0) {
+    return (
+      <div className="flex flex-col gap-6 p-4 md:px-8 md:py-4">
+        <Card className="p-6">
+          <p className="text-center text-muted-foreground">
+            No classes found for the search term
+          </p>
+        </Card>
+      </div>
+    );
+  }
 
   const semExist = state.semesterInfo.find(
     (item) => item.semester === currentSem
@@ -182,7 +203,7 @@ export default function TodayPage() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {state.todayCourses.map((course) => (
+        {searchedCourses.map((course) => (
           <SingleAttendanceStatus
             key={course.IndivCourse}
             course={course}

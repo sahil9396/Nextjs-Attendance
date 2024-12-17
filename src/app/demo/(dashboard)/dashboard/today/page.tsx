@@ -7,12 +7,21 @@ import ExtraClass from "@/components/main/today-attendance/Extra_class";
 import SingleAttendanceStatus from "@/components/main/today-attendance/single-attendance-status";
 import { useDemoDataContext } from "@/providers/demo-data-provider";
 import { inputData } from "@/lib/type";
+import { useMemo } from "react";
 
 export default function TodayPage() {
   const { state, dispatch } = useDemoDataContext();
   const currentSem = useSearchParams().get("semester");
 
   const today = new Date().toLocaleDateString("en-IN", { weekday: "long" });
+
+  const searchedCourses = useMemo(() => {
+    if (state.demoSearchParam === "") return state.demoTodayCourses;
+    return state.demoTodayCourses.filter(
+      (course) =>
+        course.IndivCourse.toLowerCase() === state.demoSearchParam.toLowerCase()
+    );
+  }, [state.demoSearchParam, state.demoTodayCourses]);
 
   const handleUpdateStatus = async (status: string) => {
     const semExist = state.demoSemesterInfo.find(
@@ -60,6 +69,18 @@ export default function TodayPage() {
   const semExist = state.demoSemesterInfo.find(
     (item) => item.semester === currentSem
   );
+
+  if (state.demoSearchParam !== "" && searchedCourses.length === 0) {
+    return (
+      <div className="flex flex-col gap-6 p-4 md:px-8 md:py-4">
+        <Card className="p-6">
+          <p className="text-center text-muted-foreground">
+            No classes found for the search term
+          </p>
+        </Card>
+      </div>
+    );
+  }
 
   if (state.demoTodayCourses.length === 0 || !semExist) {
     return (
@@ -140,7 +161,7 @@ export default function TodayPage() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {state.demoTodayCourses.map((course) => (
+        {searchedCourses.map((course) => (
           <SingleAttendanceStatus
             key={course.IndivCourse}
             course={course}
