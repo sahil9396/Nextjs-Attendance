@@ -1,6 +1,6 @@
+"use client";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -9,7 +9,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { useState } from "react";
+import React, { useState } from "react";
 import { toast } from "sonner";
 import { useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
@@ -197,87 +197,83 @@ const CustomForm = ({
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(handleSubmit)}
-        className="lg:h-full pb-6 bg-slate-400 bg-opacity-20 rounded-lg shadow-lg flex flex-col justify-between gap-5 lg:gap-0 dark:bg-slate-950 dark:bg-opacity-20 overflow-y-auto"
+        className="max-w-xl mx-auto p-6 space-y-6 shadow-md rounded-md border border-gray-600"
       >
-        <div className="grid grid-cols-1 items-center justify-center gap-4 lg:gap-0">
-          {inputFields.map((inputField: inputKey) => (
+        {inputFields.map((inputField: inputKey) => (
+          <FormField
+            name={inputField.key as formKeyType}
+            key={inputField.key}
+            control={form.control}
+            render={({ field }) => (
+              <FormItem className="space-y-2 flex justify-center items-center gap-2">
+                <FormLabel className="whitespace-nowrap w-1/4 text-right">
+                  {inputField.attri}
+                </FormLabel>
+                <FormControl>
+                  <Input
+                    className="w-3/4 p-2 border border-gray-600 rounded-md"
+                    placeholder={inputField.placeholder}
+                    {...field}
+                    type={inputField.type}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        ))}
+        <div className="flex justify-center items-center gap-5 w-full">
+          {timeFields.map((timeField: inputKey) => (
             <FormField
-              name={`${inputField.key as formKeyType}`}
-              key={inputField.key}
+              name={timeField.key as formKeyType}
+              key={timeField.key}
               control={form.control}
               render={({ field }) => (
-                <FormItem className="p-4 rounded-md grid grid-cols-3 gap-4 items-center">
-                  <FormLabel className=" lg:text-lg font-semibold w-full text-end">
-                    {inputField.attri}
-                  </FormLabel>
-                  <FormControl className=" col-span-2">
+                <FormItem className="space-y-2 w-[200px]">
+                  <FormControl>
                     <Input
-                      placeholder={inputField.placeholder}
+                      className="w-full p-2 border border-gray-600 rounded-md"
                       {...field}
-                      type={inputField.type}
-                      className="block w-full px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-stone-500 focus:border-stone-500 sm:text-sm bg-white text-gray-900 dark:bg-slate-950 dark:bg-opacity-40 dark:text-gray-200"
+                      type={timeField.type}
                     />
                   </FormControl>
-                  <FormMessage className="text-red-400 mt-1" />
+                  <FormMessage />
                 </FormItem>
               )}
             />
           ))}
-          <div className="flex justify-between">
-            {timeFields.map((timeField: inputKey) => (
-              <FormField
-                name={timeField.key as formKeyType}
-                key={timeField.key}
-                control={form.control}
-                render={({ field }) => (
-                  <FormItem className="p-4 w-full rounded-md gap-4 items-center">
-                    <FormControl className="">
-                      <Input
-                        {...field}
-                        type={timeField.type}
-                        className="block w-full px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-stone-500 focus:border-stone-500 sm:text-sm bg-white text-gray-900 dark:bg-slate-950 dark:bg-opacity-40 dark:text-gray-200"
-                      />
-                    </FormControl>
-                    <FormMessage className="text-red-400 mt-1" />
-                  </FormItem>
-                )}
-              />
-            ))}
-          </div>
         </div>
-        <div className="w-full h-fit flex flex-col gap-6 items-center justify-evenly">
-          <div className="flex justify-center gap-4 text-sm">
-            <Button
-              type="button"
-              onClick={handleSelectAllDays}
-              className="bg-slate-600 dark:bg-slate-800 text-white rounded-lg py-2 px-4 lg:hover:bg-slate-500"
-            >
-              Select All
-            </Button>
-            <Button
-              type="button"
-              onClick={handleClearAllDays}
-              className="dark:bg-gray-500 shadow-md bg-white text-black dark:text-white  rounded-lg py-2 px-4 lg:hover:bg-slate-500"
-            >
-              Clear All
-            </Button>
-          </div>
-          <div className="flex w-full flex-wrap justify-center gap-4">
-            {Object.entries(daycheck).map(([key, value]) => (
-              <DaySelector
-                key={key}
-                day={key}
-                isSelected={value as boolean}
-                toggleDay={() => handleToggleDay(key)}
-              />
-            ))}
-          </div>
+        <div className="flex justify-center space-x-4">
+          <CustomButton
+            type="button"
+            variant={"default"}
+            content="Select All"
+            onClick={handleSelectAllDays}
+            className="px-4 py-2"
+          />
+          <CustomButton
+            type="button"
+            variant={"outline"}
+            content="Clear All"
+            onClick={handleClearAllDays}
+            className="px-4 py-2"
+          />
+        </div>
+        <div className="flex flex-wrap justify-center gap-2">
+          {Object.entries(daycheck).map(([key, value]) => (
+            <DaySelector
+              key={key}
+              day={key}
+              isSelected={value as boolean}
+              toggleDay={() => handleToggleDay(key)}
+            />
+          ))}
         </div>
         <CustomButton
           type="submit"
-          className="w-10/12 mx-auto bg-slate-600 dark:bg-gray-900 text-white font-semibold rounded-md shadow lg:hover:bg-slate-700 "
-          disabled={false}
+          variant={"outline"}
           content="Submit"
+          className="w-full px-4 py-2 "
         />
       </form>
     </Form>
@@ -294,18 +290,13 @@ export const DaySelector = ({
   toggleDay?: () => void;
 }) => {
   return (
-    <div
+    <CustomButton
+      type="button"
+      variant={isSelected ? "default" : "outline"}
+      content={day.toString().slice(0, 3)}
       onClick={toggleDay}
-      className={`py-2 px-4 rounded-lg lg:hover:scale-125 ${
-        isSelected
-          ? `bg-slate-600 dark:bg-slate-800 text-white`
-          : `bg-gray-100 text-black dark:bg-gray-500 dark:text-white`
-      } lg:hover:bg-slate-500 cursor-pointer transition-all duration-150`}
-    >
-      <span className="text-sm md:text-base ">
-        {day.toString().slice(0, 3)}
-      </span>
-    </div>
+      className="px-4 py-2"
+    />
   );
 };
 

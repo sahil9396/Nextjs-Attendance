@@ -1,5 +1,4 @@
 import CustomButton from "@/components/global/custom-button";
-import { inputData } from "@/lib/type";
 import React from "react";
 import { toast } from "sonner";
 
@@ -8,8 +7,6 @@ type Props = {
   isBackendProcessing: boolean;
   functionhandleResetAll: () => void;
   functionhandleDeleteAll: () => void;
-  todayCourses: inputData[];
-  notToday: inputData[];
 };
 
 const CourseMutateButtons = ({
@@ -17,11 +14,8 @@ const CourseMutateButtons = ({
   isBackendProcessing,
   functionhandleResetAll,
   functionhandleDeleteAll,
-  todayCourses,
-  notToday,
 }: Props) => {
-  if (!currentSemester || !(todayCourses.length + notToday.length)) return null;
-
+  
   const handleResetAll = async () => {
     if (!currentSemester) {
       toast(`Semester is not selected`);
@@ -49,6 +43,7 @@ const CourseMutateButtons = ({
       toast.error(`Error: ${error}`);
     }
   };
+
   const buttons = [
     {
       onClick: handleResetAll,
@@ -69,7 +64,8 @@ const CourseMutateButtons = ({
           key={index}
           value="present"
           onClick={button.onClick}
-          className={`px-4 py-2 w-full bg-black dark:bg-white dark:text-black text-white rounded-lg ${button.hoverColor} dark:lg:hover:text-white transition-all duration-200`}
+          className={`px-4 py-2 w-full ${button.hoverColor} dark:lg:hover:text-white transition-all duration-200`}
+          variant={button.content === "Reset All" ? "outline" : "destructive"}
           content={button.content}
           disabled={isBackendProcessing}
         />

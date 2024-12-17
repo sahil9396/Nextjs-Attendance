@@ -1,10 +1,9 @@
 "use client";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import CourseDelete from "../../log-course/course-delete";
 import { useDemoDataContext } from "@/providers/demo-data-provider";
 import { inputData } from "@/lib/type";
 import { useMemo } from "react";
-import UpdaterDialog from "@/components/global/custom-updater-dialog";
+import CourseupdateDeleteButton from "@/newComponents/global/courseupdateDeleteButton";
 
 const SingleCardUpdatarDemo = () => {
   const { state, dispatch } = useDemoDataContext();
@@ -27,8 +26,7 @@ const SingleCardUpdatarDemo = () => {
   }, [selected, state.demoTodayCourses, state.demoNotToday, today]);
 
   if (
-    pathName !== "list-course" ||
-    !selected ||
+    pathName !== "courses" ||
     !currentSemester ||
     state.demoTodayCourses.length + state.demoNotToday.length === 0
   ) {
@@ -106,27 +104,28 @@ const SingleCardUpdatarDemo = () => {
     router.push(`?semester=${currentSemester}`);
   };
 
+  const linkHref = currentSemester
+    ? selected && today
+      ? `/dashboard/courses/new?semester=${currentSemester}&selected=${selected}&today=${today}`
+      : `/dashboard/courses/new?semester=${currentSemester}`
+    : `/dashboard/courses/new`;
+
   return (
-    <div className="w-full bg-transparent text-white flex flex-col">
-      <div className="h-full flex flex-col justify-between gap-4">
-        <div className="flex flex-col gap-2">
-          <CourseDelete
-            isBackendProcessing={state.demoIsBackendProcessing}
-            semList={state.demoSemesterInfo}
-            selected={selected}
-            today={today}
-            currentSemester={currentSemester}
-            funtionInbetween={handleDelete}
-          />
-          <UpdaterDialog
-            thatCourse={thatCourse}
-            currentSemester={currentSemester}
-            courseName={selected}
-            today={today}
-            functionInbetween={handleSubmit}
-          />
-        </div>
-      </div>
+    <div className=" md:hidden flex w-full">
+      <CourseupdateDeleteButton
+        linkHref={linkHref}
+        noCourses={
+          state.demoTodayCourses.length + state.demoNotToday.length === 0
+        }
+        selected={selected}
+        currentSemester={currentSemester}
+        today={today}
+        thatCourse={thatCourse}
+        isBackendProcessing={state.demoIsBackendProcessing}
+        SemesterInfo={state.demoSemesterInfo}
+        handleDelete={handleDelete}
+        handleSubmit={handleSubmit}
+      />
     </div>
   );
 };

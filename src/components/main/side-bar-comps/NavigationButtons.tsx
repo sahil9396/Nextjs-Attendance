@@ -7,6 +7,7 @@ type Props = {
   menuOptions: {
     title: string;
     href: string;
+    icon: React.FC<React.SVGProps<SVGSVGElement>>;
   }[];
 };
 
@@ -16,9 +17,9 @@ const NavigationButtons = ({ menuOptions }: Props) => {
   const extractedSem = searchParm.get("semester");
   const selected = searchParm.get("selected");
   const today = searchParm.get("today");
-  
+
   return (
-    <div className="w-full flex flex-row lg:flex-col justify-evenly lg:justify-start items-center gap-2 lg:gap-6 rounded-lg">
+    <div className="w-full flex flex-row md:flex-col justify-evenly md:justify-start items-center gap-2 md:gap-6 rounded-lg">
       {menuOptions.map((option) => (
         <NavButtons
           key={option.href}
@@ -29,7 +30,8 @@ const NavigationButtons = ({ menuOptions }: Props) => {
           selected={selected}
           today={today}
         >
-          {option.title}
+          <option.icon className="h-4 w-4" />
+          <span className="lg:inline-block hidden">{option.title}</span>
         </NavButtons>
       ))}
     </div>

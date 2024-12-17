@@ -103,4 +103,3 @@ export type SingleSemester = {
   semester: string;
   userId: number;
 };
-

@@ -4,15 +4,14 @@ import { usePathname, useSearchParams } from "next/navigation";
 import { toast } from "sonner";
 import CustomButton from "@/components/global/custom-button";
 import { useDataContext } from "@/providers/data-provider";
-import { updateAllCourses } from "@/app/(menu)/list-course/_actions/log-courses-server-functions";
+import { updateAllCourses } from "@/lib/actions/log-courses-server-functions";
 
 const UpdateAllClasses = () => {
   const pathName = usePathname().split("/").pop();
   const { state, dispatch } = useDataContext();
   const currentSem = useSearchParams().get("semester");
 
-  if (pathName !== "today-mark-status" || state.todayCourses.length === 0)
-    return null;
+  if (pathName !== "today" || state.todayCourses.length === 0) return null;
 
   const handleUpdateStatus = async (status: string) => {
     const semExist = state.semesterInfo.find(
@@ -77,7 +76,8 @@ const UpdateAllClasses = () => {
         <CustomButton
           key={button.value}
           value={button.value}
-          className={`lg:bg-white lg:text-black lg:hover:text-white shadow-sm bg-black dark:bg-white dark:text-black text-white py-2 px-4 rounded-lg lg:hover:bg-slate-800 ${button.className}`}
+          variant={"outline"}
+          className={`${button.className} w-full border border-gray-500`}
           content={button.content}
           onClick={() => handleUpdateStatus(button.value)}
           disabled={state.isBackendProcessing}

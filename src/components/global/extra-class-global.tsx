@@ -1,5 +1,4 @@
 "use client";
-import { useDataContext } from "@/providers/data-provider";
 import React from "react";
 import {
   Dialog,
@@ -36,16 +35,22 @@ const ExtraClassGlobal = ({
   dialogDescription,
   buttonActions,
 }: Props) => {
-  const { state } = useDataContext();
   return (
     <div className="w-full bg-transparent flex flex-col ">
       <Dialog>
-        <DialogTrigger
-          className={`flex justify-center w-full lg:bg-white lg:text-black lg:hover:text-white shadow-sm bg-black dark:bg-white dark:text-black text-white py-2 px-4 rounded-lg lg:hover:bg-slate-800 transition duration-300`}
-        >
-          Extra Class!!!
+        <DialogTrigger asChild>
+          <CustomButton
+            disabled={isBackendProcessing}
+            variant={"outline"}
+            className={`w-full border dark:bg-black dark:text-white bg-white text-black border-gray-500 ${
+              isBackendProcessing
+                ? "cursor-not-allowed bg-opacity-10 dark:bg-stone-500"
+                : ""
+            }`}
+            content={"Extra Class!!!"}
+          />
         </DialogTrigger>
-        <DialogContent className=" p-6 rounded-lg shadow-lg">
+        <DialogContent className=" p-6 rounded-lg ">
           <DialogHeader>
             <DialogTitle className="text-xl font-bold mb-2">
               {dialogTitle}
@@ -56,7 +61,7 @@ const ExtraClassGlobal = ({
                 defaultValue="Select!!!"
                 setSelectValue={(value) => setSelectValue(value)}
                 options={options}
-                isBackendProcessing={state.isBackendProcessing}
+                isBackendProcessing={isBackendProcessing}
                 showButton={showButton}
               />
             </DialogDescription>

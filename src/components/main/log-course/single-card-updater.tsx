@@ -6,7 +6,7 @@ import { inputData, SingleSemester } from "@/lib/type";
 import {
   deleteCourse,
   updateList,
-} from "@/app/(menu)/list-course/_actions/log-courses-server-functions";
+} from "@/lib/actions/log-courses-server-functions";
 import UpdaterDialog from "@/components/global/custom-updater-dialog";
 import { useMemo } from "react";
 
@@ -31,7 +31,7 @@ const SingleCardUpdater = () => {
   }, [selected, state.todayCourses, state.notToday, today]);
 
   if (
-    pathName !== "list-course" ||
+    pathName !== "courses" ||
     !selected ||
     !currentSemester ||
     state.todayCourses.length + state.notToday.length === 0

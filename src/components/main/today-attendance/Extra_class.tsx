@@ -5,7 +5,7 @@ import React, { useState } from "react";
 import { toast } from "sonner";
 import { inputData } from "@/lib/type";
 import { helperForCourseSelect } from "@/lib/constants";
-import { updateStatus } from "@/app/(menu)/today-mark-status/_actions/getTodaysList";
+import { updateStatus } from "@/lib/actions/getTodaysList";
 import ExtraClassGlobal from "@/components/global/extra-class-global";
 
 const ExtraClass = () => {
@@ -16,7 +16,7 @@ const ExtraClass = () => {
   const currentSemester = searchParam.get("semester");
 
   if (
-    pathName !== "today-mark-status" ||
+    pathName !== "today" ||
     state.todayCourses.concat(state.notToday).length === 0
   )
     return null;

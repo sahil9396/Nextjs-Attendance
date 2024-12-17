@@ -26,8 +26,10 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "src/app/(menu)/setting-page",
-    "src/app/(menu)/today-mark-status"
+    // "src/app/(menu)/setting-page",
+    // "src/app/(menu)/today-mark-status",
+    // "src/components/main/setting-course-comp/mutate-sem",
+    // "src/components/main/setting-course-comp/sem-change-options"
   ],
   "exclude": ["node_modules"],
   "types": ["@cloudflare/workers-types/2024-07-29"]

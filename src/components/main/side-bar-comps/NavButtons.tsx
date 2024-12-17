@@ -1,3 +1,4 @@
+import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
 type SideBarButtonsProps = {
@@ -20,24 +21,47 @@ export const NavButtons = ({
   children,
 }: SideBarButtonsProps) => {
   return (
-    <Link
-      prefetch={false}
-      passHref={passHref}
-      {...(!currentSemNumber
-        ? { href: href }
-        : {
-            href: `${href}?${new URLSearchParams(
-              selected && today
-                ? { semester: currentSemNumber, selected, today }
-                : { semester: currentSemNumber }
-            ).toString()}`,
-          })}
-      className={`w-full p-2 rounded-lg flex justify-center items-center text-black dark:text-white ${
-        currentPath === href && "bg-slate-700 dark:bg-gray-900 text-white"
-      } lg:hover:bg-white lg:hover:text-black transition-colors duration-400`}
+    // <Link
+    //   prefetch={false}
+    //   passHref={passHref}
+    //   {...(!currentSemNumber
+    //     ? { href: href }
+    //     : {
+    //         href: `${href}?${new URLSearchParams(
+    //           selected && today
+    //             ? { semester: currentSemNumber, selected, today }
+    //             : { semester: currentSemNumber }
+    //         ).toString()}`,
+    //       })}
+    //   className={`w-full p-2 rounded-lg flex justify-center items-center text-black dark:text-white ${
+    //     currentPath === href && "bg-slate-700 dark:bg-gray-900 text-white"
+    //   } lg:hover:bg-white lg:hover:text-black transition-colors duration-400`}
+    // >
+    //   {children}
+    // </Link>
+    <Button
+      // key={item.href}
+      asChild
+      variant={currentPath === href ? "secondary" : "ghost"}
+      className="w-full flex justify-center lg:justify-start"
     >
-      {children}
-    </Link>
+      <Link
+        prefetch={false}
+        passHref={passHref}
+        {...(!currentSemNumber
+          ? { href: href }
+          : {
+              href: `${href}?${new URLSearchParams(
+                selected && today
+                  ? { semester: currentSemNumber, selected, today }
+                  : { semester: currentSemNumber }
+              ).toString()}`,
+            })}
+        className="flex items-center"
+      >
+        {children}
+      </Link>
+    </Button>
   );
 };
 

@@ -10,8 +10,7 @@ const UpdateAllClassesDemo = () => {
   const { state, dispatch } = useDemoDataContext();
   const currentSem = useSearchParams().get("semester");
 
-  if (pathName !== "today-mark-status" || state.demoTodayCourses.length === 0)
-    return null;
+  if (pathName !== "today" || state.demoTodayCourses.length === 0) return null;
 
   const handleUpdateStatus = async (status: string) => {
     const semExist = state.demoSemesterInfo.find(
@@ -58,12 +57,14 @@ const UpdateAllClassesDemo = () => {
         <CustomButton
           key={button.value}
           value={button.value}
-          className={`lg:bg-white lg:text-black lg:hover:text-white shadow-sm bg-black dark:bg-white dark:text-black text-white py-2 px-4 rounded-lg lg:hover:bg-slate-800 ${button.className}`}
+          variant={"outline"}
+          className={`${button.className} w-full border border-gray-500`}
           content={button.content}
           onClick={() => handleUpdateStatus(button.value)}
           disabled={
-            state.demoIsBackendProcessing
-            //   || todayStatusDone.courseNames.length === todayCourses.length
+            state.demoIsBackendProcessing ||
+            state.demoTodayCourses.length ===
+              state.demoTodayStatusDone.courseNames.length
           }
         />
       ))}

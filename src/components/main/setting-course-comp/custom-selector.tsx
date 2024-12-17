@@ -8,7 +8,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { SingleSemester } from "@/lib/type";
-import SemesterChangeButtons from "@/app/(menu)/setting-page/_components/sem-change-options/sem-change-buttons";
+import SemesterChangeButtons from "@/components/main/setting-course-comp/sem-change-options/sem-change-buttons";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 

@@ -15,7 +15,7 @@ const ExtraClassDemo = () => {
   const currentSemester = searchParam.get("semester");
 
   if (
-    pathName !== "today-mark-status" ||
+    pathName !== "today" ||
     state.demoTodayCourses.concat(state.demoNotToday).length === 0
   )
     return null;

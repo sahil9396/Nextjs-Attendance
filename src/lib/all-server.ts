@@ -4,6 +4,7 @@ import { eventType, userDetailstype } from "./type";
 import db from "./db";
 import { custom_cache } from "./utils";
 import { cache } from "react";
+import { revalidateTag } from "next/cache";
 
 export const getUserInfo = cache(async (): Promise<userDetailstype | null> => {
   const user = await currentUser();
@@ -57,6 +58,9 @@ export const getSemesterList = custom_cache(
         },
       });
 
+      console.log("Semester list", semesterList);
+      console.log("User", user);
+
       return semesterList;
     } catch (error) {
       console.error(error);
@@ -99,4 +103,10 @@ export async function createCalender(event: eventType) {
     console.error("Failed to get token:", error);
     return "Failed";
   }
+}
+
+export async function resettheSemester() {
+  console.log("resetting the semester");
+  revalidateTag("getSemesterList");
+  return null;
 }

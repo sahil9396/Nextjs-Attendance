@@ -47,7 +47,6 @@ const CourseDelete = ({
 
   return (
     <CustomButton
-      size={"sm"}
       className="bg-red-600 lg:hover:bg-red-700 w-full text-white dark:bg-red-500 dark:lg:hover:bg-red-400"
       onClick={handleDelete}
       disabled={isBackendProcessing}

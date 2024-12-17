@@ -5,7 +5,7 @@ import {
   useDataContext,
 } from "@/providers/data-provider";
 import { getSemesterList, getUserInfo } from "./all-server";
-import { getList } from "@/app/(menu)/list-course/_actions/log-courses-server-functions";
+import { getList } from "@/lib/actions/log-courses-server-functions";
 import { Dispatch, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
@@ -29,9 +29,12 @@ const helper = async (
       return setLoading(dispatch, false);
     }
 
+    console.log("userInfo", userInfo);
+
     dispatch({ type: "SET_USER", payload: userInfo });
 
     const semList = await getSemesterList(userInfo);
+    console.log("semList", semList);
     if (!semList?.length) {
       localStorage.removeItem("semester");
       return setLoading(dispatch, false);
@@ -42,7 +45,7 @@ const helper = async (
     const semExist = semList.find((sem) => sem.semester === semFromUrl);
     const list = await getList(semExist || semList[0], userInfo);
 
-    if (!semFromUrl) {
+    if (!semExist) {
       router.push(`?semester=${semList[0].semester}`, { scroll: false });
     }
     if (!list) return setLoading(dispatch, false);
@@ -80,7 +83,7 @@ export const useDataLoader = (semFromUrl: string | null) => {
         }
       }
     };
-
+    console.log("semFromUrl", semFromUrl);
     loadSemester();
   }, [semFromUrl]);
 };

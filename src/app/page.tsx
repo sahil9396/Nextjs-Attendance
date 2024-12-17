@@ -44,13 +44,14 @@ const Hero = () => {
       <div className="text-[0.5rem] md:text-[1.2rem] lg:text-xl flex justify-center items-center text-gray-600 dark:text-gray-300 md:w-[556px] w-[250px]"></div>
       <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 text-white">
         <Link
-          href="/list-course"
+          prefetch={false}
+          href="/dashboard"
           className="px-6 py-3 bg-blue-600 lg:hover:bg-blue-700 rounded-lg transition"
         >
           Get Started
         </Link>
         <Link
-          href="/demo/home?semester=semester-1"
+          href="/demo/dashboard?semester=semester-1"
           className="px-6 py-3 bg-green-600 lg:hover:bg-green-700 rounded-lg transition"
         >
           Try the Demo
@@ -188,7 +189,7 @@ const CTA = () => {
       </p>
       <Link
         prefetch={false}
-        href="/list-course"
+        href="/dashboard"
         className="slideInBounceleft delay-100 px-6 py-3 bg-white text-blue-600 font-bold rounded-lg lg:hover:bg-gray-200 transition"
       >
         Manage My Attendance
