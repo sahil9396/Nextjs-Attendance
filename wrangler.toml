@@ -4,3 +4,25 @@ compatibility_date = "2024-11-12"
 compatibility_flags = ["nodejs_compat"]
 pages_build_output_dir = ".vercel/output/static"
 
+[vars]
+ACCELERATE_DATABASE_URL = "prisma://accelerate.prisma-data.net/?api_key=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcGlfa2V5IjoiNjM2YTBhYTktZWRhZS00YzJiLWFhNTUtZTIxOTc3ZjBhNzAzIiwidGVuYW50X2lkIjoiYWI4Yzc1YjI2NWI5MDA3ZDJhMDZjZmQ0NWU3ZmU4Y2Y3MDc2MGZmZjVlODkyYjY0NWFmN2NhYTUyNDExMGIyNSIsImludGVybmFsX3NlY3JldCI6IjQ2MGIxOGRjLTJkNzQtNDc1Yi1iYTUyLWE2NGI2Y2ZlMzAxYiJ9.INnt9LarNRfMSMiIY0nJBr9OKGq_XjXGKLINiDRKA3Y"
+CLERK_REDIRECT_URL = "https://concrete-terrier-41.clerk.accounts.dev/v1/oauth_callback"
+CLERK_SECRET_KEY = "sk_test_l0HCWqHagu0ORgk7EFrhiA5TyF8zngEmajXcteeVvH"
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY = "pk_test_Y29uY3JldGUtdGVycmllci00MS5jbGVyay5hY2NvdW50cy5kZXYk"
+NEXT_PUBLIC_CLERK_SIGN_IN_FORCE_REDIRECT_URL = "/today-mark-status"
+NEXT_PUBLIC_CLERK_SIGN_IN_URL = "/sign-in"
+NEXT_PUBLIC_CLERK_SIGN_UP_FORCE_REDIRECT_URL = "/today-mark-status"
+NEXT_PUBLIC_CLERK_SIGN_UP_URL = "/sign-up"
+SIGNING_SECRET = "whsec_+/SLmXD5svx56paj8pHM5Kmqb4LUMeil"
+
+[env.production.vars]
+workers_dev = false
+ACCELERATE_DATABASE_URL = "prisma://accelerate.prisma-data.net/?api_key=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcGlfa2V5IjoiNjM2YTBhYTktZWRhZS00YzJiLWFhNTUtZTIxOTc3ZjBhNzAzIiwidGVuYW50X2lkIjoiYWI4Yzc1YjI2NWI5MDA3ZDJhMDZjZmQ0NWU3ZmU4Y2Y3MDc2MGZmZjVlODkyYjY0NWFmN2NhYTUyNDExMGIyNSIsImludGVybmFsX3NlY3JldCI6IjQ2MGIxOGRjLTJkNzQtNDc1Yi1iYTUyLWE2NGI2Y2ZlMzAxYiJ9.INnt9LarNRfMSMiIY0nJBr9OKGq_XjXGKLINiDRKA3Y"
+CLERK_REDIRECT_URL = "https://clerk.sssartcubic.dev/v1/oauth_callback"
+CLERK_SECRET_KEY = "sk_live_TNr9QG08jyG6KwQfEZgnHQLLUTQct1Q661jmZ3A17h"
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY = "pk_live_Y2xlcmsuc3NzYXJ0Y3ViaWMuZGV2JA"
+NEXT_PUBLIC_CLERK_SIGN_IN_FORCE_REDIRECT_URL = "/dashboard"
+NEXT_PUBLIC_CLERK_SIGN_IN_URL = "/sign-in"
+NEXT_PUBLIC_CLERK_SIGN_UP_FORCE_REDIRECT_URL = "/dashboard"
+NEXT_PUBLIC_CLERK_SIGN_UP_URL = "/sign-up"
+SIGNING_SECRET = "whsec_Il9gmxlx3YkUHt7I1/w9yM8ZQS/0gACo"

@@ -3,6 +3,8 @@ import CustomProfilePage from "@/components/main/setting-course-comp/custom-prof
 import { useSearchParams } from "next/navigation";
 import { useDataContext } from "@/providers/data-provider";
 
+export const runtime = "edge";
+
 export default function ProfilePage() {
   const { user } = useDataContext().state;
   const currentSemester = useSearchParams().get("semester");

@@ -2,6 +2,7 @@ import db from "@/lib/db";
 import { Webhook } from "svix";
 import { headers } from "next/headers";
 import { WebhookEvent } from "@clerk/nextjs/server";
+import { Prisma } from "@prisma/client/edge";
 
 export const runtime = "edge";
 
@@ -70,8 +71,7 @@ export async function POST(req: Request) {
   console.dir(payload.data);
 
   try {
-
-    const userInfo = await db.user.findFirst({
+    const userInfo = await db.user.findMany({
       where: {
         email_address,
         name: first_name,
@@ -79,15 +79,32 @@ export async function POST(req: Request) {
         clerk_id,
       },
     });
-    if (userInfo) {
+    if (userInfo.length > 0) {
       console.log("Data is already exist!!!");
       return new Response("Data is already exist!!!", {
         status: 200,
       });
     }
-  } catch (error) {
-    console.log(error);
-    return new Response("Something went wrong!!!", {
+  } catch (e) {
+    if (e instanceof Prisma.PrismaClientKnownRequestError) {
+      if (e.code === "P1002") {
+        throw new Response(
+          "The database server was reached but timed out. Please try again.",
+          {
+            status: 400,
+          }
+        );
+      }
+      if (e.code === "P2002") {
+        throw new Response(
+          "There is a unique constraint violation, a new user cannot be created with this email",
+          {
+            status: 400,
+          }
+        );
+      }
+    }
+    throw new Response("Something went wrong!!!", {
       status: 500,
     });
   }
@@ -113,9 +130,27 @@ export async function POST(req: Request) {
       status: 200,
     });
   } catch (error) {
-    console.log(error);
-    return new Response("Something went wrong!!!", {
-      status: 500,
-    });
+    // console.log(error);
+    if (error instanceof Prisma.PrismaClientKnownRequestError) {
+      if (error.code === "P1002") {
+        throw new Response(
+          "The database server was reached but timed out. Please try again.",
+          {
+            status: 400,
+          }
+        );
+      }
+      if (error.code === "P2002") {
+        throw new Response(
+          "There is a unique constraint violation, a new user cannot be created with this email",
+          {
+            status: 400,
+          }
+        );
+      }
+      return new Response("Something went wrong!!!", {
+        status: 500,
+      });
+    }
   }
 }

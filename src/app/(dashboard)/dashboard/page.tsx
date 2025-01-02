@@ -33,6 +33,8 @@ import { useSearchParams } from "next/navigation";
         </div> */
 }
 
+export const runtime = "edge";
+
 const attndanceCalculate = (present: number, absent: number) => {
   return Math.round((present * 100) / (present + absent)) || 0;
 };

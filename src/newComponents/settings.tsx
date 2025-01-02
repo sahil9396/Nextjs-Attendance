@@ -76,6 +76,7 @@ const SettingsComp = ({
                   semList={semList}
                   handleSubmit={handleSubmitCreate}
                   isBackendProcessing={IsBackendProcessing}
+                  processingText="Creating..."
                 />
                 <SemMutateDialog
                   title="Delete Semester"
@@ -84,6 +85,7 @@ const SettingsComp = ({
                   semList={semList}
                   handleSubmit={handleSubmitDelete}
                   isBackendProcessing={IsBackendProcessing}
+                  processingText="Deleting..."
                 />
               </div>
             </div>

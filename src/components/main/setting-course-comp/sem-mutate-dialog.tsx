@@ -11,6 +11,7 @@ type Props = {
   handleSubmit: (semesterNumber: number) => void;
   semList: SingleSemester[];
   isBackendProcessing: boolean;
+  processingText: string;
 };
 
 const SemMutateDialog = ({
@@ -20,6 +21,7 @@ const SemMutateDialog = ({
   semList,
   handleSubmit,
   isBackendProcessing,
+  processingText,
 }: Props) => {
   const [semesterNumber, setSemesterNumber] = useState<number>(NaN);
 
@@ -29,6 +31,7 @@ const SemMutateDialog = ({
       buttonContent={buttonContent}
       onSubmit={() => handleSubmit(semesterNumber)}
       isProcessing={isBackendProcessing}
+      processingText={processingText}
     >
       <div className="flex flex-col w-full h-full space-y-4">
         <ul className="list-inside flex flex-wrap gap-2">

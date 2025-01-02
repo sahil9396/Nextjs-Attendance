@@ -51,13 +51,11 @@ export function SidebarNew({ demo = false }: { demo?: boolean }) {
     <div className="lg:w-64 md:w-20 w-full h-20 md:h-full flex flex-col justify-between lg:justify-between items-center gap-5 py-2 border-r">
       <div className="flex flex-col w-full">
         <div className="hidden md:flex h-14 items-center border-b px-4">
-          {/* WIP : match this thing */}
           <Link
             href={demo ? "/demo/dashboard" : "/dashboard"}
             className=" flex items-center gap-2 font-semibold"
           >
-            <BookOpen className="h-6 w-6" />
-            <span className="hidden lg:block">EduTrack</span>
+            <span className="hidden lg:block">Track Your Attendance</span>
           </Link>
         </div>
         <ScrollArea className="flex-1 px-2">

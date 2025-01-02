@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { ThemeProvider } from "@/providers/theme-provider";
-import { Roboto_Mono } from "next/font/google";
 import { ClerkProvider } from "@clerk/nextjs";
+import { Roboto_Mono } from "next/font/google";
 
 const roboto_mono = Roboto_Mono({
   subsets: ["latin", "cyrillic"],

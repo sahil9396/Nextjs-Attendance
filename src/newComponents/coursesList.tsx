@@ -18,6 +18,7 @@ type Props = {
     eligibleForToday: boolean,
     dayListSame: boolean
   ) => void;
+  demo?: boolean;
 };
 
 const CoursesList = ({
@@ -31,12 +32,15 @@ const CoursesList = ({
   satisfiesemesterInfo,
   handleDelete,
   handleSubmit,
+  demo,
 }: Props) => {
-  const linkHref = currentSemester
-    ? selected && today
-      ? `/dashboard/courses/new?semester=${currentSemester}&selected=${selected}&today=${today}`
-      : `/dashboard/courses/new?semester=${currentSemester}`
-    : `/dashboard/courses/new`;
+  const linkHref =
+    (demo ? "/demo" : "") +
+    (currentSemester
+      ? selected && today
+        ? `/dashboard/courses/new?semester=${currentSemester}&selected=${selected}&today=${today}`
+        : `/dashboard/courses/new?semester=${currentSemester}`
+      : `/dashboard/courses/new`);
 
   const noCourses =
     searchParamsFilteredCoursesToday.length +

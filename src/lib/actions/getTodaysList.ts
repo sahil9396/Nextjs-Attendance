@@ -17,8 +17,7 @@ export const updateStatus = async (
   semesterInfo: SingleSemester,
   ExtraClass: boolean = false
 ) => {
-  const { email_address,verified, clerk_id, user_name } =
-    userDetails;
+  const { email_address, verified, clerk_id, user_name } = userDetails;
 
   const currentTime = getDate();
   const timeofcourseSplit = inputData.timeofcourse.split(" - ");
@@ -37,7 +36,7 @@ export const updateStatus = async (
     } ( ${semesterInfo.semester})`,
 
     description: ` ${ExtraClass ? "Extra Class" : "Class"} :( p : ${
-      updateStatus.present + 1
+      updateStatus.present
     } ) ,( a : ${updateStatus.absent} ) , ( c : ${updateStatus.cancelled} )`,
 
     start: {

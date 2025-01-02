@@ -13,8 +13,8 @@ type CustomDialogProps = {
   buttonContent: string;
   children: React.ReactNode;
   onSubmit: () => void;
+  processingText: string;
   isProcessing?: boolean;
-  processingText?: string;
 };
 
 const CustomDialog = ({
@@ -23,7 +23,7 @@ const CustomDialog = ({
   children,
   onSubmit,
   isProcessing = false,
-  processingText = "Creating",
+  processingText,
 }: CustomDialogProps) => (
   <Dialog>
     <DialogTrigger asChild>

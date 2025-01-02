@@ -6,6 +6,7 @@ import { useSearchParams } from "next/navigation";
 type Props = { children: React.ReactNode };
 
 export const dynamic = "force-dynamic";
+export const runtime = 'edge'
 
 const DataLoader = ({ children }: Props) => {
   const params = useSearchParams();

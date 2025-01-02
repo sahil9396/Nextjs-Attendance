@@ -167,6 +167,7 @@ export default function CoursesPage() {
       satisfiesemesterInfo={state.demoSemesterInfo}
       handleDelete={handleDelete}
       handleSubmit={handleSubmit}
+      demo={true}
     />
   );
 }

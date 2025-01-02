@@ -13,6 +13,8 @@ import { updateStatus } from "@/lib/actions/getTodaysList";
 import { inputData } from "@/lib/type";
 import { useMemo } from "react";
 
+export const runtime = "edge";
+
 export default function TodayPage() {
   const { state, dispatch } = useDataContext();
   const currentSem = useSearchParams().get("semester");

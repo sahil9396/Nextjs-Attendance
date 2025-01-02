@@ -14,6 +14,8 @@ import {
 } from "@/lib/actions/log-courses-server-functions";
 import { LoadingSpinner } from "@/components/global/load-spinner";
 
+export const runtime = "edge";
+
 export default function CoursesPage() {
   const { state, dispatch } = useDataContext();
   const searchParam = useSearchParams();
@@ -57,15 +59,18 @@ export default function CoursesPage() {
         <LoadingSpinner />
       </div>
     );
-
   if (noCourses) {
+    const linkHref = currentSemester
+      ? `/dashboard/courses/new?semester=${currentSemester}`
+      : "/dashboard/courses/new";
+
     return (
       <div className="flex flex-col items-center justify-center py-16 text-center">
         <p className="mb-4 text-sm lg:text-lg font-medium text-muted-foreground">
           No courses available. Start tracking your attendance by adding new
           courses.
         </p>
-        <Link href="/dashboard/courses/new">
+        <Link href={linkHref}>
           <Button className="flex items-center justify-center gap-1">
             <Plus className="mr-2 h-4 w-4" />
             Add Your First Course

@@ -58,9 +58,6 @@ export const getSemesterList = custom_cache(
         },
       });
 
-      console.log("Semester list", semesterList);
-      console.log("User", user);
-
       return semesterList;
     } catch (error) {
       console.error(error);

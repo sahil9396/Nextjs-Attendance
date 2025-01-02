@@ -10,6 +10,8 @@ import { Button } from "@/components/ui/button";
 import { createCourseForm } from "@/lib/actions/create-course-action";
 import { LoadingSpinner } from "@/components/global/load-spinner";
 
+export const runtime = "edge";
+
 function CreateCourse() {
   const { state, dispatch } = useDataContext();
   const currentSemester = useSearchParams().get("semester");

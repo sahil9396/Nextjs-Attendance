@@ -2,6 +2,7 @@
 import db from "@/lib/db";
 import { userDetailstype } from "@/lib/type";
 import { revalidateTag } from "next/cache";
+import { Prisma } from "@prisma/client/edge";
 
 // creating new semester
 export const createSemester = async (
@@ -51,12 +52,27 @@ export const createSemester = async (
     revalidateTag("getSemesterList");
     return semester;
   } catch (error) {
-    console.error(userDetails, error);
-    return null;
+    // console.error(userDetails, error);
+    if (error instanceof Prisma.PrismaClientKnownRequestError) {
+      if (error.code === "P2002") {
+        throw new Error(
+          "User does not exist. Please contact the administrator."
+        );
+      }
+
+      if (error.code === "P2025") {
+        throw new Error(
+          "An operation failed because it depends on one or more records that were required but not found."
+        );
+      }
+      if (error.code === "P2018") {
+        throw new Error("The required connected records were not found.");
+      }
+    }
+    throw error;
   }
 };
-// from Dev :  user_2pOsN2josvK2bLXeLxUZPmZOEMz
-// from Production :  user_2pz4yaLN7iCVuWaM3fDCXyrGGPj
+
 // Deleting the semester
 export const deleteSemester = async (
   userDetails: userDetailstype,
@@ -117,7 +133,23 @@ export const deleteSemester = async (
     revalidateTag("getSemesterList");
     return result;
   } catch (error) {
-    console.error(error);
-    return null;
+    console.error(userDetails, error);
+    if (error instanceof Prisma.PrismaClientKnownRequestError) {
+      if (error.code === "P2002") {
+        throw new Error(
+          "User does not exist. Please contact the administrator."
+        );
+      }
+
+      if (error.code === "P2025") {
+        throw new Error(
+          "An operation failed because it depends on one or more records that were required but not found."
+        );
+      }
+      if (error.code === "P2018") {
+        throw new Error("The required connected records were not found.");
+      }
+    }
+    throw error;
   }
 };

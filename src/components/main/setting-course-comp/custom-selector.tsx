@@ -40,6 +40,7 @@ const CustomSelector = ({ currentSemester, semesterList }: Props) => {
       scroll: false,
     });
     window.location.href = `?semester=${selected}`;
+    
     setCanChangeSemester(false);
   };
 

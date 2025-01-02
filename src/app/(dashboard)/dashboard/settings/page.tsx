@@ -12,6 +12,8 @@ import {
 import { useMemo } from "react";
 import { LoadingSpinner } from "@/components/global/load-spinner";
 
+export const runtime = "edge";
+
 export default function SettingsPage() {
   const { state, dispatch } = useDataContext();
   const semList = state.semesterInfo;
@@ -30,8 +32,6 @@ export default function SettingsPage() {
         <LoadingSpinner />
       </div>
     );
-
-  console.log(searchParam.get("semester"), currentSemester);
 
   const handleResetAll = async () => {
     if (!semExists || !(state.todayCourses.length + state.notToday.length))
@@ -100,10 +100,6 @@ export default function SettingsPage() {
     dispatch({ type: "SET_IS_BACKEND_PROCESSING", payload: true });
     try {
       const response = await createSemester(state.user, semesterNumber);
-      if (!response) {
-        toast.error("Error Creating Semester");
-        return;
-      }
       if (response === "Semester Already exists!!!") {
         toast.message("Semester Already exists!!!");
         return;
@@ -114,7 +110,7 @@ export default function SettingsPage() {
       });
       toast.success("Semester Created Successfully");
     } catch (e) {
-      toast.error(`error: ${e}`);
+      toast.error(`${e}`);
     }
     dispatch({ type: "SET_IS_BACKEND_PROCESSING", payload: false });
   };
@@ -141,30 +137,26 @@ export default function SettingsPage() {
     toast.message(`Deleting Semester ${semesterNumber}`);
     dispatch({ type: "SET_IS_BACKEND_PROCESSING", payload: true });
     try {
-      const response = await deleteSemester(
+      await deleteSemester(
         state.user,
         `semester-${semesterNumber}`
       );
-      if (!response) {
-        toast.error("Error Deleting Semester");
-        return;
-      }
       dispatch({
         type: "SET_SEMESTER_INFO",
         payload: updatedSemesters,
       });
       toast.success("Semester Deleted Successfully");
+      if (currentSemester === `semester-${semesterNumber}`) {
+        window.location.href = `/dashboard/settings?semester=${updatedSemesters[0].semester}`;
+        localStorage.setItem(
+          "semester",
+          JSON.stringify(updatedSemesters[0].semester)
+        );
+      }
     } catch (e) {
-      toast.error(`error: ${e}`);
+      toast.error(`${e}`);
     }
     dispatch({ type: "SET_IS_BACKEND_PROCESSING", payload: false });
-    if (currentSemester === `semester-${semesterNumber}`) {
-      window.location.href = `/dashboard/settings?semester=${updatedSemesters[0].semester}`;
-      localStorage.setItem(
-        "semester",
-        JSON.stringify(updatedSemesters[0].semester)
-      );
-    }
   };
 
   return (

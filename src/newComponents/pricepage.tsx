@@ -32,6 +32,8 @@ const plans = [
   },
 ];
 
+export const runtime = "edge";
+
 const PricingPageComp = ({ demo = false }: Props) => {
   return (
     <div className="flex flex-col gap-2 px-3">

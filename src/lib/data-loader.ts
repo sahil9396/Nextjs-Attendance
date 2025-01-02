@@ -29,12 +29,9 @@ const helper = async (
       return setLoading(dispatch, false);
     }
 
-    console.log("userInfo", userInfo);
-
     dispatch({ type: "SET_USER", payload: userInfo });
 
     const semList = await getSemesterList(userInfo);
-    console.log("semList", semList);
     if (!semList?.length) {
       localStorage.removeItem("semester");
       return setLoading(dispatch, false);
@@ -45,9 +42,12 @@ const helper = async (
     const semExist = semList.find((sem) => sem.semester === semFromUrl);
     const list = await getList(semExist || semList[0], userInfo);
 
-    if (!semExist) {
-      router.push(`?semester=${semList[0].semester}`, { scroll: false });
-    }
+    // if (!semExist) {
+    //   router.push(`?semester=${semList[0].semester}`, { scroll: false });
+    // }
+    router.push(`?semester=${semExist?.semester || semList[0].semester}`, {
+      scroll: false,
+    });
     if (!list) return setLoading(dispatch, false);
 
     dispatch({
@@ -66,24 +66,32 @@ export const useDataLoader = (semFromUrl: string | null) => {
 
   useEffect(() => {
     const loadSemester = async () => {
-      if (semFromUrl) {
-        await helper(state, dispatch, semFromUrl, router);
-      } else {
-        const fromLocalStorageSemesterInfo = localStorage.getItem("semester");
-        if (!fromLocalStorageSemesterInfo) {
-          await helper(state, dispatch, null, router);
-        } else {
-          const semExtractedFromLocalStorage = JSON.parse(
-            fromLocalStorageSemesterInfo
-          );
-          await helper(state, dispatch, semExtractedFromLocalStorage, router);
-          router.push(`?semester=${semExtractedFromLocalStorage}`, {
-            scroll: false,
-          });
-        }
-      }
+      // if (semFromUrl) {
+      //   await helper(state, dispatch, semFromUrl, router);
+      // } else {
+      //   const fromLocalStorageSemesterInfo = localStorage.getItem("semester");
+      //   if (!fromLocalStorageSemesterInfo) {
+      //     await helper(state, dispatch, null, router);
+      //   } else {
+      //     const semExtractedFromLocalStorage = JSON.parse(
+      //       fromLocalStorageSemesterInfo
+      //     );
+      //     await helper(state, dispatch, semExtractedFromLocalStorage, router);
+      //     router.push(`?semester=${semExtractedFromLocalStorage}`, {
+      //       scroll: false,
+      //     });
+      //   }
+      // }
+      const fromLocalStorageSemesterInfo = localStorage.getItem("semester");
+      await helper(
+        state,
+        dispatch,
+        semFromUrl ||
+          (fromLocalStorageSemesterInfo &&
+            JSON.parse(fromLocalStorageSemesterInfo)),
+        router
+      );
     };
-    console.log("semFromUrl", semFromUrl);
     loadSemester();
   }, [semFromUrl]);
 };
