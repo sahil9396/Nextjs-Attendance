@@ -10,7 +10,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     <Suspense fallback={<LoadingSpinner />}>
       <Context_Pro_Provider>
         <DataLoader>
-          <div className="flex flex-col-reverse md:flex-row h-screen w-full">
+          <div className="flex flex-col-reverse md:flex-row h-svh lg:h-screen w-full">
             <SidebarNew demo={false} />
             <main className="flex-1 overflow-y-auto">
               <Appbar demo={false} />

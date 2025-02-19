@@ -66,22 +66,6 @@ export const useDataLoader = (semFromUrl: string | null) => {
 
   useEffect(() => {
     const loadSemester = async () => {
-      // if (semFromUrl) {
-      //   await helper(state, dispatch, semFromUrl, router);
-      // } else {
-      //   const fromLocalStorageSemesterInfo = localStorage.getItem("semester");
-      //   if (!fromLocalStorageSemesterInfo) {
-      //     await helper(state, dispatch, null, router);
-      //   } else {
-      //     const semExtractedFromLocalStorage = JSON.parse(
-      //       fromLocalStorageSemesterInfo
-      //     );
-      //     await helper(state, dispatch, semExtractedFromLocalStorage, router);
-      //     router.push(`?semester=${semExtractedFromLocalStorage}`, {
-      //       scroll: false,
-      //     });
-      //   }
-      // }
       const fromLocalStorageSemesterInfo = localStorage.getItem("semester");
       await helper(
         state,

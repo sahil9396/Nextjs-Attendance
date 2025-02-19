@@ -22,7 +22,7 @@ const MobileSideBar = ({ demo }: Props) => {
     <>
       <MenuCloseButton isOpen={isOpen} toggleSidebar={toggleSidebar} />
       <main
-        className={`w-screen h-screen fixed inset-0 z-[45] flex flex-col justify-between bg-white dark:bg-gradient-to-b dark:from-black dark:to-gray-800 md:hidden transform transition-transform duration-300 ${
+        className={`w-screen h-svh lg:h-screen fixed inset-0 z-[45] flex flex-col justify-between bg-white dark:bg-gradient-to-b dark:from-black dark:to-gray-800 md:hidden transform transition-transform duration-300 ${
           isOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >

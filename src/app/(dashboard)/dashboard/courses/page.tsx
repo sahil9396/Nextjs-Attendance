@@ -13,7 +13,7 @@ import {
   updateList,
 } from "@/lib/actions/log-courses-server-functions";
 import { LoadingSpinner } from "@/components/global/load-spinner";
-
+import { toast } from "sonner";
 export const runtime = "edge";
 
 export default function CoursesPage() {
@@ -125,13 +125,13 @@ export default function CoursesPage() {
     eligibleForToday: boolean,
     dayListSame: boolean
   ) => {
-    if (!currentSemester || !selected || !today) return null;
+    if (!currentSemester || !selected || !today) return toast.error("Error");
 
     const semExists = state.semesterInfo.find(
       (sem) => sem.semester === currentSemester
     );
 
-    if (!semExists) return null;
+    if (!semExists) return toast.error("Semester not found");
 
     await updateList(semExists, state.user, updatedCourse, dayListSame);
 
